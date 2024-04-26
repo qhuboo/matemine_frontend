@@ -79,6 +79,7 @@ const NavigationBar = styled.nav`
   padding: 20px;
   font-size: 1.3rem;
   font-family: "Jersey_10";
+  color: black;
 
   @media (max-width: 500px) {
     gap: 10px;
@@ -94,6 +95,7 @@ const Logo = styled.picture`
   height: 100px;
   flex-shrink: 0;
   padding: 4px;
+  color: black;
 
   @media (max-width: 500px) {
     width: 100px;
@@ -125,6 +127,7 @@ const MarketPlace = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: black;
 
   @media (max-width: 1100px) {
     display: none;
@@ -149,6 +152,7 @@ const Cart = styled.button`
   gap: 10px;
   border: none;
   cursor: pointer;
+  color: black;
 `;
 
 const MobileMenuButton = styled.button`
@@ -157,6 +161,7 @@ const MobileMenuButton = styled.button`
   background-color: transparent;
   cursor: pointer;
   flex-shrink: 0;
+  color: black;
 
   @media (max-width: 1100px) {
     display: revert;

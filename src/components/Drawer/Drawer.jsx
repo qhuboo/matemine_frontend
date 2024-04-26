@@ -13,17 +13,14 @@ function Drawer({ children, handleDismiss }) {
 }
 
 const slideIn = keyframes`
-0% {
+from {
     transform: translateX(100%);
-}
+    }
 `;
 
 const fadeIn = keyframes`
-  0% {
+  from {
     opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 `;
 
@@ -32,13 +29,14 @@ const Wrapper = styled.div`
   position: fixed;
   inset: 0;
   padding: 16px;
+  color: black;
 `;
 
 const Backdrop = styled.div`
   position: absolute;
   inset: 0;
   background: hsla(176, 100%, 0%, 0.6);
-  animation: ${fadeIn} 400ms;
+  animation: ${fadeIn} 8000ms;
 `;
 
 const Menu = styled.div`
@@ -51,11 +49,12 @@ const Menu = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  animation: ${slideIn} 400ms;
+  animation: ${slideIn} 800ms;
 `;
 
 const DismissButton = styled.button`
   background-color: darkcyan;
+  color: black;
 `;
 
 export default Drawer;
