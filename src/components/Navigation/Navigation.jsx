@@ -1,6 +1,12 @@
+import { useState } from "react";
 import styled from "styled-components";
+import Drawer from "../Drawer";
+
+import useToggle from "../../hooks/use-toggle";
 
 function Navigation() {
+  const [isOpen, setIsOpen] = useToggle(false);
+
   return (
     <NavigationBar>
       <Logo>
@@ -30,7 +36,7 @@ function Navigation() {
         </svg>
         <span>0</span>
       </Cart>
-      <MobileMenuButton>
+      <MobileMenuButton onClick={() => setIsOpen(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -48,6 +54,15 @@ function Navigation() {
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </MobileMenuButton>
+      {isOpen && (
+        <Drawer handleDismiss={setIsOpen}>
+          <ul>
+            <li>Menu Item 1</li>
+            <li>Menu Item 2</li>
+            <li>Menu Item 3</li>
+          </ul>
+        </Drawer>
+      )}
     </NavigationBar>
   );
 }
