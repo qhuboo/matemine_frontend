@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Navigation from "../Navigation";
 import MainPage from "../MainPage";
 import MarketPlace from "../MarketPlace";
+import Cart from "../Cart";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Navigation />
         {/* <MainPage /> */}
         {/* <MarketPlace /> */}
+        <Cart></Cart>
       </Main>
 
       <GlobalStyles />
@@ -18,7 +20,7 @@ function App() {
 }
 
 const Main = styled.div`
-  border: 2px solid red;
+  // border: 2px solid red;
   min-height: 100dvh;
   max-width: 1440px;
   margin: 0 auto;
