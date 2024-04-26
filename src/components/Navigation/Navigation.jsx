@@ -138,6 +138,7 @@ const SignIn = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: black;
 
   @media (max-width: 1100px) {
     display: none;

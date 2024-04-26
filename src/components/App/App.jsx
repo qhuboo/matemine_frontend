@@ -9,7 +9,7 @@ function App() {
       <Main>
         <Navigation />
         {/* <MainPage /> */}
-        <MarketPlace />
+        {/* <MarketPlace /> */}
       </Main>
 
       <GlobalStyles />

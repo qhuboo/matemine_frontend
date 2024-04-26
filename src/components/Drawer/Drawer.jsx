@@ -25,7 +25,7 @@ const fadeIn = keyframes`
 `;
 
 const Wrapper = styled.div`
-  border: 2px dotted red;
+  //   border: 2px dotted red;
   position: fixed;
   inset: 0;
   padding: 16px;
@@ -36,7 +36,7 @@ const Backdrop = styled.div`
   position: absolute;
   inset: 0;
   background: hsla(176, 100%, 0%, 0.6);
-  animation: ${fadeIn} 8000ms;
+  animation: ${fadeIn} 400ms;
 `;
 
 const Menu = styled.div`

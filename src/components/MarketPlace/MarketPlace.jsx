@@ -17,7 +17,7 @@ function MarketPlace() {
 }
 
 const GameGrid = styled.div`
-  border: 3px solid purple;
+  //   border: 3px solid purple;
   padding: 30px;
   gap: 75px;
   display: grid;
