@@ -3,6 +3,8 @@ import Navigation from "../Navigation";
 import MainPage from "../MainPage";
 import MarketPlace from "../MarketPlace";
 import Cart from "../Cart";
+import Checkout from "../Checkout";
+import Product from "../Product/Product";
 
 function App() {
   return (
@@ -11,7 +13,9 @@ function App() {
         <Navigation />
         {/* <MainPage /> */}
         {/* <MarketPlace /> */}
-        <Cart></Cart>
+        {/* <Cart /> */}
+        {/* <Checkout /> */}
+        <Product />
       </Main>
 
       <GlobalStyles />
