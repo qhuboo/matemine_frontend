@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { cart_data } from "../../data";
+import { Link } from "react-router-dom";
 
 function Cart() {
   return (
@@ -37,15 +38,15 @@ function Cart() {
           )}
         </p>
       </Subtotal>
-      <CheckoutButton>Checkout</CheckoutButton>
+      <CheckoutButton to={"/checkout"}>Checkout</CheckoutButton>
       <div style={{ color: "rgb(107, 114, 128)", fontSize: "1rem" }}>
         or{" "}
-        <a
+        <Link
           style={{ color: " rgb(234, 88, 12)", textDecoration: "none" }}
-          href=""
+          to={"/marketplace"}
         >
           Continue Shopping →
-        </a>
+        </Link>
       </div>
     </Wrapper>
   );
@@ -120,7 +121,7 @@ const Disclaimer = styled.p`
   text-align: left;
 `;
 
-const CheckoutButton = styled.button`
+const CheckoutButton = styled(Link)`
   background-color: rgb(234, 88, 12);
   border: none;
   border-radius: 6px;

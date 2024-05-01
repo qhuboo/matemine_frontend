@@ -1,21 +1,24 @@
 import styled, { createGlobalStyle } from "styled-components";
-import Navigation from "../Navigation";
 import MainPage from "../MainPage";
 import MarketPlace from "../MarketPlace";
 import Cart from "../Cart";
 import Checkout from "../Checkout";
 import Product from "../Product/Product";
+import { Routes, Route } from "react-router-dom";
+import Navigation from "../Navigation/Navigation";
 
 function App() {
   return (
     <>
       <Main>
         <Navigation />
-        {/* <MainPage /> */}
-        {/* <MarketPlace /> */}
-        {/* <Cart /> */}
-        {/* <Checkout /> */}
-        <Product />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/marketplace" element={<MarketPlace />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/product" element={<Product />} />
+        </Routes>
       </Main>
 
       <GlobalStyles />

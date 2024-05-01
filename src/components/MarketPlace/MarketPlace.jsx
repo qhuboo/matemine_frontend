@@ -1,12 +1,12 @@
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 import { game_data } from "../../data";
 
 function MarketPlace() {
   return (
     <GameGrid>
       {game_data.map((game) => (
-        <GameCard key={game.game_id}>
+        <GameCard to={"/product"} key={game.game_id}>
           <GameCover src={game.sample_cover_image} alt="" />
           <span>{game.title}</span>
           <h3>${game.price}</h3>
@@ -28,11 +28,13 @@ const GameGrid = styled.div`
   }
 `;
 
-const GameCard = styled.div`
+const GameCard = styled(Link)`
   display: flex;
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  color: black;
+  text-decoration: none;
 `;
 
 const GameCover = styled.img`

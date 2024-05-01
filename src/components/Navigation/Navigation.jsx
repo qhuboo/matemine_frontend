@@ -1,6 +1,6 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Drawer from "../Drawer";
+import { Link } from "react-router-dom";
 
 import useToggle from "../../hooks/use-toggle";
 
@@ -12,12 +12,19 @@ function Navigation() {
       <Logo>
         <img src="/images/logo/user.png" alt="" />
       </Logo>
-      <MarketPlace>MarketPlace</MarketPlace>
+      <MarketPlace>
+        <Link
+          style={{ textDecoration: "none", color: "inherit" }}
+          to={"/marketplace"}
+        >
+          MarketPlace
+        </Link>
+      </MarketPlace>
       <Side />
-      <Title>MateMine</Title>
+      <Title to={"/"}>MateMine</Title>
       <Side />
       <SignIn>Sign-in | Create Account</SignIn>
-      <Cart>
+      <Cart to={"/cart"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -108,8 +115,10 @@ const Logo = styled.picture`
   }
 `;
 
-const Title = styled.h1`
+const Title = styled(Link)`
   font-size: 3rem;
+  color: black;
+  text-decoration: none;
 
   @media (max-width: 500px) {
     display: none;
@@ -145,7 +154,7 @@ const SignIn = styled.button`
   }
 `;
 
-const Cart = styled.button`
+const Cart = styled(Link)`
   background-color: transparent;
   flex-shrink: 0;
   display: flex;
@@ -154,6 +163,7 @@ const Cart = styled.button`
   border: none;
   cursor: pointer;
   color: black;
+  text-decoration: none;
 `;
 
 const MobileMenuButton = styled.button`
