@@ -29,7 +29,6 @@ function App() {
 const Main = styled.div`
   // border: 2px solid red;
   min-height: 100dvh;
-  max-width: 1440px;
   margin: 0 auto;
   // background-image: linear-gradient(
   //   45deg,
@@ -84,8 +83,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
 
 @font-face {
-  font-family: "Jersey_10";
-  src: url(/fonts/Jersey10-Regular.ttf)
+  font-family: "Ron";
+  src: url(/fonts/RON.woff)
 }
 
 `;

@@ -43,5 +43,5 @@ function MainPage() {
 export default MainPage;
 
 const MainContent = styled.div`
-  border: 2px solid springgreen;
+  // border: 2px solid springgreen;
 `;
