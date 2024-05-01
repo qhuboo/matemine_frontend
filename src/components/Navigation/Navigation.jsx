@@ -64,7 +64,9 @@ function Navigation() {
       {isOpen && (
         <Drawer handleDismiss={setIsOpen}>
           <ul>
-            <li>Menu Item 1</li>
+            <li>
+              <Link to={"/marketplace"}>Marketplace</Link>
+            </li>
             <li>Menu Item 2</li>
             <li>Menu Item 3</li>
           </ul>
