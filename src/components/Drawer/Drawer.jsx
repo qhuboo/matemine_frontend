@@ -1,14 +1,11 @@
 import styled, { keyframes } from "styled-components";
 import { QUERIES } from "../../constants";
 
-function Drawer({ children, handleDismiss }) {
+function Drawer({ children, handleDismiss, margin }) {
   return (
-    <Wrapper>
+    <Wrapper margin={margin}>
       <Backdrop onClick={handleDismiss} />
-      <Menu>
-        {children}
-        <DismissButton onClick={handleDismiss}>Dismiss</DismissButton>
-      </Menu>
+      <Menu>{children}</Menu>
     </Wrapper>
   );
 }
@@ -26,11 +23,16 @@ const fadeIn = keyframes`
 `;
 
 const Wrapper = styled.div`
-  //   border: 2px dotted red;
+  // border: 2px dotted red;
   position: fixed;
   inset: 0;
   padding: 16px;
   color: black;
+  margin-top: ${(props) => props.margin};
+
+  @media (min-width: 1101px) {
+    display: none;
+  }
 `;
 
 const Backdrop = styled.div`
@@ -41,25 +43,19 @@ const Backdrop = styled.div`
 `;
 
 const Menu = styled.div`
+  // border: 2px solid red;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   width: clamp(400px, 50%, 550px);
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background-color: var(--background-color);
+
   animation: ${slideIn} 800ms;
 
   @media (${QUERIES.mobileAndSmaller}) {
     width: 100%;
   }
-`;
-
-const DismissButton = styled.button`
-  background-color: darkcyan;
-  color: black;
 `;
 
 export default Drawer;
