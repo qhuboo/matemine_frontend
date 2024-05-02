@@ -41,6 +41,7 @@ const Main = styled.div`
 
 const ContentWrapper = styled.div`
   margin-top: var(--navigation-bar-height);
+  font-family: "Rajdhani";
 `;
 
 const GlobalStyles = createGlobalStyle`
@@ -60,6 +61,8 @@ body {
   font-weight: 400;
   font-style: normal;
   font-size: 1.25rem;
+  --background-color: mintcream;
+  background-color: var(--background-color);
 }
 
 img, picture, video, canvas, svg {
@@ -82,9 +85,15 @@ p, h1, h2, h3, h4, h5, h6 {
 
 @font-face {
   font-family: "Ron";
-  src: url(/fonts/RON.woff)
+  src: url("/fonts/RON.woff") format("woff");
 }
 
+@font-face {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/Rajdhani-Regular.ttf") format("truetype");
+}
 `;
 
 export default App;

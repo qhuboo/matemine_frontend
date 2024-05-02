@@ -74,7 +74,7 @@ const NavigationBar = styled.nav`
   --padding: 40px;
   width: 100%;
   height: var(--navigation-bar-height);
-  background-color: white;
+  background-color: var(--background-color);
   display: flex;
   align-items: center;
   padding: var(--padding);
@@ -118,10 +118,14 @@ const Title = styled(Link)`
 
   @media (${QUERIES.tabletAndSmaller}) {
     font-size: 1.75rem;
+    /* vertcal alignment */
+    transform: translateY(3px);
   }
 
   @media (${QUERIES.mobileAndSmaller}) {
     font-size: 1.25rem;
+    /* vertcal alignment */
+    transform: translateY(4px);
   }
 `;
 
@@ -135,6 +139,7 @@ const Side = styled.div`
 const Links = styled.ul`
   // border: 2px solid darkcyan;
   display: flex;
+  align-items: center;
   gap: 4vw;
   padding: 0 20px;
 
@@ -144,6 +149,7 @@ const Links = styled.ul`
 `;
 
 const NavLink = styled(Link)`
+  font-family: "Rajdhani";
   font-size: 1.5rem;
   color: inherit;
   text-decoration: none;
@@ -156,14 +162,22 @@ const NavLink = styled(Link)`
 
 const MobileLinks = styled.div`
   display: none;
-  gap: 50px;
-  padding-right: 50px;
 
   @media (${QUERIES.tabletAndSmaller}) {
     display: flex;
+    align-items: center;
+    gap: 50px;
+    padding-right: 50px;
   }
+
   @media (${QUERIES.mobileAndSmaller}) {
-    gap: 20px;
+    gap: 25px;
+    padding-right: 25px;
+  }
+
+  @media (max-width: 350px) {
+    gap: 5px;
+    padding-right: 5px;
   }
 `;
 
