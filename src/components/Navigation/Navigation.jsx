@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import Drawer from "../Drawer";
 import { Link } from "react-router-dom";
 import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
 
 import useToggle from "../../hooks/use-toggle";
 import { QUERIES } from "../../constants";
+import MobileMenu from "../MobileMenu/MobileMenu";
 
 function Navigation() {
   const [isOpen, setIsOpen] = useToggle(false);
@@ -51,17 +51,7 @@ function Navigation() {
           <Menu size={32} strokeWidth={1} />
         </MobileMenuButton>
       </Side>
-      {isOpen && (
-        <Drawer handleDismiss={setIsOpen}>
-          <ul>
-            <li>
-              <NavLink to={"/marketplace"}>Marketplace</NavLink>
-            </li>
-            <li>Menu Item 2</li>
-            <li>Menu Item 3</li>
-          </ul>
-        </Drawer>
-      )}
+      {isOpen && <MobileMenu handleDismiss={setIsOpen} />}
     </NavigationBar>
   );
 }
@@ -150,6 +140,7 @@ const Links = styled.ul`
 
 const NavLink = styled(Link)`
   font-family: "Rajdhani";
+  font-weight: 600;
   font-size: 1.5rem;
   color: inherit;
   text-decoration: none;

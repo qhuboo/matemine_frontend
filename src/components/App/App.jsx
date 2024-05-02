@@ -42,6 +42,19 @@ const Main = styled.div`
 const ContentWrapper = styled.div`
   margin-top: var(--navigation-bar-height);
   font-family: "Rajdhani";
+  padding: 25px 75px;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    padding: 25px 50px;
+  }
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    padding: 25px;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    padding: 15px;
+  }
 `;
 
 const GlobalStyles = createGlobalStyle`
@@ -93,6 +106,13 @@ p, h1, h2, h3, h4, h5, h6 {
   font-style: normal;
   font-weight: 400;
   src: url("/fonts/Rajdhani-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/Rajdhani-SemiBold.ttf") format("truetype");
 }
 `;
 

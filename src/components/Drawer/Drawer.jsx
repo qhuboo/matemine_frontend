@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { QUERIES } from "../../constants";
 
 function Drawer({ children, handleDismiss }) {
   return (
@@ -44,12 +45,16 @@ const Menu = styled.div`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 50%;
+  width: clamp(400px, 50%, 550px);
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   animation: ${slideIn} 800ms;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    width: 100%;
+  }
 `;
 
 const DismissButton = styled.button`
