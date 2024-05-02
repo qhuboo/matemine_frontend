@@ -6,19 +6,22 @@ import Checkout from "../Checkout";
 import Product from "../Product/Product";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
+import { QUERIES } from "../../constants";
 
 function App() {
   return (
     <>
       <Main>
         <Navigation />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/marketplace" element={<MarketPlace />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/product" element={<Product />} />
-        </Routes>
+        <ContentWrapper>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/marketplace" element={<MarketPlace />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/product" element={<Product />} />
+          </Routes>
+        </ContentWrapper>
       </Main>
 
       <GlobalStyles />
@@ -29,20 +32,15 @@ function App() {
 const Main = styled.div`
   // border: 2px solid red;
   min-height: 100dvh;
-  margin: 0 auto;
-  // background-image: linear-gradient(
-  //   45deg,
-  //   hsl(240deg 100% 20%) 0%,
-  //   hsl(289deg 100% 21%) 11%,
-  //   hsl(315deg 100% 27%) 22%,
-  //   hsl(329deg 100% 36%) 33%,
-  //   hsl(337deg 100% 43%) 44%,
-  //   hsl(357deg 91% 59%) 56%,
-  //   hsl(17deg 100% 59%) 67%,
-  //   hsl(34deg 100% 53%) 78%,
-  //   hsl(45deg 100% 50%) 89%,
-  //   hsl(55deg 100% 50%) 100%
-  // );
+  --navigation-bar-height: 100px;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    --navigation-bar-height: 50px;
+  }
+`;
+
+const ContentWrapper = styled.div`
+  margin-top: var(--navigation-bar-height);
 `;
 
 const GlobalStyles = createGlobalStyle`

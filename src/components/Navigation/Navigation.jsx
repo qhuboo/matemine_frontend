@@ -1,24 +1,61 @@
 import styled from "styled-components";
 import Drawer from "../Drawer";
 import { Link } from "react-router-dom";
-import { Search, Menu } from "react-feather";
+import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
 
 import useToggle from "../../hooks/use-toggle";
+import { QUERIES } from "../../constants";
 
 function Navigation() {
   const [isOpen, setIsOpen] = useToggle(false);
 
   return (
     <NavigationBar>
-      <Title to={"/"}>MateMine</Title>
-      <MobileMenuButton onClick={() => setIsOpen(true)}>
-        <Menu />
-      </MobileMenuButton>
+      <Side>
+        <Title to={"/"}>MateMine</Title>
+      </Side>
+      <Links>
+        <NavLink>Nintendo</NavLink>
+        <NavLink>Sega</NavLink>
+        <NavLink>PlayStation</NavLink>
+        <NavLink>Xbox</NavLink>
+      </Links>
+
+      <Side>
+        <Side />
+
+        <Links style={{ gap: "50px" }}>
+          <NavLink>
+            <Search />
+          </NavLink>
+          <NavLink>
+            <User />
+          </NavLink>
+          <NavLink>
+            <Heart />
+          </NavLink>
+          <NavLink to={"/cart"}>
+            <ShoppingBag />
+          </NavLink>
+        </Links>
+        <MobileLinks>
+          <NavLink>
+            <Search />
+          </NavLink>
+          <NavLink to={"/cart"}>
+            <ShoppingBag />
+          </NavLink>
+        </MobileLinks>
+
+        <MobileMenuButton onClick={() => setIsOpen(true)}>
+          <Menu size={32} strokeWidth={1} />
+        </MobileMenuButton>
+      </Side>
       {isOpen && (
         <Drawer handleDismiss={setIsOpen}>
           <ul>
             <li>
-              <Link to={"/marketplace"}>Marketplace</Link>
+              <NavLink to={"/marketplace"}>Marketplace</NavLink>
             </li>
             <li>Menu Item 2</li>
             <li>Menu Item 3</li>
@@ -31,22 +68,41 @@ function Navigation() {
 
 const NavigationBar = styled.nav`
   border-bottom: 1px solid black;
-  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  --padding: 40px;
+  width: 100%;
+  height: var(--navigation-bar-height);
+  background-color: white;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: var(--padding);
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    --padding: 20px;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    --padding: 10px;
+  }
 `;
 
 const MobileMenuButton = styled.button`
   display: none;
   border: none;
+  border-left: 1px solid black;
   background-color: transparent;
   cursor: pointer;
   flex-shrink: 0;
   color: black;
+  height: var(--navigation-bar-height);
+  width: calc(100px - var(--padding));
+  margin-right: calc(-1 * var(--padding));
 
   @media (max-width: 1100px) {
-    display: revert;
+    display: grid;
+    place-content: center;
   }
 `;
 
@@ -55,6 +111,60 @@ const Title = styled(Link)`
   font-size: 3rem;
   color: black;
   text-decoration: none;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    font-size: 2rem;
+  }
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    font-size: 1.75rem;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 1.25rem;
+  }
+`;
+
+const Side = styled.div`
+  // border: 2px solid springgreen;
+  display: flex;
+  align-items: center;
+  flex: 1;
+`;
+
+const Links = styled.ul`
+  // border: 2px solid darkcyan;
+  display: flex;
+  gap: 4vw;
+  padding: 0 20px;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    display: none;
+  }
+`;
+
+const NavLink = styled(Link)`
+  font-size: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    font-size: 1.3rem;
+  }
+`;
+
+const MobileLinks = styled.div`
+  display: none;
+  gap: 50px;
+  padding-right: 50px;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    display: flex;
+  }
+  @media (${QUERIES.mobileAndSmaller}) {
+    gap: 20px;
+  }
 `;
 
 export default Navigation;
