@@ -160,6 +160,7 @@ const GridTitle = styled.h2`
 const GameGrid = styled.div`
   border: 1px solid black;
   display: flex;
+  flex-wrap: nowrap;
   overflow: auto;
   white-space: nowrap;
 `;
