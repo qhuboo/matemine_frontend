@@ -38,6 +38,7 @@ function Navigation() {
             <ShoppingBag />
           </NavLink>
         </Links>
+
         <MobileLinks>
           <NavLink>
             <Search />

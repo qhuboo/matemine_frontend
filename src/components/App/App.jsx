@@ -42,18 +42,20 @@ const Main = styled.div`
 const ContentWrapper = styled.div`
   margin-top: var(--navigation-bar-height);
   font-family: "Rajdhani";
-  padding: 25px 75px;
+  --content-padding: 25px;
+  padding: var(--content-padding);
+  overflow: hidden;
 
   @media (${QUERIES.laptopAndSmaller}) {
-    padding: 25px 50px;
+    --content-padding: 50px;
   }
 
   @media (${QUERIES.tabletAndSmaller}) {
-    padding: 25px;
+    --content-padding: 25px;
   }
 
   @media (${QUERIES.mobileAndSmaller}) {
-    padding: 15px;
+    --content-padding: 15px;
   }
 `;
 

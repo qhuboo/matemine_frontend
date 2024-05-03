@@ -29,7 +29,7 @@ function MobileMenu({ handleDismiss }) {
 }
 
 const Wrapper = styled.nav`
-  //   border: 2px solid springgreen;
+  // border: 2px solid springgreen;
   width: 100%;
   height: 100%;
   display: flex;
