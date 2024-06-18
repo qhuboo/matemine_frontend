@@ -1,11 +1,24 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { game_data } from "../../data";
+import { useEffect, useState } from "react";
 
 function MarketPlace() {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    async function getGames() {
+      const response = await fetch("https://api.matemine.shop/games");
+      const data = await response.json();
+      setGames(data);
+    }
+
+    getGames();
+  }, []);
+
   return (
     <GameGrid>
-      {game_data.map((game) => (
+      {games.map((game) => (
         <GameCard to={"/product"} key={game.game_id}>
           <GameCover src={game.sample_cover_image} alt="" />
           <span>{game.title}</span>
