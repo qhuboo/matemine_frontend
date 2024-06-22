@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { QUERIES } from "../../constants";
 
-import { game_data } from "../../data";
 import full_game_data from "../../full_game_data";
 import { find_game } from "../../utils";
 
