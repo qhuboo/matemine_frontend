@@ -23,7 +23,6 @@ function App() {
           </Routes>
         </ContentWrapper>
       </Main>
-
       <GlobalStyles />
     </>
   );
