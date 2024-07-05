@@ -1,44 +1,70 @@
 import styled from "styled-components";
-import { cart_data } from "../../data";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Product() {
+  const { gameId } = useParams();
+  const [game, setGame] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function getGame(gameId) {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(
+          `https://api.matemine.shop/games/screenshots/${gameId}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response not ok");
+        }
+        const game = await response.json();
+        setGame(game);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getGame(gameId);
+  }, [gameId]);
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <Wrapper>
       <GameImages>
         <Image1>
-          <img
-            src="https://cdn.mobygames.com/screenshots/4170929-star-wars-episode-i-racer-windows-pick-a-pod-and-no-i-will-not-m.png"
-            alt=""
-          />
+          <img src={game[0].image} alt="" />
         </Image1>
         <Image2>
-          <img
-            src="https://cdn.mobygames.com/screenshots/10864635-star-wars-episode-i-racer-windows-they-come-in-here-they-look-ar.png"
-            alt=""
-          />
+          <img src={game[1].image} alt="" />
         </Image2>
         <Image3>
-          <img
-            src="https://cdn.mobygames.com/screenshots/10869612-star-wars-episode-i-racer-windows-snow-tunnel.png"
-            alt=""
-          />
+          <img src={game[2].image} alt="" />
         </Image3>
         <Image4>
-          <img
-            src="https://cdn.mobygames.com/screenshots/10418988-star-wars-episode-i-racer-dreamcast-tatooine-finish.jpg"
-            alt=""
-          />
+          <img src={game[3].image} alt="" />
         </Image4>
       </GameImages>
       <GameDetails>
         <GameInfo>
-          <GameTitle>{cart_data[0].title}</GameTitle>
+          <GameTitle>{game[0].title}</GameTitle>
           Details
-          <GameDescription>{cart_data[0].description}</GameDescription>
+          <GameDescription>{game[0].description}</GameDescription>
         </GameInfo>
         <AddToCart>
-          <GameTitle>{cart_data[0].title}</GameTitle>
-          <GamePrice>${cart_data[0].price}</GamePrice>
+          <GameTitle>{game[0].title}</GameTitle>
+          <GamePrice>${game[0].price}</GamePrice>
           <AddToCartButton>Add to Cart</AddToCartButton>
         </AddToCart>
       </GameDetails>

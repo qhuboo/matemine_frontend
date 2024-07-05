@@ -19,7 +19,7 @@ function App() {
             <Route path="/marketplace" element={<MarketPlace />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/product" element={<Product />} />
+            <Route path="/product/:gameId" element={<Product />} />
           </Routes>
         </ContentWrapper>
       </Main>

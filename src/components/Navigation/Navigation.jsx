@@ -15,10 +15,22 @@ function Navigation() {
         <Title to={"/"}>MateMine</Title>
       </Side>
       <Links>
-        <NavLink>Nintendo</NavLink>
-        <NavLink>Sega</NavLink>
-        <NavLink>PlayStation</NavLink>
-        <NavLink>Xbox</NavLink>
+        <NavLink
+          to={{ pathname: "/marketplace", search: "?platforms=nintendo" }}
+        >
+          Nintendo
+        </NavLink>
+        <NavLink to={{ pathname: "/marketplace", search: "?platforms=sega" }}>
+          Sega
+        </NavLink>
+        <NavLink
+          to={{ pathname: "/marketplace", search: "?platforms=playstation" }}
+        >
+          PlayStation
+        </NavLink>
+        <NavLink to={{ pathname: "/marketplace", search: "?platforms=xbox" }}>
+          Xbox
+        </NavLink>
       </Links>
 
       <Side>
