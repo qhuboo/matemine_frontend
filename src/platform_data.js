@@ -6,10 +6,10 @@ const platforms = {
     "Wii",
     "Nintendo Switch",
     "Game Boy",
-    "Nintendo 3DS",
+
     "Wii U",
     "Nintendo DS",
-    "New Nintendo 3DS",
+    "Nintendo 3DS",
     "Nintendo DSi",
     "Game Boy Color",
     "GameCube",

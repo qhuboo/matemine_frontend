@@ -15,28 +15,30 @@ function MarketPlace() {
   const [games, setGames] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const platforms = searchParams.get("platform");
-  if (platforms) {
-    platforms.split(",").forEach((platform) => {
-      if (Object.prototype.hasOwnProperty.call(initialPlatforms, platform)) {
-        initialPlatforms[platform] = true;
-      }
-    });
-  }
-
   const [selectedPlatforms, setSelectedPlatforms] = useState(initialPlatforms);
+  const [selectedNintendoConsoles, setSelectedNintendoConsoles] = useState([]);
+  const [selectedSegaConsoles, setSelectedSegaConsoles] = useState([]);
+  const [selectedPlayStationConsoles, setSelectedPlayStationConsoles] =
+    useState([]);
+  const [selectedXboxConsoles, setSelectedXboxConsoles] = useState([]);
 
-  useEffect(() => {
-    const array = [];
-    for (const [key, value] of Object.entries(selectedPlatforms)) {
-      if (value) {
-        array.push(key);
-      }
-    }
-    setSearchParams({ platforms: array.join(",") });
-  }, [selectedPlatforms, setSearchParams]);
+  // Combine all the consoles if the platform is selected
+  let allConsoles = [];
+  if (selectedPlatforms.nintendo) {
+    allConsoles = [...allConsoles, ...selectedNintendoConsoles];
+  }
+  if (selectedPlatforms.sega) {
+    allConsoles = [...allConsoles, ...selectedSegaConsoles];
+  }
+  if (selectedPlatforms.playstation) {
+    allConsoles = [...allConsoles, ...selectedPlayStationConsoles];
+  }
+  if (selectedPlatforms.xbox) {
+    allConsoles = [...allConsoles, ...selectedXboxConsoles];
+  }
+  console.log(allConsoles);
 
+  // Fetch the whole game data
   useEffect(() => {
     async function getGames() {
       const response = await fetch("https://api.matemine.shop/games");
@@ -47,6 +49,34 @@ function MarketPlace() {
     getGames();
   }, []);
 
+  // Update the selectedPlatforms state variable when the URL search params change
+  useEffect(() => {
+    const platforms = searchParams.get("platforms");
+    if (platforms) {
+      const nextSelectedPlatforms = { ...initialPlatforms };
+      platforms.split(",").forEach((platform) => {
+        if (
+          Object.prototype.hasOwnProperty.call(nextSelectedPlatforms, platform)
+        ) {
+          nextSelectedPlatforms[platform] = true;
+        }
+      });
+      setSelectedPlatforms(nextSelectedPlatforms);
+    }
+  }, [searchParams]);
+
+  // Update the URL search params when the selectedPlatforms state variable changes
+  useEffect(() => {
+    const newSelectedPlatforms = [];
+    for (const [key, value] of Object.entries(selectedPlatforms)) {
+      if (value) {
+        newSelectedPlatforms.push(key);
+      }
+    }
+
+    setSearchParams({ platforms: newSelectedPlatforms.join(",") });
+  }, [selectedPlatforms]);
+
   return (
     <div>
       <MarketPlaceWrapper>
@@ -54,7 +84,14 @@ function MarketPlace() {
           <Filters
             selectedPlatforms={selectedPlatforms}
             setSelectedPlatforms={setSelectedPlatforms}
-            setSearchParams={setSearchParams}
+            selectedNintendoConsoles={selectedNintendoConsoles}
+            setSelectedNintendoConsoles={setSelectedNintendoConsoles}
+            selectedSegaConsoles={selectedSegaConsoles}
+            setSelectedSegaConsoles={setSelectedSegaConsoles}
+            selectedPlayStationConsoles={selectedPlayStationConsoles}
+            setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
+            selectedXboxConsoles={selectedXboxConsoles}
+            setSelectedXboxConsoles={setSelectedXboxConsoles}
           />
         </FiltersWrapper>
         <GameGrid>

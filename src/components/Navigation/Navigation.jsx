@@ -16,6 +16,14 @@ function Navigation() {
       </Side>
       <Links>
         <NavLink
+          to={{
+            pathname: "/marketplace",
+            search: "?platforms=nintendo,sega,playstation,xbox",
+          }}
+        >
+          All Platforms
+        </NavLink>
+        <NavLink
           to={{ pathname: "/marketplace", search: "?platforms=nintendo" }}
         >
           Nintendo
