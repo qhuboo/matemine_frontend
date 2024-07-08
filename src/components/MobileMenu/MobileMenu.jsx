@@ -10,7 +10,10 @@ function MobileMenu({ handleDismiss }) {
           <NavLink to={"/"} onClick={handleDismiss}>
             Home
           </NavLink>
-          <NavLink to={"/marketplace"} onClick={handleDismiss}>
+          <NavLink
+            to={"/marketplace?platforms=nintendo,sega,playstation,xbox"}
+            onClick={handleDismiss}
+          >
             All Games
           </NavLink>
           <NavLink>Nintendo</NavLink>

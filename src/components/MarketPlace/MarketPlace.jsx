@@ -3,6 +3,10 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
+import FilterDrawer from "./FilterDrawer";
+import { QUERIES } from "../../constants";
+import { Filter } from "react-feather";
+import useToggle from "../../hooks/use-toggle";
 
 const initialPlatforms = {
   nintendo: false,
@@ -21,6 +25,8 @@ function MarketPlace() {
   const [selectedPlayStationConsoles, setSelectedPlayStationConsoles] =
     useState([]);
   const [selectedXboxConsoles, setSelectedXboxConsoles] = useState([]);
+  const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
+  console.log(isFiltersOpen);
 
   // Combine all the consoles if the platform is selected
   let allConsoles = [];
@@ -79,6 +85,9 @@ function MarketPlace() {
 
   return (
     <div>
+      <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
+        <Filter />
+      </MobileFilterButton>
       <MarketPlaceWrapper>
         <FiltersWrapper>
           <Filters
@@ -94,6 +103,24 @@ function MarketPlace() {
             setSelectedXboxConsoles={setSelectedXboxConsoles}
           />
         </FiltersWrapper>
+        {isFiltersOpen && (
+          <MobileFiltersWrapper>
+            <FilterDrawer handleDismiss={setIsFiltersOpen} margin={"50px"}>
+              <Filters
+                selectedPlatforms={selectedPlatforms}
+                setSelectedPlatforms={setSelectedPlatforms}
+                selectedNintendoConsoles={selectedNintendoConsoles}
+                setSelectedNintendoConsoles={setSelectedNintendoConsoles}
+                selectedSegaConsoles={selectedSegaConsoles}
+                setSelectedSegaConsoles={setSelectedSegaConsoles}
+                selectedPlayStationConsoles={selectedPlayStationConsoles}
+                setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
+                selectedXboxConsoles={selectedXboxConsoles}
+                setSelectedXboxConsoles={setSelectedXboxConsoles}
+              />
+            </FilterDrawer>
+          </MobileFiltersWrapper>
+        )}
         <GameGrid>
           {games.slice(25 * currentPage, 25 * (currentPage + 1)).map((game) => (
             <GameCard to={`/product/${game.game_id}`} key={game.game_id}>
@@ -123,6 +150,10 @@ const FiltersWrapper = styled.div`
   // border: 3px solid red;
   padding-top: 16px;
   flex: 1;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    display: none;
+  }
 `;
 const GameGrid = styled.div`
   // border: 3px solid purple;
@@ -153,6 +184,25 @@ const GameCover = styled.img`
 const PaginationWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const MobileFiltersWrapper = styled.div`
+  display: none;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    border: 2px solid red;
+    display: revert;
+  }
+`;
+
+const MobileFilterButton = styled.div`
+  display: none;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    display: revert;
+  }
 `;
 
 export default MarketPlace;
