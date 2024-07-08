@@ -151,7 +151,7 @@ const FiltersWrapper = styled.div`
   padding-top: 16px;
   flex: 1;
 
-  @media (${QUERIES.laptopAndSmaller}) {
+  @media (${QUERIES.tabletAndSmaller}) {
     display: none;
   }
 `;
@@ -189,7 +189,7 @@ const PaginationWrapper = styled.div`
 const MobileFiltersWrapper = styled.div`
   display: none;
 
-  @media (${QUERIES.laptopAndSmaller}) {
+  @media (${QUERIES.tabletAndSmaller}) {
     // border: 2px solid red;
     display: revert;
   }
@@ -200,7 +200,7 @@ const MobileFilterButton = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
 
-  @media (${QUERIES.laptopAndSmaller}) {
+  @media (${QUERIES.tabletAndSmaller}) {
     display: revert;
   }
 `;
