@@ -20,11 +20,15 @@ function MarketPlace() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedPlatforms, setSelectedPlatforms] = useState(initialPlatforms);
+
+  // Select Consoles
   const [selectedNintendoConsoles, setSelectedNintendoConsoles] = useState([]);
   const [selectedSegaConsoles, setSelectedSegaConsoles] = useState([]);
   const [selectedPlayStationConsoles, setSelectedPlayStationConsoles] =
     useState([]);
   const [selectedXboxConsoles, setSelectedXboxConsoles] = useState([]);
+
+  // Other state
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
   console.log(isFiltersOpen);
 
@@ -122,7 +126,7 @@ function MarketPlace() {
           </MobileFiltersWrapper>
         )}
         <GameGrid>
-          {games.slice(25 * currentPage, 25 * (currentPage + 1)).map((game) => (
+          {games.slice(14 * currentPage, 14 * (currentPage + 1)).map((game) => (
             <GameCard to={`/product/${game.game_id}`} key={game.game_id}>
               <GameCover src={game.sample_cover_image} alt="" />
               <span>{game.title}</span>
@@ -133,7 +137,7 @@ function MarketPlace() {
       </MarketPlaceWrapper>
       <PaginationWrapper>
         <Pagination
-          totalPages={13}
+          totalPages={3}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
