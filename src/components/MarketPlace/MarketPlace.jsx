@@ -84,7 +84,7 @@ function MarketPlace() {
   }, [selectedPlatforms]);
 
   return (
-    <div>
+    <Wrapper $isFiltersOpen={isFiltersOpen}>
       <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
         <Filter />
       </MobileFilterButton>
@@ -138,9 +138,14 @@ function MarketPlace() {
           setCurrentPage={setCurrentPage}
         />
       </PaginationWrapper>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  position: ${(props) => (props.$isFiltersOpen ? "fixed" : "static")};
+  overflow: hidden;
+`;
 
 const MarketPlaceWrapper = styled.div`
   // border: 3px solid purple;

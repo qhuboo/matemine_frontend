@@ -32,6 +32,7 @@ const Main = styled.div`
   // border: 2px solid red;
   min-height: 100dvh;
   --navigation-bar-height: 100px;
+  overflow: hidden;
 
   @media (${QUERIES.tabletAndSmaller}) {
     --navigation-bar-height: 50px;
