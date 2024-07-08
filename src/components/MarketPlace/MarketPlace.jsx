@@ -190,7 +190,7 @@ const MobileFiltersWrapper = styled.div`
   display: none;
 
   @media (${QUERIES.laptopAndSmaller}) {
-    border: 2px solid red;
+    // border: 2px solid red;
     display: revert;
   }
 `;
