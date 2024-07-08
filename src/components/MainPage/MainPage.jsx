@@ -1,30 +1,13 @@
 import styled from "styled-components";
 import { QUERIES } from "../../constants";
-
-import full_game_data from "../../full_game_data";
-import { find_game } from "../../utils";
+import {
+  nintendoFavorites,
+  segaFavorites,
+  playstationFavorites,
+  xboxFavorites,
+} from "../../data";
 
 function MainPage() {
-  const nintendo = [3549, 3583, 3528, 3533, 3546, 3535, 3634, 3636];
-  const nintendoFavorites = [];
-  nintendo.forEach((game) =>
-    nintendoFavorites.push(find_game(full_game_data, game))
-  );
-
-  const sega = [6579, 6614, 3530, 7748, 6581, 6633, 600, 265];
-  const segaFavorites = [];
-  sega.forEach((game) => segaFavorites.push(find_game(full_game_data, game)));
-
-  const playstation = [3739, 858, 955, 1097, 5327, 5086];
-  const playstationFavorites = [];
-  playstation.forEach((game) =>
-    playstationFavorites.push(find_game(full_game_data, game))
-  );
-
-  const xbox = [5368, 5069];
-  const xboxFavorites = [];
-  xbox.forEach((game) => xboxFavorites.push(find_game(full_game_data, game)));
-
   return (
     <MainContent>
       <HeroImage>
