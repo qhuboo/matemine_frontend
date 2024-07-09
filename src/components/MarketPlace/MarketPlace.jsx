@@ -101,7 +101,7 @@ function MarketPlace() {
     <Wrapper $isFiltersOpen={isFiltersOpen}>
       <FilterAndSortWrapper>
         <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
-          <Filter />
+          <Filter size={24} />
         </MobileFilterButton>
         <SortWrapper>
           <GamesPerPage>
@@ -223,16 +223,32 @@ const FilterAndSortWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   padding: 15px 10px 0px 5px;
+  gap: 25px;
 
   @media (${QUERIES.tabletAndSmaller}) {
     justify-content: space-between;
+    gap: 15px;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    gap: 5px;
   }
 `;
 
 const SortWrapper = styled.div`
   // border: 3px solid red;
   display: flex;
+  justify-content: flex-end;
   gap: 25px;
+  flex: 1;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    gap: 15px;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    gap: 5px;
+  }
 `;
 
 const GamesPerPage = styled.div`
@@ -253,6 +269,15 @@ const FiltersWrapper = styled.div`
   }
 `;
 
+const MobileFilterButton = styled.div`
+  display: none;
+  @media (${QUERIES.tabletAndSmaller}) {
+    // border: 2px solid red;
+    display: revert;
+    padding: 5px;
+  }
+`;
+
 const PaginationWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -264,13 +289,6 @@ const MobileFiltersWrapper = styled.div`
 
   @media (${QUERIES.tabletAndSmaller}) {
     // border: 2px solid red;
-    display: revert;
-  }
-`;
-
-const MobileFilterButton = styled.div`
-  display: none;
-  @media (${QUERIES.tabletAndSmaller}) {
     display: revert;
   }
 `;
