@@ -8,9 +8,14 @@ export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
         .slice(gamesPerPage * currentPage, gamesPerPage * (currentPage + 1))
         .map((game) => (
           <GameCard to={`/product/${game.game_id}`} key={game.game_id}>
-            <GameCover src={game.sample_cover_image} alt="" />
-            <span>{game.title}</span>
-            <h3>${game.price}</h3>
+            <GameCoverWrapper>
+              <GameCover src={game.sample_cover_image} alt="" />
+            </GameCoverWrapper>
+
+            <GameInfo>
+              <span>{game.title}</span>
+              <h3>${game.price}</h3>
+            </GameInfo>
           </GameCard>
         ))}
     </Grid>
@@ -31,14 +36,29 @@ const Grid = styled.div`
 `;
 
 const GameCard = styled(Link)`
+  // border: 3px solid red;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 3px;
   min-width: 0;
   color: black;
   text-decoration: none;
 `;
 
+const GameCoverWrapper = styled.div`
+  // border: 3px dashed black;
+  flex: 1;
+  background-color: black;
+  display: grid;
+  place-content: center;
+`;
+
 const GameCover = styled.img`
+  // border: 3px solid blue;
   min-width: 0;
+`;
+
+const GameInfo = styled.div`
+  // border: 3px solid springgreen;
 `;

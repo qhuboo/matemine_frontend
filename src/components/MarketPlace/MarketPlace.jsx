@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Filters from "./Filters";

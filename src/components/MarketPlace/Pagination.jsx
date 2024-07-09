@@ -30,14 +30,35 @@ const Pages = styled.div`
 
 const PageButton = styled.button`
   background-color: ${(props) =>
-    props.$currentPage === props.$page ? "blue" : "red"};
-  padding: 10px;
-  border: none;
+    props.$currentPage === props.$page ? "blue" : "#0095ff"};
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #fff;
   cursor: pointer;
-  color: white;
-  font-size: 1em;
-  &:hover {
-    background-color: ${(props) =>
-      props.$currentPage === props.$page ? "darkslateblue" : "gray"};
+  display: inline-block;
+  font-family: "Rajdhani";
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+  outline: none;
+  padding: 8px 0.8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    background-color: #07c;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.45);
   }
 `;
