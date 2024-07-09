@@ -7,10 +7,12 @@ import Product from "../Product/Product";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { QUERIES } from "../../constants";
+import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Main>
         <Navigation />
         <ContentWrapper>

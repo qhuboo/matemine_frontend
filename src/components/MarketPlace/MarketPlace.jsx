@@ -21,7 +21,7 @@ function MarketPlace() {
 
   // Page State
   const [currentPage, setCurrentPage] = useState(0);
-  const [gamesPerPage, setGamesPerPage] = useState(14);
+  const [gamesPerPage, setGamesPerPage] = useState(12);
   const totalPages = Math.ceil(games.length / gamesPerPage);
 
   // Sortby
