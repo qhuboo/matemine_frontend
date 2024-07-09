@@ -233,6 +233,12 @@ const FilterAndSortWrapper = styled.div`
   @media (${QUERIES.mobileAndSmaller}) {
     gap: 5px;
   }
+
+  @media (max-width: 375px) {
+    gap: 0;
+    padding: 0;
+    font-size: 1.1rem;
+  }
 `;
 
 const SortWrapper = styled.div`
