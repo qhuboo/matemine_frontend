@@ -24,6 +24,9 @@ function MarketPlace() {
   const [gamesPerPage, setGamesPerPage] = useState(14);
   const totalPages = Math.ceil(games.length / gamesPerPage);
 
+  // Sortby
+  const [sortBy, setSortBy] = useState("alpha-desc");
+
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -96,9 +99,57 @@ function MarketPlace() {
 
   return (
     <Wrapper $isFiltersOpen={isFiltersOpen}>
-      <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
-        <Filter />
-      </MobileFilterButton>
+      <FilterAndSortWrapper>
+        <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
+          <Filter />
+        </MobileFilterButton>
+        <SortWrapper>
+          <GamesPerPage>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            >
+              <label htmlFor="games-per-page">Show: </label>
+
+              <select
+                id="games-per-page"
+                value={gamesPerPage}
+                onChange={(event) => {
+                  setGamesPerPage(event.target.value);
+                }}
+              >
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+                <option value="76">76</option>
+              </select>
+            </form>
+          </GamesPerPage>
+          <SortBy>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            >
+              <label htmlFor="sort-by">Sort By: </label>
+
+              <select
+                id="sort-by"
+                value={sortBy}
+                onChange={(event) => {
+                  setSortBy(event.target.value);
+                }}
+              >
+                <option value="alpha-desc">A-to-Z</option>
+                <option value="alpha-asc">Z-to-A</option>
+                <option value="rating-desc">Rating Desc</option>
+                <option value="rating-asc">Rating Asc</option>
+              </select>
+            </form>
+          </SortBy>
+        </SortWrapper>
+      </FilterAndSortWrapper>
 
       <MarketPlaceWrapper>
         <FiltersWrapper>
@@ -165,6 +216,32 @@ const MarketPlaceWrapper = styled.div`
     display: revert;
   }
 `;
+
+const FilterAndSortWrapper = styled.div`
+  // border: 3px solid springgreen;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    justify-content: space-between;
+  }
+`;
+
+const SortWrapper = styled.div`
+  // border: 3px solid red;
+  display: flex;
+  gap: 25px;
+`;
+
+const GamesPerPage = styled.div`
+  // border: 3px dashed black;
+`;
+
+const SortBy = styled.div`
+  // border: 3px solid green;
+`;
+
 const FiltersWrapper = styled.div`
   // border: 3px solid red;
   padding-top: 16px;
