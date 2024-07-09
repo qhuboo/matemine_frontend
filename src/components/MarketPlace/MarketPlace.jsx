@@ -222,7 +222,7 @@ const FilterAndSortWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-top: 15px;
+  padding: 15px 10px 0px 5px;
 
   @media (${QUERIES.tabletAndSmaller}) {
     justify-content: space-between;
