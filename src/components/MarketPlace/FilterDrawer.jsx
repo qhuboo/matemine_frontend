@@ -4,7 +4,7 @@ import { X } from "react-feather";
 
 export default function FilterDrawer({ children, handleDismiss, margin }) {
   return (
-    <Wrapper margin={margin}>
+    <Wrapper $margin={margin}>
       <Backdrop onClick={handleDismiss} />
       <Menu>
         <X size={32} onClick={handleDismiss} />
@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   inset: 0;
   padding: 16px;
   color: black;
-  margin-top: ${(props) => props.margin};
+  margin-top: ${(props) => props.$margin};
 
   @media (min-width: 1101px) {
     display: none;
