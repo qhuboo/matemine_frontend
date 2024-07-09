@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
 import FilterDrawer from "./FilterDrawer";
+import GameGrid from "./GameGrid";
 import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
@@ -17,8 +18,16 @@ const initialPlatforms = {
 
 function MarketPlace() {
   const [games, setGames] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  // Page State
+  const [currentPage, setCurrentPage] = useState(0);
+  const [gamesPerPage, setGamesPerPage] = useState(14);
+  const totalPages = Math.ceil(games.length / gamesPerPage);
+
+  // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Select Platforms
   const [selectedPlatforms, setSelectedPlatforms] = useState(initialPlatforms);
 
   // Select Consoles
@@ -30,7 +39,6 @@ function MarketPlace() {
 
   // Other state
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
-  console.log(isFiltersOpen);
 
   // Combine all the consoles if the platform is selected
   let allConsoles = [];
@@ -46,7 +54,6 @@ function MarketPlace() {
   if (selectedPlatforms.xbox) {
     allConsoles = [...allConsoles, ...selectedXboxConsoles];
   }
-  console.log(allConsoles);
 
   // Fetch the whole game data
   useEffect(() => {
@@ -92,6 +99,7 @@ function MarketPlace() {
       <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
         <Filter />
       </MobileFilterButton>
+
       <MarketPlaceWrapper>
         <FiltersWrapper>
           <Filters
@@ -125,22 +133,20 @@ function MarketPlace() {
             </FilterDrawer>
           </MobileFiltersWrapper>
         )}
-        <GameGrid>
-          {games.slice(14 * currentPage, 14 * (currentPage + 1)).map((game) => (
-            <GameCard to={`/product/${game.game_id}`} key={game.game_id}>
-              <GameCover src={game.sample_cover_image} alt="" />
-              <span>{game.title}</span>
-              <h3>${game.price}</h3>
-            </GameCard>
-          ))}
-        </GameGrid>
+        <GameGrid
+          gameList={games}
+          gamesPerPage={gamesPerPage}
+          currentPage={currentPage}
+        />
       </MarketPlaceWrapper>
       <PaginationWrapper>
-        <Pagination
-          totalPages={3}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        {totalPages > 0 && (
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
       </PaginationWrapper>
     </Wrapper>
   );
@@ -152,8 +158,12 @@ const Wrapper = styled.div`
 `;
 
 const MarketPlaceWrapper = styled.div`
-  // border: 3px solid purple;
+  // border: 3px dashed purple;
   display: flex;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    display: revert;
+  }
 `;
 const FiltersWrapper = styled.div`
   // border: 3px solid red;
@@ -164,31 +174,6 @@ const FiltersWrapper = styled.div`
     display: none;
   }
 `;
-const GameGrid = styled.div`
-  // border: 3px solid purple;
-  flex: 5;
-  padding: 30px;
-  gap: 75px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-
-  @media (max-width: 350px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const GameCard = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  color: black;
-  text-decoration: none;
-`;
-
-const GameCover = styled.img`
-  min-width: 0;
-`;
 
 const PaginationWrapper = styled.div`
   display: flex;
@@ -197,6 +182,7 @@ const PaginationWrapper = styled.div`
 
 const MobileFiltersWrapper = styled.div`
   display: none;
+  position: absolute;
 
   @media (${QUERIES.tabletAndSmaller}) {
     // border: 2px solid red;
@@ -206,9 +192,6 @@ const MobileFiltersWrapper = styled.div`
 
 const MobileFilterButton = styled.div`
   display: none;
-  flex-grow: 0;
-  flex-shrink: 0;
-
   @media (${QUERIES.tabletAndSmaller}) {
     display: revert;
   }

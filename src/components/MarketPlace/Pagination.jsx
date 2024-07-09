@@ -8,7 +8,6 @@ export default function Pagination({
   return (
     <Pages>
       {[...Array(totalPages).keys()].map((page) => {
-        page = page + 0;
         return (
           <PageButton
             onClick={() => setCurrentPage(page)}
@@ -31,7 +30,7 @@ const Pages = styled.div`
 
 const PageButton = styled.button`
   background-color: ${(props) =>
-    props.currentPage === props.page ? "slateblue" : "lightgray"};
+    props.$currentPage === props.$page ? "blue" : "red"};
   padding: 10px;
   border: none;
   cursor: pointer;
