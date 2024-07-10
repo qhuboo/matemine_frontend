@@ -97,6 +97,11 @@ function MarketPlace() {
     setSearchParams({ platforms: newSelectedPlatforms.join(",") });
   }, [selectedPlatforms]);
 
+  // Scroll to the top of the page when switching the page
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   return (
     <Wrapper $isFiltersOpen={isFiltersOpen}>
       <FilterAndSortWrapper>

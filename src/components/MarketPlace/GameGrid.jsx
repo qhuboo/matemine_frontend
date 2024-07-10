@@ -32,10 +32,11 @@ const Grid = styled.div`
   // border: 3px dotted springgreen;
   flex: 5;
   padding: 30px;
-  gap: 50px;
+  gap: 75px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-template-rows: repeat(3, 1fr);
+
   @media (${QUERIES.laptopAndSmaller}) {
     gap: 40px;
   }
