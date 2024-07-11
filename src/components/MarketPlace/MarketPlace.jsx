@@ -146,6 +146,8 @@ function MarketPlace() {
                   setSortBy(event.target.value);
                 }}
               >
+                <option value="price-desc">Price-Desc</option>
+                <option value="price-asc">Price-Asc</option>
                 <option value="alpha-desc">A-to-Z</option>
                 <option value="alpha-asc">Z-to-A</option>
                 <option value="rating-desc">Rating Desc</option>
