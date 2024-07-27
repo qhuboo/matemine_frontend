@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
@@ -6,76 +7,120 @@ import useToggle from "../../hooks/use-toggle";
 import { QUERIES } from "../../constants";
 import MobileMenu from "../MobileMenu/MobileMenu";
 
+import NintendoSubMenu from "./SubMenus/NintendoSubMenu";
+import SegaSubMenu from "./SubMenus/SegaSubMenu";
+import PlayStationSubMenu from "./SubMenus/PlayStationSubMenu";
+import XboxSubMenu from "./SubMenus/XboxSubMenu";
+
 function Navigation() {
-  const [isOpen, setIsOpen] = useToggle(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useToggle(false);
+  const [activeMenu, setActiveMenu] = useState("");
 
   return (
-    <NavigationBar>
-      <Side>
-        <Title to={"/"}>MateMine</Title>
-      </Side>
-      <Links>
-        <NavLink
-          to={{
-            pathname: "/marketplace",
-            search: "?platforms=nintendo,sega,playstation,xbox",
-          }}
-        >
-          All Platforms
-        </NavLink>
-        <NavLink
-          to={{ pathname: "/marketplace", search: "?platforms=nintendo" }}
-        >
-          Nintendo
-        </NavLink>
-        <NavLink to={{ pathname: "/marketplace", search: "?platforms=sega" }}>
-          Sega
-        </NavLink>
-        <NavLink
-          to={{ pathname: "/marketplace", search: "?platforms=playstation" }}
-        >
-          PlayStation
-        </NavLink>
-        <NavLink to={{ pathname: "/marketplace", search: "?platforms=xbox" }}>
-          Xbox
-        </NavLink>
-      </Links>
-
-      <Side>
-        <Side />
-
-        <Links style={{ gap: "50px" }}>
-          <NavLink>
-            <Search />
+    <Wrapper>
+      <NavigationBar>
+        <Side>
+          <Title to={"/"}>MateMine</Title>
+        </Side>
+        <Links>
+          <NavLink
+            to={{
+              pathname: "/marketplace",
+              search: "?platforms=nintendo,sega,playstation,xbox",
+            }}
+          >
+            All Platforms
           </NavLink>
-          <NavLink>
-            <User />
-          </NavLink>
-          <NavLink>
-            <Heart />
-          </NavLink>
-          <NavLink to={"/cart"}>
-            <ShoppingBag />
-          </NavLink>
+          <SubMenuButton
+            onClick={() => {
+              if (activeMenu === "nintendo") {
+                setActiveMenu("");
+              } else {
+                setActiveMenu("nintendo");
+              }
+            }}
+          >
+            Nintendo
+          </SubMenuButton>
+          <SubMenuButton
+            onClick={() => {
+              if (activeMenu === "sega") {
+                setActiveMenu("");
+              } else {
+                setActiveMenu("sega");
+              }
+            }}
+          >
+            Sega
+          </SubMenuButton>
+          <SubMenuButton
+            onClick={() => {
+              if (activeMenu === "playstation") {
+                setActiveMenu("");
+              } else {
+                setActiveMenu("playstation");
+              }
+            }}
+          >
+            PlayStation
+          </SubMenuButton>
+          <SubMenuButton
+            onClick={() => {
+              if (activeMenu === "xbox") {
+                setActiveMenu("");
+              } else {
+                setActiveMenu("xbox");
+              }
+            }}
+          >
+            Xbox
+          </SubMenuButton>
         </Links>
 
-        <MobileLinks>
-          <NavLink>
-            <Search />
-          </NavLink>
-          <NavLink to={"/cart"}>
-            <ShoppingBag />
-          </NavLink>
-        </MobileLinks>
+        <Side>
+          <Side />
 
-        <MobileMenuButton onClick={() => setIsOpen(true)}>
-          <Menu size={32} strokeWidth={1} />
-        </MobileMenuButton>
-      </Side>
-      {isOpen && <MobileMenu handleDismiss={setIsOpen} />}
-    </NavigationBar>
+          <Links style={{ gap: "50px" }}>
+            <NavLink>
+              <Search />
+            </NavLink>
+            <NavLink>
+              <User />
+            </NavLink>
+            <NavLink>
+              <Heart />
+            </NavLink>
+            <NavLink to={"/cart"}>
+              <ShoppingBag />
+            </NavLink>
+          </Links>
+
+          <MobileLinks>
+            <NavLink>
+              <Search />
+            </NavLink>
+            <NavLink to={"/cart"}>
+              <ShoppingBag />
+            </NavLink>
+          </MobileLinks>
+
+          <MobileMenuButton onClick={() => setIsMobileMenuOpen(true)}>
+            <Menu size={32} strokeWidth={1} />
+          </MobileMenuButton>
+        </Side>
+        {isMobileMenuOpen && <MobileMenu handleDismiss={setIsMobileMenuOpen} />}
+      </NavigationBar>
+      <SubMenuWrapper>
+        <NintendoSubMenu $isActive={activeMenu === "nintendo"} />
+        <SegaSubMenu $isActive={activeMenu === "sega"} />
+        <PlayStationSubMenu $isActive={activeMenu === "playstation"} />
+        <XboxSubMenu $isActive={activeMenu === "xbox"} />
+      </SubMenuWrapper>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div``;
 
 const NavigationBar = styled.nav`
   border-bottom: 1px solid black;
@@ -172,6 +217,21 @@ const NavLink = styled(Link)`
   }
 `;
 
+const SubMenuButton = styled.button`
+  font-family: "Rajdhani";
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: inherit;
+  flex-shrink: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    font-size: 1.3rem;
+  }
+`;
+
 const MobileLinks = styled.div`
   display: none;
 
@@ -190,6 +250,12 @@ const MobileLinks = styled.div`
   @media (max-width: 350px) {
     gap: 5px;
     padding-right: 5px;
+  }
+`;
+
+const SubMenuWrapper = styled.div`
+  @media (max-width: 1100px) {
+    display: none;
   }
 `;
 
