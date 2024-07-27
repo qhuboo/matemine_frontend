@@ -8,14 +8,31 @@ import { Routes, Route } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
+import { useState } from "react";
+import { keyframes } from "styled-components";
 
 function App() {
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState("");
+
   return (
     <>
       <ScrollToTop />
       <Main>
-        <Navigation />
+        <Navigation
+          setIsSubMenuOpen={setIsSubMenuOpen}
+          activeMenu={activeMenu}
+          setActiveMenu={setActiveMenu}
+        />
         <ContentWrapper>
+          {isSubMenuOpen && (
+            <Backdrop
+              onClick={() => {
+                setActiveMenu("");
+                setIsSubMenuOpen(false);
+              }}
+            />
+          )}
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/marketplace" element={<MarketPlace />} />
@@ -35,6 +52,7 @@ const Main = styled.div`
   min-height: 100dvh;
   --navigation-bar-height: 100px;
   overflow: hidden;
+  isolation: isolate;
 
   @media (${QUERIES.tabletAndSmaller}) {
     --navigation-bar-height: 50px;
@@ -47,6 +65,8 @@ const ContentWrapper = styled.div`
   --content-padding: 25px;
   padding: var(--content-padding);
   overflow: hidden;
+  position: relative;
+  z-index: -1;
 
   @media (${QUERIES.laptopAndSmaller}) {
     --content-padding: 50px;
@@ -118,6 +138,20 @@ p, h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   src: url("/fonts/Rajdhani-SemiBold.ttf") format("truetype");
 }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+`;
+
+const Backdrop = styled.div`
+  background-color: hsla(176, 100%, 0%, 0.6);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  animation: ${fadeIn} 400ms ease;
 `;
 
 export default App;

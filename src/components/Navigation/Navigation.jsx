@@ -12,9 +12,8 @@ import SegaSubMenu from "./SubMenus/SegaSubMenu";
 import PlayStationSubMenu from "./SubMenus/PlayStationSubMenu";
 import XboxSubMenu from "./SubMenus/XboxSubMenu";
 
-function Navigation() {
+function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useToggle(false);
-  const [activeMenu, setActiveMenu] = useState("");
 
   return (
     <Wrapper>
@@ -35,8 +34,10 @@ function Navigation() {
             onClick={() => {
               if (activeMenu === "nintendo") {
                 setActiveMenu("");
+                setIsSubMenuOpen(false);
               } else {
                 setActiveMenu("nintendo");
+                setIsSubMenuOpen(true);
               }
             }}
           >
@@ -46,8 +47,10 @@ function Navigation() {
             onClick={() => {
               if (activeMenu === "sega") {
                 setActiveMenu("");
+                setIsSubMenuOpen(false);
               } else {
                 setActiveMenu("sega");
+                setIsSubMenuOpen(true);
               }
             }}
           >
@@ -57,8 +60,10 @@ function Navigation() {
             onClick={() => {
               if (activeMenu === "playstation") {
                 setActiveMenu("");
+                setIsSubMenuOpen(false);
               } else {
                 setActiveMenu("playstation");
+                setIsSubMenuOpen(true);
               }
             }}
           >
@@ -68,8 +73,10 @@ function Navigation() {
             onClick={() => {
               if (activeMenu === "xbox") {
                 setActiveMenu("");
+                setIsSubMenuOpen(false);
               } else {
                 setActiveMenu("xbox");
+                setIsSubMenuOpen(true);
               }
             }}
           >
