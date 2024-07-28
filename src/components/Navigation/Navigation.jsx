@@ -27,6 +27,10 @@ function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
               pathname: "/marketplace",
               search: "?platforms=nintendo,sega,playstation,xbox",
             }}
+            onClick={() => {
+              setActiveMenu("");
+              setIsSubMenuOpen(false);
+            }}
           >
             All Platforms
           </NavLink>

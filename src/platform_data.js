@@ -6,7 +6,6 @@ const platforms = {
     "Wii",
     "Nintendo Switch",
     "Game Boy",
-
     "Wii U",
     "Nintendo DS",
     "Nintendo 3DS",
