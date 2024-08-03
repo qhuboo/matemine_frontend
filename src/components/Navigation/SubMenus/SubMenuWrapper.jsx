@@ -7,7 +7,6 @@ export default function SubMenuWrapper({ children, $isActive }) {
 const Wrapper = styled.div`
   border-bottom: 2px solid black;
   width: 100%;
-  height: 500px;
   position: absolute;
   top: var(--navigation-bar-height);
   background: var(--background-color);
