@@ -30,9 +30,16 @@ export default function NintendoSubMenu({ $isActive }) {
           <FeaturedGames>
             {nintendoFavorites.slice(0, 3).map((game) => {
               return (
-                <FeaturedGameWrapper key={game.title}>
-                  <FeaturedGame src={game.sample_cover.image} alt="hello" />
-                </FeaturedGameWrapper>
+                <FeaturedGameCard key={game.title}>
+                  <FeaturedGameWrapper>
+                    <FeaturedGameImageWrapper>
+                      <FeaturedGameImage
+                        src={game.sample_cover.image}
+                        alt="hello"
+                      />
+                    </FeaturedGameImageWrapper>
+                  </FeaturedGameWrapper>
+                </FeaturedGameCard>
               );
             })}
           </FeaturedGames>
@@ -50,7 +57,7 @@ from {
 const SubMenuContentWrapper = styled.div`
   border: 3px solid red;
   display: flex;
-  gap: 150px;
+  gap: 50px;
   height: 100%;
   ${(props) =>
     props.$isActive
@@ -116,21 +123,29 @@ const FeaturedWrapper = styled.div`
 const FeaturedTitle = styled(SubSectionTitle)``;
 
 const FeaturedGames = styled.div`
+  border: 2px solid purple;
   display: flex;
+  justify-content: space-between;
   gap: 15px;
 `;
 
+const FeaturedGameCard = styled.div`
+  border: 2px solid red;
+  height: 500px;
+`;
+
 const FeaturedGameWrapper = styled.div`
-  border: 2px dotted red;
+  border: 2px solid springgreen;
+  height: 50%;
+`;
+
+const FeaturedGameImageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: black;
 `;
 
-const FeaturedGame = styled.img`
-  flex: 1;
-  flex-shrink: 0;
-  min-width: 0;
+const FeaturedGameImage = styled.img`
   object-fit: contain;
 `;
