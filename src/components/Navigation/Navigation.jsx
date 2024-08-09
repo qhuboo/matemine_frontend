@@ -91,7 +91,7 @@ function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
         <Side>
           <Side />
 
-          <Links style={{ gap: "50px" }}>
+          <IconLinks>
             <NavLink>
               <Search />
             </NavLink>
@@ -104,7 +104,7 @@ function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
             <NavLink to={"/cart"}>
               <ShoppingBag />
             </NavLink>
-          </Links>
+          </IconLinks>
 
           <MobileLinks>
             <NavLink>
@@ -212,6 +212,14 @@ const Links = styled.ul`
 
   @media (${QUERIES.tabletAndSmaller}) {
     display: none;
+  }
+`;
+
+const IconLinks = styled(Links)`
+  gap: 50px;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    gap: 25px;
   }
 `;
 

@@ -152,6 +152,10 @@ const Backdrop = styled.div`
   inset: 0;
   z-index: 1;
   animation: ${fadeIn} 400ms ease;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    display: none;
+  }
 `;
 
 export default App;
