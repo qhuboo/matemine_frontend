@@ -2,6 +2,7 @@ import SubMenuWrapper from "./SubMenuWrapper";
 import platforms from "../../../platform_data";
 import styled, { keyframes, css } from "styled-components";
 import { nintendoFavorites } from "../../../data";
+import { QUERIES } from "../../../constants.js";
 
 export default function NintendoSubMenu({ $isActive }) {
   return (
@@ -31,14 +32,17 @@ export default function NintendoSubMenu({ $isActive }) {
             {nintendoFavorites.slice(0, 3).map((game) => {
               return (
                 <FeaturedGameCard key={game.title}>
-                  <FeaturedGameWrapper>
-                    <FeaturedGameImageWrapper>
+                  <FeaturedGameImageWrapper>
+                    <GameImageWrapper>
                       <FeaturedGameImage
                         src={game.sample_cover.image}
                         alt="hello"
                       />
-                    </FeaturedGameImageWrapper>
-                  </FeaturedGameWrapper>
+                    </GameImageWrapper>
+                  </FeaturedGameImageWrapper>
+                  <FeaturedGameTitleWrapper>
+                    {game.title}
+                  </FeaturedGameTitleWrapper>
                 </FeaturedGameCard>
               );
             })}
@@ -55,7 +59,7 @@ from {
 `;
 
 const SubMenuContentWrapper = styled.div`
-  border: 3px solid red;
+  //   border: 3px solid red;
   display: flex;
   gap: 50px;
   height: 100%;
@@ -67,17 +71,21 @@ const SubMenuContentWrapper = styled.div`
       : css`
           transform: translateY(100%);
         `}
+
+  @media(${QUERIES.laptopAndSmaller}) {
+    gap: 0px;
+  }
 `;
 
 const LinksWrapper = styled.div`
-  border: 2px solid green;
+  //   border: 2px solid green;
   display: flex;
   gap: 30px;
   padding: 20px;
 `;
 
 const SubSectionWrapper = styled.div`
-  border: 3px solid red;
+  //   border: 3px solid red;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -98,10 +106,14 @@ const SubSectionTitle = styled.div`
   font-weight: 600;
   font-size: 2rem;
   text-transform: uppercase;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    font-size: 1.5rem;
+  }
 `;
 
 const SubSectionItemsWrapper = styled.div`
-  border: 2px solid green;
+  //   border: 2px solid green;
 `;
 
 const SubSectionItem = styled.div`
@@ -109,10 +121,14 @@ const SubSectionItem = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 1.5rem;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    font-size: 1.3rem;
+  }
 `;
 
 const FeaturedWrapper = styled.div`
-  border: 2px solid springgreen;
+  //   border: 2px solid springgreen;
   padding: 20px;
   flex: 1;
   display: flex;
@@ -123,20 +139,18 @@ const FeaturedWrapper = styled.div`
 const FeaturedTitle = styled(SubSectionTitle)``;
 
 const FeaturedGames = styled.div`
-  border: 2px solid purple;
+  //   border: 2px solid purple;
   display: flex;
   justify-content: space-between;
   gap: 15px;
 `;
 
 const FeaturedGameCard = styled.div`
-  border: 2px solid red;
+  //   border: 2px solid red;
   height: 500px;
-`;
-
-const FeaturedGameWrapper = styled.div`
-  border: 2px solid springgreen;
-  height: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;
 
 const FeaturedGameImageWrapper = styled.div`
@@ -144,8 +158,34 @@ const FeaturedGameImageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: black;
+  height: 50%;
+  min-width: 0;
+  flex: 1;
+`;
+
+const GameImageWrapper = styled.div`
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const FeaturedGameImage = styled.img`
   object-fit: contain;
+  width: 100%;
+  height: 100%;
+`;
+
+const FeaturedGameTitleWrapper = styled.div`
+  //   border: 3px solid green;
+  flex: 1;
+  text-align: center;
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    font-size: 1.3rem;
+  }
 `;
