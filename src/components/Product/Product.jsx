@@ -73,10 +73,11 @@ function Product() {
 }
 
 const Wrapper = styled.div`
-  //   border: 2px solid springgreen;
+  // border: 2px solid springgreen;
   padding: 30px 15px 0;
   display: flex;
   flex-direction: column;
+  heigth: 100%;
 `;
 
 const GameImages = styled.div`

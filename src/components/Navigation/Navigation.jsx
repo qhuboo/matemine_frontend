@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
@@ -122,7 +121,11 @@ function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
         {isMobileMenuOpen && <MobileMenu handleDismiss={setIsMobileMenuOpen} />}
       </NavigationBar>
       <SubMenuWrapper>
-        <NintendoSubMenu $isActive={activeMenu === "nintendo"} />
+        <NintendoSubMenu
+          $isActive={activeMenu === "nintendo"}
+          setIsSubMenuOpen={setIsSubMenuOpen}
+          setActiveMenu={setActiveMenu}
+        />
         <SegaSubMenu $isActive={activeMenu === "sega"} />
         <PlayStationSubMenu $isActive={activeMenu === "playstation"} />
         <XboxSubMenu $isActive={activeMenu === "xbox"} />

@@ -16,7 +16,7 @@ function App() {
   const [activeMenu, setActiveMenu] = useState("");
 
   return (
-    <>
+    <Wrapper>
       <ScrollToTop />
       <Main>
         <Navigation
@@ -43,15 +43,16 @@ function App() {
         </ContentWrapper>
       </Main>
       <GlobalStyles />
-    </>
+    </Wrapper>
   );
 }
 
+const Wrapper = styled.div``;
+
 const Main = styled.div`
   // border: 2px solid red;
-  min-height: 100dvh;
+  height: 100dvh;
   --navigation-bar-height: 100px;
-  overflow: hidden;
   isolation: isolate;
 
   @media (${QUERIES.tabletAndSmaller}) {
@@ -60,6 +61,7 @@ const Main = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  // border: 3px dotted red;
   margin-top: var(--navigation-bar-height);
   font-family: "Rajdhani";
   --content-padding: 25px;
@@ -67,6 +69,7 @@ const ContentWrapper = styled.div`
   overflow: hidden;
   position: relative;
   z-index: -1;
+  min-height: 100%;
 
   @media (${QUERIES.laptopAndSmaller}) {
     --content-padding: 50px;

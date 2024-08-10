@@ -3,8 +3,13 @@ import platforms from "../../../platform_data";
 import styled, { keyframes, css } from "styled-components";
 import { nintendoFavorites } from "../../../data";
 import { QUERIES } from "../../../constants.js";
+import { Link } from "react-router-dom";
 
-export default function NintendoSubMenu({ $isActive }) {
+export default function NintendoSubMenu({
+  $isActive,
+  setIsSubMenuOpen,
+  setActiveMenu,
+}) {
   return (
     <SubMenuWrapper $isActive={$isActive}>
       <SubMenuContentWrapper $isActive={$isActive}>
@@ -21,7 +26,17 @@ export default function NintendoSubMenu({ $isActive }) {
             <SubSectionTitle>Top Picks</SubSectionTitle>
             <SubSectionItemsWrapper>
               {nintendoFavorites.map((game) => (
-                <SubSectionItem key={game.title}>{game.title}</SubSectionItem>
+                <SubSectionItem key={game.title}>
+                  <GameLink
+                    onClick={() => {
+                      setActiveMenu("");
+                      setIsSubMenuOpen(false);
+                    }}
+                    to={`product/${game.game_id}`}
+                  >
+                    {game.title}
+                  </GameLink>
+                </SubSectionItem>
               ))}
             </SubSectionItemsWrapper>
           </SubSectionWrapper>
@@ -33,7 +48,13 @@ export default function NintendoSubMenu({ $isActive }) {
               return (
                 <FeaturedGameCard key={game.title}>
                   <FeaturedGameImageWrapper>
-                    <GameImageWrapper>
+                    <GameImageWrapper
+                      onClick={() => {
+                        setActiveMenu("");
+                        setIsSubMenuOpen(false);
+                      }}
+                      to={`product/${game.game_id}`}
+                    >
                       <FeaturedGameImage
                         src={game.sample_cover.image}
                         alt="hello"
@@ -41,7 +62,15 @@ export default function NintendoSubMenu({ $isActive }) {
                     </GameImageWrapper>
                   </FeaturedGameImageWrapper>
                   <FeaturedGameTitleWrapper>
-                    {game.title}
+                    <GameLink
+                      onClick={() => {
+                        setActiveMenu("");
+                        setIsSubMenuOpen(false);
+                      }}
+                      to={`product/${game.game_id}`}
+                    >
+                      {game.title}
+                    </GameLink>
                   </FeaturedGameTitleWrapper>
                 </FeaturedGameCard>
               );
@@ -52,6 +81,7 @@ export default function NintendoSubMenu({ $isActive }) {
     </SubMenuWrapper>
   );
 }
+
 const slideIn = keyframes`
 from {
     transform: translateY(100%);
@@ -127,6 +157,11 @@ const SubSectionItem = styled.div`
   }
 `;
 
+const GameLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
+
 const FeaturedWrapper = styled.div`
   //   border: 2px solid springgreen;
   padding: 20px;
@@ -139,21 +174,24 @@ const FeaturedWrapper = styled.div`
 const FeaturedTitle = styled(SubSectionTitle)``;
 
 const FeaturedGames = styled.div`
-  //   border: 2px solid purple;
+  // border: 2px solid purple;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 15px;
 `;
 
 const FeaturedGameCard = styled.div`
-  //   border: 2px solid red;
+  // border: 2px solid red;
   height: 500px;
   display: flex;
   flex-direction: column;
+  justify-content: start;
   gap: 30px;
 `;
 
 const FeaturedGameImageWrapper = styled.div`
+  // border: 3px solid green;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +201,7 @@ const FeaturedGameImageWrapper = styled.div`
   flex: 1;
 `;
 
-const GameImageWrapper = styled.div`
+const GameImageWrapper = styled(Link)`
   flex: 1;
   min-width: 0;
   width: 100%;
@@ -177,7 +215,7 @@ const FeaturedGameImage = styled.img`
 `;
 
 const FeaturedGameTitleWrapper = styled.div`
-  //   border: 3px solid green;
+  // border: 3px solid green;
   flex: 1;
   text-align: center;
   font-family: "Rajdhani";
