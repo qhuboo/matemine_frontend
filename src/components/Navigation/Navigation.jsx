@@ -120,27 +120,28 @@ function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
         </Side>
         {isMobileMenuOpen && <MobileMenu handleDismiss={setIsMobileMenuOpen} />}
       </NavigationBar>
-      <SubMenuWrapper>
-        <NintendoSubMenu
-          $isActive={activeMenu === "nintendo"}
-          setIsSubMenuOpen={setIsSubMenuOpen}
-          setActiveMenu={setActiveMenu}
-        />
-        <SegaSubMenu $isActive={activeMenu === "sega"} />
-        <PlayStationSubMenu $isActive={activeMenu === "playstation"} />
-        <XboxSubMenu $isActive={activeMenu === "xbox"} />
-      </SubMenuWrapper>
+      <NintendoSubMenu
+        $isActive={activeMenu === "nintendo"}
+        setIsSubMenuOpen={setIsSubMenuOpen}
+        setActiveMenu={setActiveMenu}
+      />
+      <SegaSubMenu $isActive={activeMenu === "sega"} />
+      <PlayStationSubMenu $isActive={activeMenu === "playstation"} />
+      <XboxSubMenu $isActive={activeMenu === "xbox"} />
     </Wrapper>
   );
 }
 
-const Wrapper = styled.div``;
-
-const NavigationBar = styled.nav`
-  border-bottom: 1px solid black;
+const Wrapper = styled.div`
+  // border: 3px solid red;
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+`;
+
+const NavigationBar = styled.nav`
+  border-bottom: 1px solid black;
   --padding: 40px;
   width: 100%;
   height: var(--navigation-bar-height);
