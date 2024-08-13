@@ -1,9 +1,9 @@
 import styled, { keyframes } from "styled-components";
 import { QUERIES } from "../../constants";
 
-function Drawer({ children, handleDismiss, margin }) {
+function Drawer({ children, handleDismiss }) {
   return (
-    <Wrapper $margin={margin}>
+    <Wrapper>
       <Backdrop onClick={handleDismiss} />
       <Menu>{children}</Menu>
     </Wrapper>
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   inset: 0;
   padding: 16px;
   color: black;
-  margin-top: ${(props) => props.$margin};
+  margin-top: 50px;
 
   @media (min-width: 1101px) {
     display: none;
