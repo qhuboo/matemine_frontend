@@ -13,7 +13,14 @@ function MobileMenu({ handleDismiss }) {
               Item 1 <ChevronDownIcon />
             </Trigger>
           </Header>
-          <Content>This is the content</Content>
+          <Content>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+            natus dolor ducimus. Quos veritatis, consectetur sit vero ratione ut
+            eos ipsum eveniet? Temporibus libero, aliquam nostrum, laboriosam
+            dolore a itaque odit ad perspiciatis blanditiis corrupti iure rem
+            repudiandae saepe! Voluptas quia nam mollitia sit praesentium
+            provident eum officiis adipisci quas!
+          </Content>
         </Item>
         <Item value="item-2">
           <Header asChild>
@@ -21,7 +28,22 @@ function MobileMenu({ handleDismiss }) {
               Item 2 <ChevronDownIcon />
             </Trigger>
           </Header>
-          <Content>This is the content</Content>
+          <Content>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi
+            debitis optio quibusdam aut harum in adipisci deserunt fuga
+            voluptate necessitatibus.
+          </Content>
+        </Item>
+        <Item value="item-3">
+          <Header asChild>
+            <Trigger>
+              Item 3 <ChevronDownIcon />
+            </Trigger>
+          </Header>
+          <Content>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. In,
+            distinctio. Excepturi ad tempore dolore laudantium!
+          </Content>
         </Item>
       </Root>
     </MobileMenuDrawer>
@@ -69,7 +91,7 @@ const Content = styled(Accordion.Content)`
   }
 
   &[data-state="closed"] {
-    animation: ${slideUp} 100ms cubic-bezier(0.87, 0, 0.13, 1);
+    animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
   }
 `;
 
