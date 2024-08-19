@@ -14,12 +14,14 @@ function MobileMenu({ handleDismiss }) {
             </Trigger>
           </Header>
           <Content>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-            natus dolor ducimus. Quos veritatis, consectetur sit vero ratione ut
-            eos ipsum eveniet? Temporibus libero, aliquam nostrum, laboriosam
-            dolore a itaque odit ad perspiciatis blanditiis corrupti iure rem
-            repudiandae saepe! Voluptas quia nam mollitia sit praesentium
-            provident eum officiis adipisci quas!
+            <div>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
+              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
+              laboriosam dolore a itaque odit ad perspiciatis blanditiis
+              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
+              sit praesentium provident eum officiis adipisci quas!
+            </div>
           </Content>
         </Item>
         <Item value="item-2">
@@ -29,9 +31,14 @@ function MobileMenu({ handleDismiss }) {
             </Trigger>
           </Header>
           <Content>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi
-            debitis optio quibusdam aut harum in adipisci deserunt fuga
-            voluptate necessitatibus.
+            <div>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
+              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
+              laboriosam dolore a itaque odit ad perspiciatis blanditiis
+              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
+              sit praesentium provident eum officiis adipisci quas!
+            </div>
           </Content>
         </Item>
         <Item value="item-3">
@@ -41,8 +48,14 @@ function MobileMenu({ handleDismiss }) {
             </Trigger>
           </Header>
           <Content>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In,
-            distinctio. Excepturi ad tempore dolore laudantium!
+            <div>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
+              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
+              laboriosam dolore a itaque odit ad perspiciatis blanditiis
+              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
+              sit praesentium provident eum officiis adipisci quas!
+            </div>
           </Content>
         </Item>
       </Root>
