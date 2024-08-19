@@ -58,23 +58,19 @@ function MobileMenu({ handleDismiss }) {
 
 const slideDown = keyframes`
 from{
-  // height: 0;
-  max-height: 0;
+  height: 0;
 }
   to {
-  // height: var(--radix-accordion-content-height);
-  max-height: var(--radix-accordion-content-height);
+  height: var(--radix-accordion-content-height);
   }
 `;
 
 const slideUp = keyframes`
 from {
-  // height: var(--radix-accordion-content-height)
-  max-height: var(--radix-accordion-content-height);
+  height: var(--radix-accordion-content-height)
 }
   to {
-  // height: 0;
-  max-height: 0;
+  height: 0;
   }
 `;
 
