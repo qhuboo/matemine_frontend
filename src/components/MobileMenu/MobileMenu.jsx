@@ -15,12 +15,9 @@ function MobileMenu({ handleDismiss }) {
           </Header>
           <Content>
             <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
-              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
-              laboriosam dolore a itaque odit ad perspiciatis blanditiis
-              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
-              sit praesentium provident eum officiis adipisci quas!
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum
+              voluptates illum debitis sunt aliquam, similique ex quasi, laborum
+              quo beatae vel voluptatem a! Cum, tenetur!
             </div>
           </Content>
         </Item>
@@ -32,12 +29,8 @@ function MobileMenu({ handleDismiss }) {
           </Header>
           <Content>
             <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
-              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
-              laboriosam dolore a itaque odit ad perspiciatis blanditiis
-              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
-              sit praesentium provident eum officiis adipisci quas!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
+              doloremque libero odit iste distinctio laudantium.
             </div>
           </Content>
         </Item>
@@ -65,18 +58,23 @@ function MobileMenu({ handleDismiss }) {
 
 const slideDown = keyframes`
 from{
-  height: 0;
+  // height: 0;
+  max-height: 0;
 }
   to {
-  height: 350px}
+  // height: var(--radix-accordion-content-height);
+  max-height: var(--radix-accordion-content-height);
+  }
 `;
 
 const slideUp = keyframes`
 from {
-  height: 350px;
+  // height: var(--radix-accordion-content-height)
+  max-height: var(--radix-accordion-content-height);
 }
   to {
-  height: 0;
+  // height: 0;
+  max-height: 0;
   }
 `;
 
@@ -91,6 +89,7 @@ const Root = styled(Accordion.Root)`
 
 const Item = styled(Accordion.Item)`
   // border: 3px solid green;
+  overflow: hidden;
 `;
 
 const Header = styled(Accordion.Header)``;
@@ -98,6 +97,7 @@ const Header = styled(Accordion.Header)``;
 const Content = styled(Accordion.Content)`
   padding-left: 10px;
   color: darkgray;
+  overflow: hidden;
 
   &[data-state="open"] {
     animation: ${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1);
