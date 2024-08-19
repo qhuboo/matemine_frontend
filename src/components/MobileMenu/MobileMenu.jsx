@@ -65,18 +65,18 @@ function MobileMenu({ handleDismiss }) {
 
 const slideDown = keyframes`
 from{
-  max-height: 0;
+  height: 0;
 }
   to {
-  max-height: 1000px}
+  height: 350px}
 `;
 
 const slideUp = keyframes`
 from {
-  max-height: 1000px;
+  height: 350px;
 }
   to {
-  max-height: 0;
+  height: 0;
   }
 `;
 
