@@ -106,6 +106,7 @@ const Content = styled(Accordion.Content)`
 
 const Trigger = styled(Accordion.Trigger)`
   // border: 3px solid yellow;
+  color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
