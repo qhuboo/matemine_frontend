@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import Drawer from "../Drawer";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import platforms from "../../platform_data";
 
 function MobileMenu({ handleDismiss }) {
   return (
@@ -16,11 +17,11 @@ function MobileMenu({ handleDismiss }) {
               </Trigger>
             </Header>
             <Content>
-              <div>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum
-                voluptates illum debitis sunt aliquam, similique ex quasi,
-                laborum quo beatae vel voluptatem a! Cum, tenetur!
-              </div>
+              <ContentWrapper>
+                {platforms.nintendo.map((console) => {
+                  return <div key={console}>{console}</div>;
+                })}
+              </ContentWrapper>
             </Content>
           </Item>
           <Item value="item-2">
@@ -30,10 +31,11 @@ function MobileMenu({ handleDismiss }) {
               </Trigger>
             </Header>
             <Content>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-                doloremque libero odit iste distinctio laudantium.
-              </div>
+              <ContentWrapper>
+                {platforms.sega.map((console) => {
+                  return <div key={console}>{console}</div>;
+                })}
+              </ContentWrapper>
             </Content>
           </Item>
           <Item value="item-3">
@@ -43,15 +45,11 @@ function MobileMenu({ handleDismiss }) {
               </Trigger>
             </Header>
             <Content>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Similique natus dolor ducimus. Quos veritatis, consectetur sit
-                vero ratione ut eos ipsum eveniet? Temporibus libero, aliquam
-                nostrum, laboriosam dolore a itaque odit ad perspiciatis
-                blanditiis corrupti iure rem repudiandae saepe! Voluptas quia
-                nam mollitia sit praesentium provident eum officiis adipisci
-                quas!
-              </div>
+              <ContentWrapper>
+                {platforms.playstation.map((console) => {
+                  return <div key={console}>{console}</div>;
+                })}
+              </ContentWrapper>
             </Content>
           </Item>
           <Item value="item-4">
@@ -61,15 +59,11 @@ function MobileMenu({ handleDismiss }) {
               </Trigger>
             </Header>
             <Content>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Similique natus dolor ducimus. Quos veritatis, consectetur sit
-                vero ratione ut eos ipsum eveniet? Temporibus libero, aliquam
-                nostrum, laboriosam dolore a itaque odit ad perspiciatis
-                blanditiis corrupti iure rem repudiandae saepe! Voluptas quia
-                nam mollitia sit praesentium provident eum officiis adipisci
-                quas!
-              </div>
+              <ContentWrapper>
+                {platforms.xbox.map((console) => {
+                  return <div key={console}>{console}</div>;
+                })}
+              </ContentWrapper>
             </Content>
           </Item>
         </Root>
@@ -124,7 +118,6 @@ const Item = styled(Accordion.Item)`
 const Header = styled(Accordion.Header)``;
 
 const Content = styled(Accordion.Content)`
-  color: darkgray;
   overflow: hidden;
 
   &[data-state="open"] {
@@ -134,6 +127,14 @@ const Content = styled(Accordion.Content)`
   &[data-state="closed"] {
     animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
   }
+`;
+
+const ContentWrapper = styled.div`
+  color: black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Trigger = styled(Accordion.Trigger)`
