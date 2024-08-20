@@ -6,11 +6,12 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 function MobileMenu({ handleDismiss }) {
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
+      <Title>All Platforms</Title>
       <Root type="single" collapsible>
         <Item value="item-1">
           <Header asChild>
             <Trigger>
-              Item 1 <ChevronDownIcon />
+              <Title>Nintendo</Title> <ChevronDownIcon />
             </Trigger>
           </Header>
           <Content>
@@ -24,7 +25,7 @@ function MobileMenu({ handleDismiss }) {
         <Item value="item-2">
           <Header asChild>
             <Trigger>
-              Item 2 <ChevronDownIcon />
+              <Title>Sega</Title> <ChevronDownIcon />
             </Trigger>
           </Header>
           <Content>
@@ -37,7 +38,24 @@ function MobileMenu({ handleDismiss }) {
         <Item value="item-3">
           <Header asChild>
             <Trigger>
-              Item 3 <ChevronDownIcon />
+              <Title>PlayStation</Title> <ChevronDownIcon />
+            </Trigger>
+          </Header>
+          <Content>
+            <div>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
+              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
+              laboriosam dolore a itaque odit ad perspiciatis blanditiis
+              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
+              sit praesentium provident eum officiis adipisci quas!
+            </div>
+          </Content>
+        </Item>
+        <Item value="item-4">
+          <Header asChild>
+            <Trigger>
+              <Title>Xbox</Title> <ChevronDownIcon />
             </Trigger>
           </Header>
           <Content>
@@ -72,6 +90,12 @@ from {
   to {
   height: 0;
   }
+`;
+
+const Title = styled.div`
+  font-family: "Rajdhani";
+  font-weight: 600;
+  font-size: 3rem;
 `;
 
 const MobileMenuDrawer = styled(Drawer)`
