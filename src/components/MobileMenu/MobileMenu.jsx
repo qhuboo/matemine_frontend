@@ -13,7 +13,7 @@ function MobileMenu({ handleDismiss }) {
           <Item value="item-1">
             <Header asChild>
               <Trigger>
-                <Title>Nintendo</Title> <ChevronDownIcon />
+                <Title>Nintendo</Title> <StyledChevronDownIcon />
               </Trigger>
             </Header>
             <Content>
@@ -27,7 +27,7 @@ function MobileMenu({ handleDismiss }) {
           <Item value="item-2">
             <Header asChild>
               <Trigger>
-                <Title>Sega</Title> <ChevronDownIcon />
+                <Title>Sega</Title> <StyledChevronDownIcon />
               </Trigger>
             </Header>
             <Content>
@@ -41,7 +41,7 @@ function MobileMenu({ handleDismiss }) {
           <Item value="item-3">
             <Header asChild>
               <Trigger>
-                <Title>PlayStation</Title> <ChevronDownIcon />
+                <Title>PlayStation</Title> <StyledChevronDownIcon />
               </Trigger>
             </Header>
             <Content>
@@ -55,7 +55,7 @@ function MobileMenu({ handleDismiss }) {
           <Item value="item-4">
             <Header asChild>
               <Trigger>
-                <Title>Xbox</Title> <ChevronDownIcon />
+                <Title>Xbox</Title> <StyledChevronDownIcon />
               </Trigger>
             </Header>
             <Content>
@@ -99,6 +99,12 @@ const Title = styled.div`
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 3rem;
+`;
+
+const StyledChevronDownIcon = styled(ChevronDownIcon)`
+  width: 32px;
+  height: 32px;
+  transition: transform 300ms ease;
 `;
 
 const MobileMenuDrawer = styled(Drawer)`
@@ -147,6 +153,10 @@ const Trigger = styled(Accordion.Trigger)`
   background-color: transparent;
   border: none;
   padding: 0;
+
+  &[data-state="open"] > ${StyledChevronDownIcon} {
+    transform: rotate(180deg);
+  }
 `;
 
 export default MobileMenu;
