@@ -6,70 +6,74 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 function MobileMenu({ handleDismiss }) {
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
-      <Title>All Platforms</Title>
-      <Root type="single" collapsible>
-        <Item value="item-1">
-          <Header asChild>
-            <Trigger>
-              <Title>Nintendo</Title> <ChevronDownIcon />
-            </Trigger>
-          </Header>
-          <Content>
-            <div>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum
-              voluptates illum debitis sunt aliquam, similique ex quasi, laborum
-              quo beatae vel voluptatem a! Cum, tenetur!
-            </div>
-          </Content>
-        </Item>
-        <Item value="item-2">
-          <Header asChild>
-            <Trigger>
-              <Title>Sega</Title> <ChevronDownIcon />
-            </Trigger>
-          </Header>
-          <Content>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-              doloremque libero odit iste distinctio laudantium.
-            </div>
-          </Content>
-        </Item>
-        <Item value="item-3">
-          <Header asChild>
-            <Trigger>
-              <Title>PlayStation</Title> <ChevronDownIcon />
-            </Trigger>
-          </Header>
-          <Content>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
-              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
-              laboriosam dolore a itaque odit ad perspiciatis blanditiis
-              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
-              sit praesentium provident eum officiis adipisci quas!
-            </div>
-          </Content>
-        </Item>
-        <Item value="item-4">
-          <Header asChild>
-            <Trigger>
-              <Title>Xbox</Title> <ChevronDownIcon />
-            </Trigger>
-          </Header>
-          <Content>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              natus dolor ducimus. Quos veritatis, consectetur sit vero ratione
-              ut eos ipsum eveniet? Temporibus libero, aliquam nostrum,
-              laboriosam dolore a itaque odit ad perspiciatis blanditiis
-              corrupti iure rem repudiandae saepe! Voluptas quia nam mollitia
-              sit praesentium provident eum officiis adipisci quas!
-            </div>
-          </Content>
-        </Item>
-      </Root>
+      <Wrapper>
+        <Title>All Platforms</Title>
+        <Root type="single" collapsible>
+          <Item value="item-1">
+            <Header asChild>
+              <Trigger>
+                <Title>Nintendo</Title> <ChevronDownIcon />
+              </Trigger>
+            </Header>
+            <Content>
+              <div>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum
+                voluptates illum debitis sunt aliquam, similique ex quasi,
+                laborum quo beatae vel voluptatem a! Cum, tenetur!
+              </div>
+            </Content>
+          </Item>
+          <Item value="item-2">
+            <Header asChild>
+              <Trigger>
+                <Title>Sega</Title> <ChevronDownIcon />
+              </Trigger>
+            </Header>
+            <Content>
+              <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
+                doloremque libero odit iste distinctio laudantium.
+              </div>
+            </Content>
+          </Item>
+          <Item value="item-3">
+            <Header asChild>
+              <Trigger>
+                <Title>PlayStation</Title> <ChevronDownIcon />
+              </Trigger>
+            </Header>
+            <Content>
+              <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Similique natus dolor ducimus. Quos veritatis, consectetur sit
+                vero ratione ut eos ipsum eveniet? Temporibus libero, aliquam
+                nostrum, laboriosam dolore a itaque odit ad perspiciatis
+                blanditiis corrupti iure rem repudiandae saepe! Voluptas quia
+                nam mollitia sit praesentium provident eum officiis adipisci
+                quas!
+              </div>
+            </Content>
+          </Item>
+          <Item value="item-4">
+            <Header asChild>
+              <Trigger>
+                <Title>Xbox</Title> <ChevronDownIcon />
+              </Trigger>
+            </Header>
+            <Content>
+              <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Similique natus dolor ducimus. Quos veritatis, consectetur sit
+                vero ratione ut eos ipsum eveniet? Temporibus libero, aliquam
+                nostrum, laboriosam dolore a itaque odit ad perspiciatis
+                blanditiis corrupti iure rem repudiandae saepe! Voluptas quia
+                nam mollitia sit praesentium provident eum officiis adipisci
+                quas!
+              </div>
+            </Content>
+          </Item>
+        </Root>
+      </Wrapper>
     </MobileMenuDrawer>
   );
 }
@@ -90,6 +94,11 @@ from {
   to {
   height: 0;
   }
+`;
+
+const Wrapper = styled.div`
+  // border: 3px solid red;
+  padding: 10px;
 `;
 
 const Title = styled.div`
@@ -115,7 +124,6 @@ const Item = styled(Accordion.Item)`
 const Header = styled(Accordion.Header)``;
 
 const Content = styled(Accordion.Content)`
-  padding-left: 10px;
   color: darkgray;
   overflow: hidden;
 
@@ -137,6 +145,7 @@ const Trigger = styled(Accordion.Trigger)`
   width: 100%;
   background-color: transparent;
   border: none;
+  padding: 0;
 `;
 
 export default MobileMenu;
