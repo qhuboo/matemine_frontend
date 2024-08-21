@@ -50,6 +50,7 @@ const Menu = styled.div`
   bottom: 0;
   width: clamp(400px, 50%, 550px);
   background-color: var(--background-color);
+  overflow-y: auto;
 
   animation: ${slideIn} 800ms;
 

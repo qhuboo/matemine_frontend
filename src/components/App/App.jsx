@@ -10,8 +10,10 @@ import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
 import { useState } from "react";
 import { keyframes } from "styled-components";
+import useToggle from "../../hooks/use-toggle";
 
 function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useToggle(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
 
@@ -20,11 +22,13 @@ function App() {
       <ScrollToTop />
       <Main>
         <Navigation
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
           setIsSubMenuOpen={setIsSubMenuOpen}
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
         />
-        <ContentWrapper>
+        <ContentWrapper $isMobileMenuOpen={isMobileMenuOpen}>
           {isSubMenuOpen && (
             <Backdrop
               onClick={() => {
@@ -155,6 +159,7 @@ const Backdrop = styled.div`
   inset: 0;
   z-index: 1;
   animation: ${fadeIn} 400ms ease;
+  overflow-y: hidden;
 
   @media (${QUERIES.tabletAndSmaller}) {
     display: none;

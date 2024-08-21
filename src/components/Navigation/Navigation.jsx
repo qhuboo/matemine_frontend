@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
 
-import useToggle from "../../hooks/use-toggle";
 import { QUERIES } from "../../constants";
 import MobileMenu from "../MobileMenu/MobileMenu";
 
@@ -11,9 +10,13 @@ import SegaSubMenu from "./SubMenus/SegaSubMenu";
 import PlayStationSubMenu from "./SubMenus/PlayStationSubMenu";
 import XboxSubMenu from "./SubMenus/XboxSubMenu";
 
-function Navigation({ setIsSubMenuOpen, activeMenu, setActiveMenu }) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useToggle(false);
-
+function Navigation({
+  isMobileMenuOpen,
+  setIsMobileMenuOpen,
+  setIsSubMenuOpen,
+  activeMenu,
+  setActiveMenu,
+}) {
   return (
     <Wrapper>
       <NavigationBar>
