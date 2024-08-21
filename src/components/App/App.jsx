@@ -51,7 +51,9 @@ function App() {
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  // border: 3px solid purple;
+`;
 
 const Main = styled.div`
   // border: 2px solid red;

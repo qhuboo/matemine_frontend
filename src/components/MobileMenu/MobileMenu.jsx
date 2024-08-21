@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
 import Drawer from "../Drawer";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
@@ -8,12 +9,23 @@ function MobileMenu({ handleDismiss }) {
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
       <Wrapper>
-        <Title>All Platforms</Title>
+        <Title>
+          <NavLink
+            to={{
+              pathname: "/marketplace",
+              search: "?platforms=nintendo,sega,playstation,xbox",
+            }}
+            onClick={() => handleDismiss()}
+          >
+            All Platforms
+          </NavLink>
+        </Title>
         <Root type="single" collapsible>
           <Item value="item-1">
             <Header asChild>
               <Trigger>
-                <Title>Nintendo</Title> <StyledChevronDownIcon />
+                <Title>Nintendo</Title>
+                <StyledChevronDownIcon />
               </Trigger>
             </Header>
             <Content>
@@ -99,6 +111,11 @@ const Title = styled.div`
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 3rem;
+`;
+
+const NavLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
 `;
 
 const StyledChevronDownIcon = styled(ChevronDownIcon)`

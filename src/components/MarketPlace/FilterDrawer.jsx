@@ -41,6 +41,7 @@ const Wrapper = styled.div`
 `;
 
 const Backdrop = styled.div`
+  // border: 3px solid red;
   position: absolute;
   inset: 0;
   background: hsla(176, 100%, 0%, 0.6);
