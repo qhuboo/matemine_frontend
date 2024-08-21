@@ -18,7 +18,7 @@ function App() {
   const [activeMenu, setActiveMenu] = useState("");
 
   return (
-    <Wrapper>
+    <Wrapper $isMobileMenuOpen={isMobileMenuOpen}>
       <ScrollToTop />
       <Main>
         <Navigation
@@ -28,7 +28,7 @@ function App() {
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
         />
-        <ContentWrapper $isMobileMenuOpen={isMobileMenuOpen}>
+        <ContentWrapper>
           {isSubMenuOpen && (
             <Backdrop
               onClick={() => {
@@ -53,6 +53,7 @@ function App() {
 
 const Wrapper = styled.div`
   // border: 3px solid purple;
+  position: ${(props) => (props.$isMobileMenuOpen ? "fixed" : "static")};
 `;
 
 const Main = styled.div`
