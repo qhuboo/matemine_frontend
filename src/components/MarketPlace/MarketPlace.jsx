@@ -81,10 +81,11 @@ function MarketPlace() {
     }
     if (newSelectedPlatforms.length > 0) {
       searchParams.set("platforms", newSelectedPlatforms.join(","));
-      setSearchParams(searchParams);
     } else {
       searchParams.delete("platforms");
     }
+
+    setSearchParams(searchParams);
   }, [selectedPlatforms]);
 
   // Update the console state variables when the URL search params change
@@ -148,10 +149,10 @@ function MarketPlace() {
     if (allConsoles.length > 0) {
       const base64Consoles = btoa(allConsoles.join(","));
       searchParams.set("consoles", base64Consoles);
-      setSearchParams(searchParams);
     } else {
       searchParams.delete("consoles");
     }
+    setSearchParams(searchParams);
   }, [
     selectedNintendoConsoles,
     selectedSegaConsoles,
