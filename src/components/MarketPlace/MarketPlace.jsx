@@ -69,7 +69,7 @@ function MarketPlace() {
       });
       setSelectedPlatforms(nextSelectedPlatforms);
     }
-  }, [searchParams]);
+  }, []);
 
   // Update the URL search params when the selectedPlatforms state variable changes
   useEffect(() => {
@@ -94,40 +94,45 @@ function MarketPlace() {
     if (base64Consoles) {
       // Decode the base64 version of the console string and turn it into an array
       const consoles = atob(base64Consoles).split(",");
+
+      const nextSelectedNintendoConsoles = [];
+      const nextSelectedSegaConsoles = [];
+      const nextSelectedPlayStationConsoles = [];
+      const nextSelectedXboxConsoles = [];
+
       // Go through the array an populate each platform console variable with the selected consoles
       consoles.forEach((currentConsole) => {
         if (platforms.nintendo.includes(currentConsole)) {
           if (!selectedNintendoConsoles.includes(currentConsole)) {
-            setSelectedNintendoConsoles([
-              ...selectedNintendoConsoles,
-              currentConsole,
-            ]);
+            nextSelectedNintendoConsoles.push(currentConsole);
           }
         }
 
         if (platforms.sega.includes(currentConsole)) {
           if (!selectedSegaConsoles.includes(currentConsole)) {
-            setSelectedSegaConsoles([...selectedSegaConsoles, currentConsole]);
+            nextSelectedSegaConsoles.push(currentConsole);
           }
         }
 
         if (platforms.playstation.includes(currentConsole)) {
           if (!selectedPlayStationConsoles.includes(currentConsole)) {
-            setSelectedPlayStationConsoles([
-              ...selectedPlayStationConsoles,
-              currentConsole,
-            ]);
+            nextSelectedPlayStationConsoles.push(currentConsole);
           }
         }
 
         if (platforms.xbox.includes(currentConsole)) {
           if (!selectedXboxConsoles.includes(currentConsole)) {
-            setSelectedXboxConsoles([...selectedXboxConsoles, currentConsole]);
+            nextSelectedXboxConsoles.push(currentConsole);
           }
         }
+
+        setSelectedNintendoConsoles(nextSelectedNintendoConsoles);
+        setSelectedSegaConsoles(nextSelectedSegaConsoles);
+        setSelectedPlayStationConsoles(nextSelectedPlayStationConsoles);
+        setSelectedXboxConsoles(nextSelectedXboxConsoles);
       });
     }
-  }, [searchParams, selectedPlatforms]);
+  }, []);
 
   // Update the URL search params when the various selected consoles state variables change or the selectedPlatforms state changes
   useEffect(() => {
@@ -148,6 +153,7 @@ function MarketPlace() {
 
     if (allConsoles.length > 0) {
       const base64Consoles = btoa(allConsoles.join(","));
+
       searchParams.set("consoles", base64Consoles);
     } else {
       searchParams.delete("consoles");
