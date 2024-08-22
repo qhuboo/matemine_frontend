@@ -8,6 +8,7 @@ import GameGrid from "./GameGrid";
 import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
+import platforms from "../../platform_data";
 
 const initialPlatforms = {
   nintendo: false,
@@ -42,21 +43,6 @@ function MarketPlace() {
 
   // Other state
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
-
-  // Combine all the consoles if the platform is selected
-  let allConsoles = [];
-  if (selectedPlatforms.nintendo) {
-    allConsoles = [...allConsoles, ...selectedNintendoConsoles];
-  }
-  if (selectedPlatforms.sega) {
-    allConsoles = [...allConsoles, ...selectedSegaConsoles];
-  }
-  if (selectedPlatforms.playstation) {
-    allConsoles = [...allConsoles, ...selectedPlayStationConsoles];
-  }
-  if (selectedPlatforms.xbox) {
-    allConsoles = [...allConsoles, ...selectedXboxConsoles];
-  }
 
   // Fetch the whole game data
   useEffect(() => {
@@ -93,9 +79,86 @@ function MarketPlace() {
         newSelectedPlatforms.push(key);
       }
     }
-
-    setSearchParams({ platforms: newSelectedPlatforms.join(",") });
+    if (newSelectedPlatforms.length > 0) {
+      searchParams.set("platforms", newSelectedPlatforms.join(","));
+      setSearchParams(searchParams);
+    } else {
+      searchParams.delete("platforms");
+    }
   }, [selectedPlatforms]);
+
+  // Update the console state variables when the URL search params change
+  useEffect(() => {
+    const base64Consoles = searchParams.get("consoles");
+    if (base64Consoles) {
+      // Decode the base64 version of the console string and turn it into an array
+      const consoles = atob(base64Consoles).split(",");
+      // Go through the array an populate each platform console variable with the selected consoles
+      consoles.forEach((currentConsole) => {
+        if (platforms.nintendo.includes(currentConsole)) {
+          if (!selectedNintendoConsoles.includes(currentConsole)) {
+            setSelectedNintendoConsoles([
+              ...selectedNintendoConsoles,
+              currentConsole,
+            ]);
+          }
+        }
+
+        if (platforms.sega.includes(currentConsole)) {
+          if (!selectedSegaConsoles.includes(currentConsole)) {
+            setSelectedSegaConsoles([...selectedSegaConsoles, currentConsole]);
+          }
+        }
+
+        if (platforms.playstation.includes(currentConsole)) {
+          if (!selectedPlayStationConsoles.includes(currentConsole)) {
+            setSelectedPlayStationConsoles([
+              ...selectedPlayStationConsoles,
+              currentConsole,
+            ]);
+          }
+        }
+
+        if (platforms.xbox.includes(currentConsole)) {
+          if (!selectedXboxConsoles.includes(currentConsole)) {
+            setSelectedXboxConsoles([...selectedXboxConsoles, currentConsole]);
+          }
+        }
+      });
+    }
+  }, [searchParams, selectedPlatforms]);
+
+  // Update the URL search params when the various selected consoles state variables change or the selectedPlatforms state changes
+  useEffect(() => {
+    // Combine all the consoles if the platform is selected
+    let allConsoles = [];
+    if (selectedPlatforms.nintendo) {
+      allConsoles = [...allConsoles, ...selectedNintendoConsoles];
+    }
+    if (selectedPlatforms.sega) {
+      allConsoles = [...allConsoles, ...selectedSegaConsoles];
+    }
+    if (selectedPlatforms.playstation) {
+      allConsoles = [...allConsoles, ...selectedPlayStationConsoles];
+    }
+    if (selectedPlatforms.xbox) {
+      allConsoles = [...allConsoles, ...selectedXboxConsoles];
+    }
+
+    if (allConsoles.length > 0) {
+      const base64Consoles = btoa(allConsoles.join(","));
+      searchParams.set("consoles", base64Consoles);
+      setSearchParams(searchParams);
+    } else {
+      searchParams.delete("consoles");
+    }
+  }, [
+    selectedNintendoConsoles,
+    selectedSegaConsoles,
+    selectedPlayStationConsoles,
+    selectedXboxConsoles,
+    selectedPlatforms,
+  ]);
 
   // Scroll to the top of the page when switching the page
   useEffect(() => {
