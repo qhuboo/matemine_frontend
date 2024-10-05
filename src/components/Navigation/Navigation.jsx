@@ -98,7 +98,9 @@ function Navigation({
               <Search />
             </NavLink>
             <NavLink>
-              <User />
+              <button onClick={() => setLoginOpen(true)}>
+                <User />
+              </button>
             </NavLink>
             <NavLink>
               <Heart />

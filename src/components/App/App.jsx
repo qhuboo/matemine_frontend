@@ -12,6 +12,7 @@ import { useState } from "react";
 import { keyframes } from "styled-components";
 import useToggle from "../../hooks/use-toggle";
 import { AnimatePresence, motion } from "framer-motion";
+import Login from "../Login/Login";
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useToggle(false);
@@ -41,6 +42,7 @@ function App() {
               }}
             />
           )}
+          <Login />
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route
