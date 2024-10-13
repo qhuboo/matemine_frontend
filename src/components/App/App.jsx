@@ -176,6 +176,7 @@ body {
   font-size: 1.25rem;
   --background-color: mintcream;
   background-color: var(--background-color);
+  scrollbar-gutter: stable both-edges;
 }
 
 img, picture, video, canvas, svg {

@@ -10,6 +10,8 @@ import SegaSubMenu from "./SubMenus/SegaSubMenu";
 import PlayStationSubMenu from "./SubMenus/PlayStationSubMenu";
 import XboxSubMenu from "./SubMenus/XboxSubMenu";
 
+import Sign from "../Sign/Sign";
+
 function Navigation({
   isMobileMenuOpen,
   setIsMobileMenuOpen,
@@ -97,9 +99,7 @@ function Navigation({
             <NavLink>
               <Search />
             </NavLink>
-            <NavLink>
-              <User />
-            </NavLink>
+            <Sign />
             <NavLink>
               <Heart />
             </NavLink>
