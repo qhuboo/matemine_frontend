@@ -5,6 +5,8 @@ import { User } from "react-feather";
 import { styled, keyframes } from "styled-components";
 import { forwardRef, useState } from "react";
 
+import SignIn from "./SignIn";
+
 export default function Sign() {
   const [activeTab, setActiveTab] = useState("signin");
 
@@ -45,7 +47,7 @@ export default function Sign() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * -1}%`, opacity: 0 }}
                   >
-                    This is where you signin
+                    <SignIn />
                   </TabsContent>
                 )}
                 {activeTab === "signup" && (
