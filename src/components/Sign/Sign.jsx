@@ -1,41 +1,70 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Tabs from "@radix-ui/react-tabs";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { User } from "react-feather";
 import { styled, keyframes } from "styled-components";
-import { forwardRef } from "react";
-import { div } from "framer-motion/client";
+import { forwardRef, useState } from "react";
 
 export default function Sign() {
+  const [activeTab, setActiveTab] = useState("signin");
+
   return (
-    <DialogRoot>
-      <Dialog.Trigger asChild>
-        <User />
-      </Dialog.Trigger>
-      <Dialog.Portal>
-        <DialogOverlay />
-        <DialogContent>
-          <Dialog.Title />
-          <Dialog.Description />
-          <TabsRoot defaultValue="signin">
-            <TabsList>
-              <TabsTrigger value="signin" asChild>
-                <ForwardedTabsTriggerWrapper>
-                  Sign In
-                </ForwardedTabsTriggerWrapper>
-              </TabsTrigger>
-              <TabsTrigger value="signup" asChild>
-                <ForwardedTabsTriggerWrapper>
-                  Sign Up
-                </ForwardedTabsTriggerWrapper>
-              </TabsTrigger>
-            </TabsList>
-            <Tabs.Content value="signin">This is where you signin</Tabs.Content>
-            <Tabs.Content value="signup">This is where you signup</Tabs.Content>
-          </TabsRoot>
-        </DialogContent>
-      </Dialog.Portal>
-    </DialogRoot>
+    <MotionConfig transition={{ duration: 0.45, type: "spring", bounce: 0.2 }}>
+      <DialogRoot>
+        <DialogTrigger asChild>
+          <User />
+        </DialogTrigger>
+        <Dialog.Portal>
+          <DialogOverlay />
+          <DialogContent>
+            <Dialog.Title />
+            <Dialog.Description />
+            <TabsRoot
+              defaultValue="signin"
+              value={activeTab}
+              onValueChange={setActiveTab}
+            >
+              <TabsList>
+                <TabsTrigger value="signin" asChild>
+                  <ForwardedTabsTriggerWrapper>
+                    Sign In
+                  </ForwardedTabsTriggerWrapper>
+                </TabsTrigger>
+                <TabsTrigger value="signup" asChild>
+                  <ForwardedTabsTriggerWrapper>
+                    Sign Up
+                  </ForwardedTabsTriggerWrapper>
+                </TabsTrigger>
+              </TabsList>
+              <AnimatePresence initial={false} mode="popLayout">
+                {activeTab === "signin" && (
+                  <TabsContent
+                    key="signin"
+                    value="signin"
+                    initial={{ x: `${110 * -1}%`, opacity: 0 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ x: `${110 * -1}%`, opacity: 0 }}
+                  >
+                    This is where you signin
+                  </TabsContent>
+                )}
+                {activeTab === "signup" && (
+                  <TabsContent
+                    key="signup"
+                    value="signup"
+                    initial={{ x: "110%", opacity: 0 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ x: "-110%", opacity: 0 }}
+                  >
+                    This is where you signup
+                  </TabsContent>
+                )}
+              </AnimatePresence>
+            </TabsRoot>
+          </DialogContent>
+        </Dialog.Portal>
+      </DialogRoot>
+    </MotionConfig>
   );
 }
 
@@ -79,20 +108,28 @@ const DialogOverlay = styled(Dialog.Overlay)`
   background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
   inset: 0;
-  animation: ${overlayShow} 500ms ease;
+  animation: ${overlayShow} 250ms ease;
+`;
+
+const DialogTrigger = styled(Dialog.Trigger)`
+  cursor: pointer;
 `;
 
 const DialogContent = styled(Dialog.Content)`
+  border: 3px solid black;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   background-color: white;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  animation: ${contentShow} 1000ms ease;
+  animation: ${contentShow} 250ms ease;
+  overflow: hidden;
 `;
 
 const TabsRoot = styled(Tabs.Root)`
-  border: 3px solid red;
+  //   border: 3px solid red;
   display: flex;
   flex-direction: column;
   width: 600px;
@@ -106,16 +143,17 @@ const TabsList = styled(Tabs.List)`
 `;
 
 const TabsTrigger = styled(Tabs.Trigger)`
-  border: 2px solid blue;
+  //   border: 2px solid blue;
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   border-bottom: 2px solid black;
-  padding: 0;
+  padding: 10px;
   position: relative;
   isolation: isolate;
+  cursor: pointer;
 
   &[data-state="active"] > * {
     background-color: springgreen;
@@ -127,4 +165,8 @@ const TabsTriggerActivePill = styled(motion.div)`
   position: absolute;
   inset: 0;
   z-index: -1;
+`;
+
+const TabsContent = styled(motion.create(Tabs.Content))`
+  padding: 30px;
 `;
