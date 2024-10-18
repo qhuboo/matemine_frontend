@@ -3,31 +3,76 @@ import styled from "styled-components";
 
 export default function SignIn() {
   return (
-    <Form.Root>
-      <Form.Field name="email" required>
+    <FormRoot>
+      <FormField name="email" required>
         <Form.Label>Email</Form.Label>
-        <Form.Control asChild>
-          <input type="email" name="" id="" />
-        </Form.Control>
-        <Form.Message match="valueMissing">Yo email missing gang</Form.Message>
-      </Form.Field>
+        <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
+        <FormControl asChild>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+          />
+        </FormControl>
+      </FormField>
+      <FormField name="password" required>
+        <Form.Label>Password</Form.Label>
+        <FormControl asChild>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+        </FormControl>
+        <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
+      </FormField>
 
-      <FormSubmit>Edit Profile</FormSubmit>
-    </Form.Root>
+      <Form.Submit>Sign In</Form.Submit>
+    </FormRoot>
   );
 }
 
-const FormSubmit = styled(Form.Submit)`	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 0 15px;
-	font-size: 15px;
-	line-height: 1;
-	font-weight: 500;
-	height: 35px;
-	width: 100%;
-	background-color: white;
-	color: green;
-	box-shadow: 0 2px 10px black;
-}`;
+const FormRoot = styled(Form.Root)`
+  //   border: 3px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  font-family: "Rajdhani";
+  font-weight: 600;
+`;
+
+const FormField = styled(Form.Field)`
+  //   border: 3px solid green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+`;
+
+const FormControl = styled(Form.Control)`
+  //   border: 3px solid purple;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 2;
+
+  &::placeholder {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    transform: translateY(2px);
+  }
+`;
+
+const FormMessage = styled(Form.Message)`
+  //   border: 3px solid springgreen;
+  align-self: end;
+  position: absolute;
+  transform: translateY(-13px);
+`;

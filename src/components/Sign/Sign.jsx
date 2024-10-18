@@ -136,6 +136,9 @@ const TabsRoot = styled(Tabs.Root)`
   flex-direction: column;
   width: 600px;
   height: 1000px;
+  font-family: "Rajdhani";
+  font-weight: 600;
+  font-size: 1.4rem;
 `;
 
 const TabsList = styled(Tabs.List)`
