@@ -66,7 +66,7 @@ const FormControl = styled(Form.Control)`
   &::placeholder {
     font-size: 1.1rem;
     line-height: 1.5;
-    transform: translateY(2px);
+    transform: translateY(2px); /* Visual vertical centering */
   }
 `;
 
