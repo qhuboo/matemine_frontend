@@ -21,6 +21,9 @@ export default function SignIn() {
         <LabelMessageWrapper>
           <FormLabel>Email</FormLabel>
           <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
+          <FormMessage match="typeMismatch">
+            That's not an email gang
+          </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
           <input
@@ -89,6 +92,7 @@ const FormMessage = styled(Form.Message)`
   display: flex;
   align-items: center;
   font-weight: 400;
+  transform: translateY(2px); /* Visual vertical alignment */
 `;
 
 const FormControl = styled(Form.Control)`
@@ -100,6 +104,7 @@ const FormControl = styled(Form.Control)`
   border-radius: 4px;
   font-size: 1.2rem;
   line-height: 2;
+  background-color: rgba(0, 0, 0, 0.1);
 
   &::placeholder {
     font-size: 1.2rem;

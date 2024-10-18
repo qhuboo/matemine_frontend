@@ -11,7 +11,7 @@ export default function Sign() {
   const [activeTab, setActiveTab] = useState("signin");
 
   return (
-    <MotionConfig transition={{ duration: 0.45, type: "spring", bounce: 0.2 }}>
+    <MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}>
       <DialogRoot>
         <DialogTrigger asChild>
           <User />
@@ -56,9 +56,9 @@ export default function Sign() {
                     forceMount
                     key="signup"
                     value="signup"
-                    initial={{ x: "110%", opacity: 0 }}
+                    initial={{ x: `${110 * 1}%`, opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ x: "-110%", opacity: 0 }}
+                    exit={{ x: `${110 * 1}%`, opacity: 0 }}
                   >
                     <SignIn />
                   </TabsContent>
@@ -137,7 +137,7 @@ const TabsRoot = styled(Tabs.Root)`
   display: flex;
   flex-direction: column;
   width: 600px;
-  height: 1000px;
+  height: 600px;
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 1.4rem;
