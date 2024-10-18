@@ -2,11 +2,26 @@ import * as Form from "@radix-ui/react-form";
 import styled from "styled-components";
 
 export default function SignIn() {
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    // Extract the form values
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    console.log(data);
+  }
+
   return (
-    <FormRoot>
+    <FormRoot onSubmit={handleSubmit}>
       <FormField name="email" required>
-        <Form.Label>Email</Form.Label>
-        <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
+        <LabelMessageWrapper>
+          <FormLabel>Email</FormLabel>
+          <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
+        </LabelMessageWrapper>
         <FormControl asChild>
           <input
             type="email"
@@ -18,7 +33,12 @@ export default function SignIn() {
         </FormControl>
       </FormField>
       <FormField name="password" required>
-        <Form.Label>Password</Form.Label>
+        <LabelMessageWrapper>
+          <Form.Label>Password</Form.Label>
+          <FormMessage match="valueMissing">
+            Yo password missing gang
+          </FormMessage>
+        </LabelMessageWrapper>
         <FormControl asChild>
           <input
             type="password"
@@ -28,7 +48,6 @@ export default function SignIn() {
             required
           />
         </FormControl>
-        <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
       </FormField>
 
       <Form.Submit>Sign In</Form.Submit>
@@ -53,6 +72,25 @@ const FormField = styled(Form.Field)`
   align-items: start;
 `;
 
+const LabelMessageWrapper = styled.div`
+  //   border: 2px solid red;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FormLabel = styled(Form.Label)`
+  //   border: 3px solid green;
+`;
+
+const FormMessage = styled(Form.Message)`
+  //   border: 3px solid springgreen;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+`;
+
 const FormControl = styled(Form.Control)`
   //   border: 3px solid purple;
   width: 100%;
@@ -60,19 +98,13 @@ const FormControl = styled(Form.Control)`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: 1.2rem;
   line-height: 2;
 
   &::placeholder {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.5;
     transform: translateY(2px); /* Visual vertical centering */
+    padding-left: 5px;
   }
-`;
-
-const FormMessage = styled(Form.Message)`
-  //   border: 3px solid springgreen;
-  align-self: end;
-  position: absolute;
-  transform: translateY(-13px);
 `;
