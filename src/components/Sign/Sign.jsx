@@ -41,6 +41,7 @@ export default function Sign() {
               <AnimatePresence initial={false} mode="popLayout">
                 {activeTab === "signin" && (
                   <TabsContent
+                    forceMount
                     key="signin"
                     value="signin"
                     initial={{ x: `${110 * -1}%`, opacity: 0 }}
@@ -52,13 +53,14 @@ export default function Sign() {
                 )}
                 {activeTab === "signup" && (
                   <TabsContent
+                    forceMount
                     key="signup"
                     value="signup"
                     initial={{ x: "110%", opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: "-110%", opacity: 0 }}
                   >
-                    This is where you signup
+                    <SignIn />
                   </TabsContent>
                 )}
               </AnimatePresence>
