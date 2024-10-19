@@ -105,7 +105,7 @@ const FormControl = styled(Form.Control)`
   font-size: 1.2rem;
   line-height: 2;
   background-color: rgba(0, 0, 0, 0.1);
-  padding-left: 10px;
+  padding-left: 5px;
 
   &::placeholder {
     font-size: 1.2rem;
