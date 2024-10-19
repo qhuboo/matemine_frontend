@@ -1,54 +1,132 @@
 import * as Form from "@radix-ui/react-form";
+import styled from "styled-components";
 
 export default function SignUp() {
   return (
-    <Form.Root>
-      <Form.Field name="firstName">
-        <Form.Label>First Name</Form.Label>
-        <Form.Message match="valueMissing">
-          Yo gang your first name missing
-        </Form.Message>
-        <Form.Control asChild>
+    <FormRoot>
+      <FormField name="firstName">
+        <LabelMessageWrapper>
+          <FormLabel>First Name</FormLabel>
+          <FormMessage match="valueMissing">
+            Yo gang your first name missing
+          </FormMessage>
+        </LabelMessageWrapper>
+        <FormControl asChild placeholder="Enter your first name">
           <input type="text" required />
-        </Form.Control>
-      </Form.Field>
-      <Form.Field name="lastName">
-        <Form.Label>Last Name</Form.Label>
-        <Form.Message match="valueMissing">
-          Yo gang your last name missing
-        </Form.Message>
-        <Form.Control asChild>
+        </FormControl>
+      </FormField>
+      <FormField name="lastName">
+        <LabelMessageWrapper>
+          <FormLabel>Last Name</FormLabel>
+          <FormMessage match="valueMissing">
+            Yo gang your last name missing
+          </FormMessage>
+        </LabelMessageWrapper>
+        <FormControl asChild placeholder="Enter your last name">
           <input type="text" required />
-        </Form.Control>
-      </Form.Field>
-      <Form.Field name="email">
-        <Form.Label>Email</Form.Label>
-        <Form.Message match="valueMissing">
-          Yo gang your email missing
-        </Form.Message>
-        <Form.Control asChild>
+        </FormControl>
+      </FormField>
+      <FormField name="email">
+        <LabelMessageWrapper>
+          <FormLabel>Email</FormLabel>
+          <FormMessage match="valueMissing">
+            Yo gang your email missing
+          </FormMessage>
+        </LabelMessageWrapper>
+        <FormControl asChild placeholder="Enter your email">
           <input type="email" required />
-        </Form.Control>
-      </Form.Field>
-      <Form.Field name="password">
-        <Form.Label>Password</Form.Label>
-        <Form.Message match="valueMissing">
-          Yo gang your email missing
-        </Form.Message>
-        <Form.Control asChild>
-          <input type="password" required />
-        </Form.Control>
-      </Form.Field>
-      <Form.Field name="email">
-        <Form.Label>Confirm Password</Form.Label>
-        <Form.Message match="valueMissing">
-          Yo gang your email missing
-        </Form.Message>
-        <Form.Control asChild>
-          <input type="password" required />
-        </Form.Control>
-      </Form.Field>
+        </FormControl>
+      </FormField>
+      <FormField name="password">
+        <LabelMessageWrapper>
+          <FormLabel>Password</FormLabel>
+          <FormMessage match="valueMissing">
+            Yo gang your password missing
+          </FormMessage>
+        </LabelMessageWrapper>
+        <FormControl asChild>
+          <input type="password" required placeholder="Enter your password" />
+        </FormControl>
+      </FormField>
+      <FormField name="confirmEmail">
+        <LabelMessageWrapper>
+          <FormLabel>Confirm Password</FormLabel>
+          <FormMessage match="valueMissing">
+            Yo gang re-enter your passowrd
+          </FormMessage>
+          <FormMessage
+            match={(value, formData) => {
+              if (value !== formData.get("password")) {
+                return true;
+              } else {
+                return false;
+              }
+            }}
+          >
+            Passwords don't match
+          </FormMessage>
+        </LabelMessageWrapper>
+        <FormControl asChild>
+          <input type="password" required placeholder="Confirm Password" />
+        </FormControl>
+      </FormField>
       <Form.Submit>Sign Up</Form.Submit>
-    </Form.Root>
+    </FormRoot>
   );
 }
+
+const FormRoot = styled(Form.Root)`
+  //   border: 3px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  font-family: "Rajdhani";
+  font-weight: 600;
+`;
+
+const FormField = styled(Form.Field)`
+  //   border: 3px solid green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+`;
+
+const LabelMessageWrapper = styled.div`
+  //   border: 2px solid red;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FormLabel = styled(Form.Label)`
+  //   border: 3px solid yellow;
+`;
+
+const FormMessage = styled(Form.Message)`
+  //   border: 3px solid springgreen;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  transform: translateY(2px); /* Visual vertical alignment */
+`;
+
+const FormControl = styled(Form.Control)`
+  //   border: 3px solid yellow;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  line-height: 2;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding-left: 5px;
+
+  &::placeholder {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    transform: translateY(2px); /* Visual vertical centering */
+  }
+`;

@@ -138,7 +138,7 @@ const TabsRoot = styled(Tabs.Root)`
   display: flex;
   flex-direction: column;
   width: 600px;
-  height: 600px;
+  height: 800px;
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 1.4rem;

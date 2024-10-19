@@ -98,18 +98,18 @@ const FormMessage = styled(Form.Message)`
 const FormControl = styled(Form.Control)`
   //   border: 3px solid purple;
   width: 100%;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
   font-size: 1.2rem;
   line-height: 2;
   background-color: rgba(0, 0, 0, 0.1);
+  padding-left: 10px;
 
   &::placeholder {
     font-size: 1.2rem;
     line-height: 1.5;
     transform: translateY(2px); /* Visual vertical centering */
-    padding-left: 5px;
   }
 `;
