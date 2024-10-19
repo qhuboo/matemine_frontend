@@ -6,6 +6,7 @@ import { styled, keyframes } from "styled-components";
 import { forwardRef, useState } from "react";
 
 import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 export default function Sign() {
   const [activeTab, setActiveTab] = useState("signin");
@@ -60,7 +61,7 @@ export default function Sign() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * 1}%`, opacity: 0 }}
                   >
-                    <SignIn />
+                    <SignUp />
                   </TabsContent>
                 )}
               </AnimatePresence>
@@ -123,7 +124,7 @@ const DialogContent = styled(Dialog.Content)`
   border: 3px solid black;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  background-color: white;
+  background-color: var(--background-color);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -168,7 +169,7 @@ const TabsTrigger = styled(Tabs.Trigger)`
 `;
 
 const TabsTriggerActivePill = styled(motion.div)`
-  background-color: white;
+  background-color: var(--background-color);
   position: absolute;
   inset: 0;
   z-index: -1;
