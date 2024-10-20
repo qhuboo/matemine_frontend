@@ -112,7 +112,6 @@ const MainContent = styled.div`
 
 const HeroImage = styled.div`
   border: 1px solid black;
-  max-width: 1920px;
   align-self: center;
 `;
 

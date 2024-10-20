@@ -279,10 +279,4 @@ const MobileLinks = styled.div`
   }
 `;
 
-const SubMenuWrapper = styled.div`
-  @media (max-width: 1100px) {
-    display: none;
-  }
-`;
-
 export default Navigation;
