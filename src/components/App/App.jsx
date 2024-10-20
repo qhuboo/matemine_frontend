@@ -140,6 +140,8 @@ const ContentWrapper = styled.div`
   --content-padding: 25px;
   padding: var(--content-padding);
   overflow: hidden;
+  isolation: isolate;
+
   position: relative;
   z-index: -1;
   min-height: 100%;

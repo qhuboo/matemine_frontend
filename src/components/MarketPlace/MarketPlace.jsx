@@ -173,116 +173,127 @@ function MarketPlace() {
   }, [currentPage]);
 
   return (
-    <Wrapper $isFiltersOpen={isFiltersOpen}>
-      <FilterAndSortWrapper>
-        <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
-          <Filter size={24} />
-        </MobileFilterButton>
-        <SortWrapper>
-          <GamesPerPage>
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
-            >
-              <label htmlFor="games-per-page">Show: </label>
-
-              <select
-                id="games-per-page"
-                value={gamesPerPage}
-                onChange={(event) => {
-                  setGamesPerPage(event.target.value);
+    <MarketPlaceContainer>
+      <Wrapper $isFiltersOpen={isFiltersOpen}>
+        <FilterAndSortWrapper>
+          <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
+            <Filter size={24} />
+          </MobileFilterButton>
+          <SortWrapper>
+            <GamesPerPage>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
                 }}
               >
-                <option value="12">12</option>
-                <option value="24">24</option>
-                <option value="48">48</option>
-                <option value="76">76</option>
-              </select>
-            </form>
-          </GamesPerPage>
-          <SortBy>
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
-            >
-              <label htmlFor="sort-by">Sort By: </label>
+                <label htmlFor="games-per-page">Show: </label>
 
-              <select
-                id="sort-by"
-                value={sortBy}
-                onChange={(event) => {
-                  setSortBy(event.target.value);
+                <select
+                  id="games-per-page"
+                  value={gamesPerPage}
+                  onChange={(event) => {
+                    setGamesPerPage(event.target.value);
+                  }}
+                >
+                  <option value="12">12</option>
+                  <option value="24">24</option>
+                  <option value="48">48</option>
+                  <option value="76">76</option>
+                </select>
+              </form>
+            </GamesPerPage>
+            <SortBy>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
                 }}
               >
-                <option value="price-desc">Price-Desc</option>
-                <option value="price-asc">Price-Asc</option>
-                <option value="alpha-desc">A-to-Z</option>
-                <option value="alpha-asc">Z-to-A</option>
-                <option value="rating-desc">Rating Desc</option>
-                <option value="rating-asc">Rating Asc</option>
-              </select>
-            </form>
-          </SortBy>
-        </SortWrapper>
-      </FilterAndSortWrapper>
+                <label htmlFor="sort-by">Sort By: </label>
 
-      <MarketPlaceWrapper>
-        <FiltersWrapper>
-          <Filters
-            selectedPlatforms={selectedPlatforms}
-            setSelectedPlatforms={setSelectedPlatforms}
-            selectedNintendoConsoles={selectedNintendoConsoles}
-            setSelectedNintendoConsoles={setSelectedNintendoConsoles}
-            selectedSegaConsoles={selectedSegaConsoles}
-            setSelectedSegaConsoles={setSelectedSegaConsoles}
-            selectedPlayStationConsoles={selectedPlayStationConsoles}
-            setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
-            selectedXboxConsoles={selectedXboxConsoles}
-            setSelectedXboxConsoles={setSelectedXboxConsoles}
-          />
-        </FiltersWrapper>
-        {isFiltersOpen && (
-          <MobileFiltersWrapper>
-            <FilterDrawer handleDismiss={setIsFiltersOpen} margin={"50px"}>
-              <Filters
-                selectedPlatforms={selectedPlatforms}
-                setSelectedPlatforms={setSelectedPlatforms}
-                selectedNintendoConsoles={selectedNintendoConsoles}
-                setSelectedNintendoConsoles={setSelectedNintendoConsoles}
-                selectedSegaConsoles={selectedSegaConsoles}
-                setSelectedSegaConsoles={setSelectedSegaConsoles}
-                selectedPlayStationConsoles={selectedPlayStationConsoles}
-                setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
-                selectedXboxConsoles={selectedXboxConsoles}
-                setSelectedXboxConsoles={setSelectedXboxConsoles}
-              />
-            </FilterDrawer>
-          </MobileFiltersWrapper>
-        )}
-        <GameGrid
-          gameList={games}
-          gamesPerPage={gamesPerPage}
-          currentPage={currentPage}
-        />
-      </MarketPlaceWrapper>
-      <PaginationWrapper>
-        {totalPages > 0 && (
-          <Pagination
-            totalPages={totalPages}
+                <select
+                  id="sort-by"
+                  value={sortBy}
+                  onChange={(event) => {
+                    setSortBy(event.target.value);
+                  }}
+                >
+                  <option value="price-desc">Price-Desc</option>
+                  <option value="price-asc">Price-Asc</option>
+                  <option value="alpha-desc">A-to-Z</option>
+                  <option value="alpha-asc">Z-to-A</option>
+                  <option value="rating-desc">Rating Desc</option>
+                  <option value="rating-asc">Rating Asc</option>
+                </select>
+              </form>
+            </SortBy>
+          </SortWrapper>
+        </FilterAndSortWrapper>
+
+        <MarketPlaceWrapper>
+          <FiltersWrapper>
+            <Filters
+              selectedPlatforms={selectedPlatforms}
+              setSelectedPlatforms={setSelectedPlatforms}
+              selectedNintendoConsoles={selectedNintendoConsoles}
+              setSelectedNintendoConsoles={setSelectedNintendoConsoles}
+              selectedSegaConsoles={selectedSegaConsoles}
+              setSelectedSegaConsoles={setSelectedSegaConsoles}
+              selectedPlayStationConsoles={selectedPlayStationConsoles}
+              setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
+              selectedXboxConsoles={selectedXboxConsoles}
+              setSelectedXboxConsoles={setSelectedXboxConsoles}
+            />
+          </FiltersWrapper>
+
+          <GameGrid
+            gameList={games}
+            gamesPerPage={gamesPerPage}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
           />
-        )}
-      </PaginationWrapper>
-    </Wrapper>
+        </MarketPlaceWrapper>
+        <PaginationWrapper>
+          {totalPages > 0 && (
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
+        </PaginationWrapper>
+      </Wrapper>
+      {isFiltersOpen && (
+        <MobileFiltersWrapper>
+          <FilterDrawer handleDismiss={setIsFiltersOpen} margin={"50px"}>
+            <Filters
+              selectedPlatforms={selectedPlatforms}
+              setSelectedPlatforms={setSelectedPlatforms}
+              selectedNintendoConsoles={selectedNintendoConsoles}
+              setSelectedNintendoConsoles={setSelectedNintendoConsoles}
+              selectedSegaConsoles={selectedSegaConsoles}
+              setSelectedSegaConsoles={setSelectedSegaConsoles}
+              selectedPlayStationConsoles={selectedPlayStationConsoles}
+              setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
+              selectedXboxConsoles={selectedXboxConsoles}
+              setSelectedXboxConsoles={setSelectedXboxConsoles}
+            />
+          </FilterDrawer>
+        </MobileFiltersWrapper>
+      )}
+    </MarketPlaceContainer>
   );
 }
 
+const MarketPlaceContainer = styled.div`
+  border: 3px solid springgreen;
+  position: relative;
+`;
+
 const Wrapper = styled.div`
+  border: 3px solid red;
   position: ${(props) => (props.$isFiltersOpen ? "fixed" : "static")};
   overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
 `;
 
 const MarketPlaceWrapper = styled.div`
@@ -368,7 +379,9 @@ const PaginationWrapper = styled.div`
 
 const MobileFiltersWrapper = styled.div`
   display: none;
-  position: absolute;
+  position: fixed;
+  isolation: isolate;
+  z-index: 100;
 
   @media (${QUERIES.tabletAndSmaller}) {
     // border: 2px solid red;
