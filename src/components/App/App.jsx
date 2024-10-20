@@ -41,6 +41,7 @@ function App() {
               }}
             />
           )}
+          <GapDiv />
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route
@@ -119,7 +120,7 @@ function App() {
 
 const Wrapper = styled.div`
   // border: 3px solid purple;
-  position: ${(props) => (props.$isMobileMenuOpen ? "fixed" : "static")};
+  overflow: ${(props) => (props.$isMobileMenuOpen ? "hidden" : "visible")};
 `;
 
 const Main = styled.div`
@@ -135,7 +136,7 @@ const Main = styled.div`
 
 const ContentWrapper = styled.div`
   // border: 3px dotted red;
-  margin-top: var(--navigation-bar-height);
+  // margin-top: var(--navigation-bar-height);
   font-family: "Rajdhani";
   --content-padding: 25px;
   padding: var(--content-padding);
@@ -157,6 +158,11 @@ const ContentWrapper = styled.div`
   @media (${QUERIES.mobileAndSmaller}) {
     --content-padding: 15px;
   }
+`;
+
+const GapDiv = styled.div`
+  width: 100%;
+  height: var(--navigation-bar-height);
 `;
 
 const GlobalStyles = createGlobalStyle`
