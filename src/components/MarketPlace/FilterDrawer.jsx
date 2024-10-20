@@ -1,16 +1,18 @@
 import styled, { keyframes } from "styled-components";
 import { QUERIES } from "../../constants";
 import { X } from "react-feather";
+import { createPortal } from "react-dom";
 
 export default function FilterDrawer({ children, handleDismiss, margin }) {
-  return (
+  return createPortal(
     <Wrapper $margin={margin}>
       <Backdrop onClick={handleDismiss} />
       <Menu>
         <X size={32} onClick={handleDismiss} />
         {children}
       </Menu>
-    </Wrapper>
+    </Wrapper>,
+    document.querySelector("#drawer")
   );
 }
 

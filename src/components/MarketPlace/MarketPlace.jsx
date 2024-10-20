@@ -174,7 +174,7 @@ function MarketPlace() {
 
   return (
     <MarketPlaceContainer>
-      <Wrapper $isFiltersOpen={isFiltersOpen}>
+      <Wrapper>
         <FilterAndSortWrapper>
           <MobileFilterButton onClick={() => setIsFiltersOpen(true)}>
             <Filter size={24} />
@@ -262,38 +262,33 @@ function MarketPlace() {
         </PaginationWrapper>
       </Wrapper>
       {isFiltersOpen && (
-        <MobileFiltersWrapper>
-          <FilterDrawer handleDismiss={setIsFiltersOpen} margin={"50px"}>
-            <Filters
-              selectedPlatforms={selectedPlatforms}
-              setSelectedPlatforms={setSelectedPlatforms}
-              selectedNintendoConsoles={selectedNintendoConsoles}
-              setSelectedNintendoConsoles={setSelectedNintendoConsoles}
-              selectedSegaConsoles={selectedSegaConsoles}
-              setSelectedSegaConsoles={setSelectedSegaConsoles}
-              selectedPlayStationConsoles={selectedPlayStationConsoles}
-              setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
-              selectedXboxConsoles={selectedXboxConsoles}
-              setSelectedXboxConsoles={setSelectedXboxConsoles}
-            />
-          </FilterDrawer>
-        </MobileFiltersWrapper>
+        <FilterDrawer handleDismiss={setIsFiltersOpen} margin={"50px"}>
+          <Filters
+            selectedPlatforms={selectedPlatforms}
+            setSelectedPlatforms={setSelectedPlatforms}
+            selectedNintendoConsoles={selectedNintendoConsoles}
+            setSelectedNintendoConsoles={setSelectedNintendoConsoles}
+            selectedSegaConsoles={selectedSegaConsoles}
+            setSelectedSegaConsoles={setSelectedSegaConsoles}
+            selectedPlayStationConsoles={selectedPlayStationConsoles}
+            setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
+            selectedXboxConsoles={selectedXboxConsoles}
+            setSelectedXboxConsoles={setSelectedXboxConsoles}
+          />
+        </FilterDrawer>
       )}
     </MarketPlaceContainer>
   );
 }
 
 const MarketPlaceContainer = styled.div`
-  border: 3px solid springgreen;
+  // border: 3px solid springgreen;
   position: relative;
 `;
 
 const Wrapper = styled.div`
-  border: 3px solid red;
-  position: ${(props) => (props.$isFiltersOpen ? "fixed" : "static")};
+  // border: 3px solid red;
   overflow: hidden;
-  isolation: isolate;
-  z-index: 1;
 `;
 
 const MarketPlaceWrapper = styled.div`
@@ -375,18 +370,6 @@ const MobileFilterButton = styled.div`
 const PaginationWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-
-const MobileFiltersWrapper = styled.div`
-  display: none;
-  position: fixed;
-  isolation: isolate;
-  z-index: 100;
-
-  @media (${QUERIES.tabletAndSmaller}) {
-    // border: 2px solid red;
-    display: revert;
-  }
 `;
 
 export default MarketPlace;

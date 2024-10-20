@@ -1,12 +1,14 @@
 import styled, { keyframes } from "styled-components";
 import { QUERIES } from "../../constants";
+import { createPortal } from "react-dom";
 
 function Drawer({ children, handleDismiss }) {
-  return (
+  return createPortal(
     <Wrapper>
       <Backdrop onClick={handleDismiss} />
       <Menu>{children}</Menu>
-    </Wrapper>
+    </Wrapper>,
+    document.querySelector("#drawer")
   );
 }
 
