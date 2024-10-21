@@ -14,7 +14,8 @@ import Sign from "../Sign/Sign";
 
 function Navigation({
   isMobileMenuOpen,
-  setIsMobileMenuOpen,
+  handleOpenMobileMenu,
+  handleCloseMobileMenu,
   setIsSubMenuOpen,
   activeMenu,
   setActiveMenu,
@@ -117,11 +118,21 @@ function Navigation({
             </NavLink>
           </MobileLinks>
 
-          <MobileMenuButton onClick={() => setIsMobileMenuOpen(true)}>
+          <MobileMenuButton
+            onClick={() => {
+              if (isMobileMenuOpen) {
+                handleCloseMobileMenu();
+              } else {
+                handleOpenMobileMenu();
+              }
+            }}
+          >
             <Menu size={32} strokeWidth={1} />
           </MobileMenuButton>
         </Side>
-        {isMobileMenuOpen && <MobileMenu handleDismiss={setIsMobileMenuOpen} />}
+        {isMobileMenuOpen && (
+          <MobileMenu handleDismiss={handleCloseMobileMenu} />
+        )}
       </NavigationBar>
       <NintendoSubMenu
         $isActive={activeMenu === "nintendo"}

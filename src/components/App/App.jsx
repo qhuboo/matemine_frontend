@@ -8,26 +8,41 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { keyframes } from "styled-components";
-import useToggle from "../../hooks/use-toggle";
 import { AnimatePresence, motion } from "framer-motion";
+import useScrollLock from "../../hooks/useScrollLock";
 
 function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useToggle(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
+
+  const wrapperRef = useRef();
+  const { lockScroll, unlockScroll } = useScrollLock(wrapperRef);
 
   // Get the current location for AnimatePresence
   const location = useLocation();
 
+  // Open and close event handler function
+  function handleOpenMobileMenu(wrapperRef) {
+    lockScroll(wrapperRef);
+    setIsMobileMenuOpen(true);
+  }
+
+  function handleCloseMobileMenu(wrapperRef) {
+    unlockScroll(wrapperRef);
+    setIsMobileMenuOpen(false);
+  }
+
   return (
-    <Wrapper $isMobileMenuOpen={isMobileMenuOpen}>
+    <Wrapper ref={wrapperRef}>
       <ScrollToTop />
       <Main>
         <Navigation
           isMobileMenuOpen={isMobileMenuOpen}
-          setIsMobileMenuOpen={setIsMobileMenuOpen}
+          handleOpenMobileMenu={handleOpenMobileMenu}
+          handleCloseMobileMenu={handleCloseMobileMenu}
           setIsSubMenuOpen={setIsSubMenuOpen}
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
@@ -120,7 +135,6 @@ function App() {
 
 const Wrapper = styled.div`
   // border: 3px solid purple;
-  overflow: ${(props) => (props.$isMobileMenuOpen ? "hidden" : "visible")};
 `;
 
 const Main = styled.div`
@@ -142,9 +156,8 @@ const ContentWrapper = styled.div`
   padding: var(--content-padding);
   overflow: hidden;
   isolation: isolate;
-
-  position: relative;
   z-index: -1;
+  position: relative;
   min-height: 100%;
 
   @media (${QUERIES.laptopAndSmaller}) {
