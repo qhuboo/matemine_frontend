@@ -7,6 +7,7 @@ import { forwardRef, useState } from "react";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { QUERIES } from "../../constants";
 
 export default function Sign() {
   const [activeTab, setActiveTab] = useState("signin");
@@ -142,6 +143,15 @@ const TabsRoot = styled(Tabs.Root)`
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 1.4rem;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    width: 400px;
+    height: 700px;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    width: 300px;
+  }
 `;
 
 const TabsList = styled(Tabs.List)`
