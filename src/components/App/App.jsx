@@ -8,7 +8,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import useScrollLock from "../../hooks/useScrollLock";
@@ -17,23 +17,50 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollPositionClose, setScrollPositionClose] = useState(0);
 
   const wrapperRef = useRef();
-  const { lockScroll, unlockScroll } = useScrollLock(wrapperRef);
+  const contentWrapperRef = useRef();
+  const { lockScroll, unlockScroll } = useScrollLock(
+    wrapperRef,
+    contentWrapperRef,
+    scrollPosition
+  );
 
   // Get the current location for AnimatePresence
   const location = useLocation();
 
   // Open and close event handler function
-  function handleOpenMobileMenu(wrapperRef) {
-    lockScroll(wrapperRef);
+  function handleOpenMobileMenu() {
+    setScrollPositionClose(scrollPosition);
+    lockScroll();
     setIsMobileMenuOpen(true);
   }
 
-  function handleCloseMobileMenu(wrapperRef) {
-    unlockScroll(wrapperRef);
+  function handleCloseMobileMenu() {
+    unlockScroll();
     setIsMobileMenuOpen(false);
   }
+
+  // Register the scroll event listener
+  useEffect(() => {
+    function handleScroll() {
+      setScrollPosition(document.documentElement.scrollTop);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      document.documentElement.scrollTo({ top: scrollPositionClose });
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -47,7 +74,7 @@ function App() {
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
         />
-        <ContentWrapper>
+        <ContentWrapper ref={contentWrapperRef}>
           {isSubMenuOpen && (
             <Backdrop
               onClick={() => {
@@ -154,11 +181,12 @@ const ContentWrapper = styled.div`
   font-family: "Rajdhani";
   --content-padding: 25px;
   padding: var(--content-padding);
-  overflow: hidden;
+  /* commented this out to make the scrollTop work but don't know what this changes otherwise or why I had it originally */
+  // overflow: hidden;
   isolation: isolate;
   z-index: -1;
   position: relative;
-  min-height: 100%;
+  height: 100%;
 
   @media (${QUERIES.laptopAndSmaller}) {
     --content-padding: 50px;

@@ -7,7 +7,7 @@ import {
   xboxFavorites,
 } from "../../data";
 
-function MainPage() {
+export default function MainPage() {
   return (
     <MainContent>
       <HeroImage>
@@ -96,6 +96,8 @@ const MainContent = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 100px;
+  overflow: visible;
+  height: 100%;
 
   @media (${QUERIES.laptopAndSmaller}) {
     gap: 75px;
@@ -191,5 +193,3 @@ const GameTitle = styled.p`
   }
 `;
 const GamePrice = styled.h3``;
-
-export default MainPage;
