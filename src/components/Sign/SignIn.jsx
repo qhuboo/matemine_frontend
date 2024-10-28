@@ -1,18 +1,45 @@
 import * as Form from "@radix-ui/react-form";
-import styled from "styled-components";
+import { useState } from "react";
+import styled, { keyframes } from "styled-components";
 
-export default function SignIn() {
-  function handleSubmit(event) {
+export default function SignIn({ setOpen }) {
+  const [error, setError] = useState(false);
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
 
     // Extract the form values
-    const data = {
+    const formDataObject = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
 
-    console.log(data);
+    const url = "http://localhost:8080/users/login";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataObject),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw Error(`There was an error(${response.status}): ${data.error}`);
+      }
+
+      event.target.reset();
+      setOpen(false);
+
+      console.log(data);
+    } catch (error) {
+      event.target.reset();
+      setError(true);
+      console.error(error);
+    }
   }
 
   return (
@@ -54,9 +81,18 @@ export default function SignIn() {
       </FormField>
 
       <Form.Submit>Sign In</Form.Submit>
+      {error && <ErrorMessage>This is an error message</ErrorMessage>}
     </FormRoot>
   );
 }
+
+const shakeAnimation = keyframes`
+0% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+50% { transform: translateX(5px); }
+75% { transform: translateX(-5px); }
+100% { transform: translateX(0); }
+`;
 
 const FormRoot = styled(Form.Root)`
   //   border: 3px solid red;
@@ -112,4 +148,10 @@ const FormControl = styled(Form.Control)`
     line-height: 1.5;
     transform: translateY(2px); /* Visual vertical centering */
   }
+`;
+
+const ErrorMessage = styled.div`
+  text-align: center;
+  color: red;
+  animation: ${shakeAnimation} 500ms ease;
 `;

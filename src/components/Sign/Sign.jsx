@@ -10,11 +10,12 @@ import SignUp from "./SignUp";
 import { QUERIES } from "../../constants";
 
 export default function Sign() {
+  const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("signin");
 
   return (
     <MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}>
-      <DialogRoot>
+      <DialogRoot open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <User />
         </DialogTrigger>
@@ -50,7 +51,7 @@ export default function Sign() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * -1}%`, opacity: 0 }}
                   >
-                    <SignIn />
+                    <SignIn open={open} setOpen={setOpen} />
                   </TabsContent>
                 )}
                 {activeTab === "signup" && (
