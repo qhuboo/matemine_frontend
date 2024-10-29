@@ -51,7 +51,7 @@ export default function Sign() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * -1}%`, opacity: 0 }}
                   >
-                    <SignIn open={open} setOpen={setOpen} />
+                    <SignIn setOpen={setOpen} />
                   </TabsContent>
                 )}
                 {activeTab === "signup" && (
@@ -63,7 +63,7 @@ export default function Sign() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * 1}%`, opacity: 0 }}
                   >
-                    <SignUp />
+                    <SignUp setOpen={setOpen} />
                   </TabsContent>
                 )}
               </AnimatePresence>

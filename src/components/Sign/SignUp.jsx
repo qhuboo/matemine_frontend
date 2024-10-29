@@ -1,9 +1,48 @@
 import * as Form from "@radix-ui/react-form";
+import { useState } from "react";
 import styled from "styled-components";
 
-export default function SignUp() {
+export default function SignUp({ setOpen }) {
+  const [error, setError] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const formDataObject = {
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    console.log(formDataObject);
+
+    try {
+      const url = "http://localhost:8080/users/login";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {},
+        body: JSON.stringify(formDataObject),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw Error(`There was an error(${response.status}): ${data.error}`);
+      }
+
+      setOpen(false);
+      console.log(data);
+    } catch (error) {
+      setError(true);
+      event.target.reset();
+      console.log(error);
+    }
+  }
+
   return (
-    <FormRoot>
+    <FormRoot onSubmit={handleSubmit}>
       <FormField name="firstName">
         <LabelMessageWrapper>
           <FormLabel>First Name</FormLabel>
@@ -48,7 +87,7 @@ export default function SignUp() {
           <input type="password" required placeholder="Enter your password" />
         </FormControl>
       </FormField>
-      <FormField name="confirmEmail">
+      <FormField name="confirmPassword">
         <LabelMessageWrapper>
           <FormLabel>Confirm Password</FormLabel>
           <FormMessage match="valueMissing">

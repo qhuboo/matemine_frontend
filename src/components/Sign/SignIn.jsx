@@ -31,7 +31,6 @@ export default function SignIn({ setOpen }) {
         throw Error(`There was an error(${response.status}): ${data.error}`);
       }
 
-      event.target.reset();
       setOpen(false);
 
       console.log(data);
@@ -127,8 +126,10 @@ const FormMessage = styled(Form.Message)`
   font-size: 1rem;
   display: flex;
   align-items: center;
-  font-weight: 400;
+  font-weight: 600;
   transform: translateY(2px); /* Visual vertical alignment */
+  color: red;
+  animation: ${shakeAnimation} 200ms ease;
 `;
 
 const FormControl = styled(Form.Control)`
@@ -153,5 +154,5 @@ const FormControl = styled(Form.Control)`
 const ErrorMessage = styled.div`
   text-align: center;
   color: red;
-  animation: ${shakeAnimation} 500ms ease;
+  animation: ${shakeAnimation} 200ms ease;
 `;
