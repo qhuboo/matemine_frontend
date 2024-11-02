@@ -79,7 +79,7 @@ export function useQuery(options) {
 
 const QueryClientContext = createContext();
 
-export default function QueryClientProvider({ client, children }) {
+export function QueryClientProvider({ client, children }) {
   return (
     <QueryClientContext.Provider value={client}>
       {children}
