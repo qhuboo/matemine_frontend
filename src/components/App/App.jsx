@@ -13,10 +13,39 @@ import { keyframes } from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import useScrollLock from "../../hooks/useScrollLock";
 
-import { QueryClient } from "../../query";
-import QueryClientProvider from "../QueryClientProvider/QueryClientProvider";
+// Testint the mini react-query library
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "../../mini_react-query";
+import { sleepToShowLoadingStates } from "../../utils";
 
-const client = new QueryClient();
+const queryClient = new QueryClient();
+
+function useMediaDevices() {
+  return useQuery({
+    queryKey: ["mediaDevices"],
+    queryFn: async () => {
+      await sleepToShowLoadingStates(500);
+
+      return navigator.mediaDevices.enumerateDevices();
+    },
+  });
+}
+
+function MediaDevices() {
+  const { data, status } = useMediaDevices();
+
+  if (status === "pending") {
+    return <div>loading...</div>;
+  }
+  if (status === "error") {
+    return <div>We were unable to access your media devices</div>;
+  }
+
+  return <div>You have {data.length} media devices</div>;
+}
 
 export const Login = createContext();
 
@@ -73,7 +102,7 @@ function App() {
   }, [isMobileMenuOpen]);
 
   return (
-    <QueryClientProvider client={client}>
+    <QueryClientProvider client={queryClient}>
       <Login.Provider value={value}>
         <Wrapper ref={wrapperRef}>
           <ScrollToTop />
@@ -96,6 +125,7 @@ function App() {
                 />
               )}
               <GapDiv />
+              <MediaDevices />
               <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
                   <Route
