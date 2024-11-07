@@ -63,6 +63,8 @@ export function createObserver(queryClient, options) {
   };
 }
 
+const QueryClientContext = createContext();
+
 export function useQuery(options) {
   const queryClient = useContext(QueryClientContext);
   const observerRef = useRef();
@@ -76,8 +78,6 @@ export function useQuery(options) {
     observerRef.current.getSnapshot
   );
 }
-
-const QueryClientContext = createContext();
 
 export function QueryClientProvider({ client, children }) {
   return (
