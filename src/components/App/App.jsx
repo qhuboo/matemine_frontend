@@ -13,40 +13,6 @@ import { keyframes } from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import useScrollLock from "../../hooks/useScrollLock";
 
-// Testint the mini react-query library
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "../../mini_react-query";
-import { sleepToShowLoadingStates } from "../../utils";
-
-const queryClient = new QueryClient();
-
-function useMediaDevices() {
-  return useQuery({
-    queryKey: ["mediaDevices"],
-    queryFn: async () => {
-      await sleepToShowLoadingStates(500);
-
-      return navigator.mediaDevices.enumerateDevices();
-    },
-  });
-}
-
-function MediaDevices() {
-  const { data, status } = useMediaDevices();
-
-  if (status === "pending") {
-    return <div>loading...</div>;
-  }
-  if (status === "error") {
-    return <div>We were unable to access your media devices</div>;
-  }
-
-  return <div>You have {data.length} media devices</div>;
-}
-
 export const Login = createContext();
 
 function App() {
@@ -102,105 +68,102 @@ function App() {
   }, [isMobileMenuOpen]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Login.Provider value={value}>
-        <Wrapper ref={wrapperRef}>
-          <ScrollToTop />
-          <Main>
-            <Navigation
-              isMobileMenuOpen={isMobileMenuOpen}
-              handleOpenMobileMenu={handleOpenMobileMenu}
-              handleCloseMobileMenu={handleCloseMobileMenu}
-              setIsSubMenuOpen={setIsSubMenuOpen}
-              activeMenu={activeMenu}
-              setActiveMenu={setActiveMenu}
-            />
-            <ContentWrapper ref={contentWrapperRef}>
-              {isSubMenuOpen && (
-                <Backdrop
-                  onClick={() => {
-                    setActiveMenu("");
-                    setIsSubMenuOpen(false);
-                  }}
+    <Login.Provider value={value}>
+      <Wrapper ref={wrapperRef}>
+        <ScrollToTop />
+        <Main>
+          <Navigation
+            isMobileMenuOpen={isMobileMenuOpen}
+            handleOpenMobileMenu={handleOpenMobileMenu}
+            handleCloseMobileMenu={handleCloseMobileMenu}
+            setIsSubMenuOpen={setIsSubMenuOpen}
+            activeMenu={activeMenu}
+            setActiveMenu={setActiveMenu}
+          />
+          <ContentWrapper ref={contentWrapperRef}>
+            {isSubMenuOpen && (
+              <Backdrop
+                onClick={() => {
+                  setActiveMenu("");
+                  setIsSubMenuOpen(false);
+                }}
+              />
+            )}
+            <GapDiv />
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route
+                  path="/"
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 50 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <MainPage />
+                    </motion.div>
+                  }
                 />
-              )}
-              <GapDiv />
-              <MediaDevices />
-              <AnimatePresence mode="wait">
-                <Routes location={location} key={location.pathname}>
-                  <Route
-                    path="/"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <MainPage />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/marketplace"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <MarketPlace />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/cart"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Cart />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/checkout"
-                    element={
-                      <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Checkout />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/product/:gameId"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, x: 100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -100 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Product />
-                      </motion.div>
-                    }
-                  />
-                </Routes>
-              </AnimatePresence>
-            </ContentWrapper>
-          </Main>
-          <GlobalStyles />
-        </Wrapper>
-      </Login.Provider>
-    </QueryClientProvider>
+                <Route
+                  path="/marketplace"
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -50 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <MarketPlace />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Cart />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Checkout />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/product/:gameId"
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Product />
+                    </motion.div>
+                  }
+                />
+              </Routes>
+            </AnimatePresence>
+          </ContentWrapper>
+        </Main>
+        <GlobalStyles />
+      </Wrapper>
+    </Login.Provider>
   );
 }
 
