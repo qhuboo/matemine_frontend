@@ -10,7 +10,6 @@ import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
 import { useQuery } from "@tanstack/react-query";
 import useURLSync from "../../hooks/useURLSync";
-import platforms from "../../platform_data";
 
 function MarketPlace() {
   console.log("render");
@@ -18,11 +17,23 @@ function MarketPlace() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Page State
-  const [currentPage, setCurrentPage] = useState(() => {});
-  const [gamesPerPage, setGamesPerPage] = useState(() => {});
+  const [page, setPage] = useState(() => {});
+  const [perPage, setPerPage] = useURLSync(
+    searchParams,
+    setSearchParams,
+    "perPage",
+    "string",
+    "12"
+  );
 
-  // Sortby
-  const [sortBy, setSortBy] = useState(() => {});
+  // Sort state
+  const [sort, setSort] = useURLSync(
+    searchParams,
+    setSearchParams,
+    "sort",
+    "string",
+    "alpha-desc"
+  );
 
   const [selectedPlatforms, setSelectedPlatforms] = useURLSync(
     searchParams,
@@ -44,7 +55,7 @@ function MarketPlace() {
   // Scroll to the top of the page when switching the page
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [currentPage]);
+  }, [page]);
 
   const location = useLocation();
 
@@ -78,13 +89,13 @@ function MarketPlace() {
                   event.preventDefault();
                 }}
               >
-                <label htmlFor="games-per-page">Show: </label>
+                <label htmlFor="per-page">Show: </label>
 
                 <select
-                  id="games-per-page"
-                  value={gamesPerPage}
+                  id="per-page"
+                  value={perPage}
                   onChange={(event) => {
-                    setGamesPerPage(event.target.value);
+                    setPerPage(event.target.value);
                   }}
                 >
                   <option value="12">12</option>
@@ -104,9 +115,9 @@ function MarketPlace() {
 
                 <select
                   id="sort-by"
-                  value={sortBy}
+                  value={sort}
                   onChange={(event) => {
-                    setSortBy(event.target.value);
+                    setSort(event.target.value);
                   }}
                 >
                   <option value="price-desc">Price-Desc</option>
@@ -137,19 +148,15 @@ function MarketPlace() {
             />
           </FiltersWrapper>
           {status === "success" && (
-            <GameGrid
-              gameList={data}
-              gamesPerPage={gamesPerPage}
-              currentPage={currentPage}
-            />
+            <GameGrid gameList={data} perPage={perPage} page={page} />
           )}
         </MarketPlaceWrapper>
         <PaginationWrapper>
           {/* {totalPages > 0 && (
             <Pagination
               totalPages={totalPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              page={page}
+              setPage={setPage}
             />
           )} */}
         </PaginationWrapper>
