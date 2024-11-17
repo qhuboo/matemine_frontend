@@ -4,8 +4,8 @@ export default function useURLSync(
   searchParams,
   setSearchParams,
   paramName,
-  initialValue = "",
-  type = "string"
+  type = "string",
+  initialValue = ""
 ) {
   // Type validation
   if (type === "array" && !Array.isArray(initialValue)) {
