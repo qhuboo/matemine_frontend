@@ -64,7 +64,7 @@ export default function useURLSync(
     if (shouldChange) {
       setSearchParams(newSearchParams, { replace: true });
     }
-  }, [state, searchParams, setSearchParams, paramName, type]);
+  }, [state]);
 
   // Update state when URL seach params changes
   useEffect(() => {
@@ -80,9 +80,9 @@ export default function useURLSync(
         setState(newStateValue);
       }
     } else if (state !== initialValue) {
-      setState(initialValue);
+      setState([]);
     }
-  }, [searchParams, state, initialValue, paramName, type]);
+  }, [searchParams]);
 
   return [state, setState];
 }
