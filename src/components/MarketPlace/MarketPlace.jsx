@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
@@ -8,31 +8,29 @@ import GameGrid from "./GameGrid";
 import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
+import { useQuery } from "@tanstack/react-query";
+import useURLSync from "../../hooks/useURLSync";
 import platforms from "../../platform_data";
 
-const initialPlatforms = {
-  nintendo: false,
-  sega: false,
-  playstation: false,
-  xbox: false,
-};
-
 function MarketPlace() {
-  const [games, setGames] = useState([]);
-
-  // Page State
-  const [currentPage, setCurrentPage] = useState(0);
-  const [gamesPerPage, setGamesPerPage] = useState(12);
-  const totalPages = Math.ceil(games.length / gamesPerPage);
-
-  // Sortby
-  const [sortBy, setSortBy] = useState("alpha-desc");
-
+  console.log("render");
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Select Platforms
-  const [selectedPlatforms, setSelectedPlatforms] = useState(initialPlatforms);
+  // Page State
+  const [currentPage, setCurrentPage] = useState(() => {});
+  const [gamesPerPage, setGamesPerPage] = useState(() => {});
+
+  // Sortby
+  const [sortBy, setSortBy] = useState(() => {});
+
+  const [selectedPlatforms, setSelectedPlatforms] = useURLSync(
+    searchParams,
+    setSearchParams,
+    "platforms",
+    "array",
+    []
+  );
 
   // Select Consoles
   const [selectedNintendoConsoles, setSelectedNintendoConsoles] = useState([]);
@@ -41,136 +39,30 @@ function MarketPlace() {
     useState([]);
   const [selectedXboxConsoles, setSelectedXboxConsoles] = useState([]);
 
-  // Other state
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
-
-  // Fetch the whole game data
-  useEffect(() => {
-    async function getGames() {
-      const response = await fetch("https://api.matemine.shop/games");
-      const data = await response.json();
-      setGames(data);
-    }
-
-    getGames();
-  }, []);
-
-  // Update the selectedPlatforms state variable when the URL search params change
-  useEffect(() => {
-    const platforms = searchParams.get("platforms");
-    if (platforms) {
-      const nextSelectedPlatforms = { ...initialPlatforms };
-      platforms.split(",").forEach((platform) => {
-        if (
-          Object.prototype.hasOwnProperty.call(nextSelectedPlatforms, platform)
-        ) {
-          nextSelectedPlatforms[platform] = true;
-        }
-      });
-      setSelectedPlatforms(nextSelectedPlatforms);
-    }
-  }, []);
-
-  // Update the URL search params when the selectedPlatforms state variable changes
-  useEffect(() => {
-    const newSelectedPlatforms = [];
-    for (const [key, value] of Object.entries(selectedPlatforms)) {
-      if (value) {
-        newSelectedPlatforms.push(key);
-      }
-    }
-    if (newSelectedPlatforms.length > 0) {
-      searchParams.set("platforms", newSelectedPlatforms.join(","));
-    } else {
-      searchParams.delete("platforms");
-    }
-
-    setSearchParams(searchParams);
-  }, [selectedPlatforms]);
-
-  // Update the console state variables when the URL search params change
-  useEffect(() => {
-    const base64Consoles = searchParams.get("consoles");
-    if (base64Consoles) {
-      // Decode the base64 version of the console string and turn it into an array
-      const consoles = atob(base64Consoles).split(",");
-
-      const nextSelectedNintendoConsoles = [];
-      const nextSelectedSegaConsoles = [];
-      const nextSelectedPlayStationConsoles = [];
-      const nextSelectedXboxConsoles = [];
-
-      // Go through the array an populate each platform console variable with the selected consoles
-      consoles.forEach((currentConsole) => {
-        if (platforms.nintendo.includes(currentConsole)) {
-          if (!selectedNintendoConsoles.includes(currentConsole)) {
-            nextSelectedNintendoConsoles.push(currentConsole);
-          }
-        }
-
-        if (platforms.sega.includes(currentConsole)) {
-          if (!selectedSegaConsoles.includes(currentConsole)) {
-            nextSelectedSegaConsoles.push(currentConsole);
-          }
-        }
-
-        if (platforms.playstation.includes(currentConsole)) {
-          if (!selectedPlayStationConsoles.includes(currentConsole)) {
-            nextSelectedPlayStationConsoles.push(currentConsole);
-          }
-        }
-
-        if (platforms.xbox.includes(currentConsole)) {
-          if (!selectedXboxConsoles.includes(currentConsole)) {
-            nextSelectedXboxConsoles.push(currentConsole);
-          }
-        }
-
-        setSelectedNintendoConsoles(nextSelectedNintendoConsoles);
-        setSelectedSegaConsoles(nextSelectedSegaConsoles);
-        setSelectedPlayStationConsoles(nextSelectedPlayStationConsoles);
-        setSelectedXboxConsoles(nextSelectedXboxConsoles);
-      });
-    }
-  }, []);
-
-  // Update the URL search params when the various selected consoles state variables change or the selectedPlatforms state changes
-  useEffect(() => {
-    // Combine all the consoles if the platform is selected
-    let allConsoles = [];
-    if (selectedPlatforms.nintendo) {
-      allConsoles = [...allConsoles, ...selectedNintendoConsoles];
-    }
-    if (selectedPlatforms.sega) {
-      allConsoles = [...allConsoles, ...selectedSegaConsoles];
-    }
-    if (selectedPlatforms.playstation) {
-      allConsoles = [...allConsoles, ...selectedPlayStationConsoles];
-    }
-    if (selectedPlatforms.xbox) {
-      allConsoles = [...allConsoles, ...selectedXboxConsoles];
-    }
-
-    if (allConsoles.length > 0) {
-      const base64Consoles = btoa(allConsoles.join(","));
-
-      searchParams.set("consoles", base64Consoles);
-    } else {
-      searchParams.delete("consoles");
-    }
-    setSearchParams(searchParams);
-  }, [
-    selectedNintendoConsoles,
-    selectedSegaConsoles,
-    selectedPlayStationConsoles,
-    selectedXboxConsoles,
-    selectedPlatforms,
-  ]);
 
   // Scroll to the top of the page when switching the page
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [currentPage]);
+
+  const location = useLocation();
+
+  // Fetch the whole game data
+  const { data, status } = useQuery({
+    queryKey: ["games", location.search],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://api.matemine.shop/games${location.search}`
+      );
+
+      if (!response.ok) {
+        throw Error("There was an error");
+      }
+
+      return response.json();
+    },
+  });
 
   return (
     <MarketPlaceContainer>
@@ -244,21 +136,22 @@ function MarketPlace() {
               setSelectedXboxConsoles={setSelectedXboxConsoles}
             />
           </FiltersWrapper>
-
-          <GameGrid
-            gameList={games}
-            gamesPerPage={gamesPerPage}
-            currentPage={currentPage}
-          />
+          {status === "success" && (
+            <GameGrid
+              gameList={data}
+              gamesPerPage={gamesPerPage}
+              currentPage={currentPage}
+            />
+          )}
         </MarketPlaceWrapper>
         <PaginationWrapper>
-          {totalPages > 0 && (
+          {/* {totalPages > 0 && (
             <Pagination
               totalPages={totalPages}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
-          )}
+          )} */}
         </PaginationWrapper>
       </Wrapper>
       {isFiltersOpen && (

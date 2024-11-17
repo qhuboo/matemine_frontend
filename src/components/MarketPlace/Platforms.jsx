@@ -1,20 +1,27 @@
+import platforms from "../../platform_data";
+
 export default function Platforms({ selectedPlatforms, setSelectedPlatforms }) {
   return (
     <fieldset>
       <legend>Select Platforms</legend>
-      {Object.keys(selectedPlatforms).map((option) => {
+      {Object.keys(platforms).map((option) => {
         return (
           <div key={option}>
             <input
               type="checkbox"
               id={option}
               value={option}
-              checked={selectedPlatforms[option] === true}
+              checked={selectedPlatforms.includes(option)}
               onChange={(event) => {
-                setSelectedPlatforms({
-                  ...selectedPlatforms,
-                  [option]: event.target.checked,
-                });
+                let newSelectedPlatforms = [];
+                if (event.target.checked) {
+                  newSelectedPlatforms = [...selectedPlatforms, option];
+                } else {
+                  newSelectedPlatforms = selectedPlatforms.filter(
+                    (platform) => platform !== option
+                  );
+                }
+                setSelectedPlatforms(newSelectedPlatforms);
               }}
             />
             <label htmlFor={option}> {option}</label>
