@@ -9,58 +9,21 @@ import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
 import { useQuery } from "@tanstack/react-query";
-import useURLSync from "../../hooks/useURLSync";
 
 function MarketPlace() {
-  console.log("render");
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Page State
-  const [page, setPage] = useState(() => {});
-  const [perPage, setPerPage] = useURLSync(
-    searchParams,
-    setSearchParams,
-    "perPage",
-    "string",
-    "12"
-  );
-
-  // Sort state
-  const [sort, setSort] = useURLSync(
-    searchParams,
-    setSearchParams,
-    "sort",
-    "string",
-    "alpha-desc"
-  );
-
-  const [selectedPlatforms, setSelectedPlatforms] = useURLSync(
-    searchParams,
-    setSearchParams,
-    "platforms",
-    "array",
-    []
-  );
-
-  // Select Consoles
-  const [selectedNintendoConsoles, setSelectedNintendoConsoles] = useState([]);
-  const [selectedSegaConsoles, setSelectedSegaConsoles] = useState([]);
-  const [selectedPlayStationConsoles, setSelectedPlayStationConsoles] =
-    useState([]);
-  const [selectedXboxConsoles, setSelectedXboxConsoles] = useState([]);
+  const location = useLocation();
 
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
 
   // Scroll to the top of the page when switching the page
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [page]);
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  // }, [page]);
 
-  const location = useLocation();
-
-  // Fetch the whole game data
-  const { data, status } = useQuery({
+  const { data, status, isLoading, error } = useQuery({
     queryKey: ["games", location.search],
     queryFn: async () => {
       const response = await fetch(
@@ -68,12 +31,57 @@ function MarketPlace() {
       );
 
       if (!response.ok) {
-        throw Error("There was an error");
+        throw new Error("There was an error");
       }
 
       return response.json();
     },
   });
+
+  function getValues(group) {
+    const value = searchParams.get(group);
+    return value ? value.split(",") : [];
+  }
+
+  function isChecked(group, value) {
+    const values = getValues(group);
+    return values.includes(value);
+  }
+
+  function handleCheckBoxChange(group, value) {
+    const values = getValues(group);
+    const newValues = values.includes(value)
+      ? values.filter((v) => v !== value)
+      : [...values, value];
+
+    // Create a new params object with all the current values
+    const newParams = {};
+    searchParams.forEach((value, key) => (newParams[key] = value));
+
+    // Update or remove the changed group
+    if (newValues.length) {
+      newParams[group] = newValues.join(",");
+    } else {
+      delete newParams[group];
+    }
+
+    setSearchParams(newParams);
+  }
+
+  function handleSelectChange(name, value) {
+    const newParams = {};
+    // Copy the current searchParams into a new object
+    searchParams.forEach((value, key) => {
+      newParams[key] = value;
+    });
+
+    if (value) {
+      newParams[name] = value;
+    } else {
+      delete newParams[name];
+    }
+    setSearchParams(newParams);
+  }
 
   return (
     <MarketPlaceContainer>
@@ -85,18 +93,17 @@ function MarketPlace() {
           <SortWrapper>
             <GamesPerPage>
               <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                }}
+                onSubmit={(event) =>
+                  handleSelectChange("perPage", event.target.value)
+                }
               >
                 <label htmlFor="per-page">Show: </label>
-
                 <select
                   id="per-page"
-                  value={perPage}
-                  onChange={(event) => {
-                    setPerPage(event.target.value);
-                  }}
+                  value={searchParams.get("perPage") || "12"}
+                  onChange={(event) =>
+                    handleSelectChange("perPage", event.target.value)
+                  }
                 >
                   <option value="12">12</option>
                   <option value="24">24</option>
@@ -107,18 +114,17 @@ function MarketPlace() {
             </GamesPerPage>
             <SortBy>
               <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                }}
+                onSubmit={(event) =>
+                  handleSelectChange("sort", event.target.value)
+                }
               >
                 <label htmlFor="sort-by">Sort By: </label>
-
                 <select
                   id="sort-by"
-                  value={sort}
-                  onChange={(event) => {
-                    setSort(event.target.value);
-                  }}
+                  value={searchParams.get("sort") || "rating-desc"}
+                  onChange={(event) =>
+                    handleSelectChange("sort", event.target.value)
+                  }
                 >
                   <option value="price-desc">Price-Desc</option>
                   <option value="price-asc">Price-Asc</option>
@@ -135,21 +141,13 @@ function MarketPlace() {
         <MarketPlaceWrapper>
           <FiltersWrapper>
             <Filters
-              selectedPlatforms={selectedPlatforms}
-              setSelectedPlatforms={setSelectedPlatforms}
-              selectedNintendoConsoles={selectedNintendoConsoles}
-              setSelectedNintendoConsoles={setSelectedNintendoConsoles}
-              selectedSegaConsoles={selectedSegaConsoles}
-              setSelectedSegaConsoles={setSelectedSegaConsoles}
-              selectedPlayStationConsoles={selectedPlayStationConsoles}
-              setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
-              selectedXboxConsoles={selectedXboxConsoles}
-              setSelectedXboxConsoles={setSelectedXboxConsoles}
+              isChecked={isChecked}
+              handleCheckBoxChange={handleCheckBoxChange}
             />
           </FiltersWrapper>
-          {status === "success" && (
+          {/* {status === "success" && (
             <GameGrid gameList={data} perPage={perPage} page={page} />
-          )}
+          )} */}
         </MarketPlaceWrapper>
         <PaginationWrapper>
           {/* {totalPages > 0 && (
@@ -164,16 +162,8 @@ function MarketPlace() {
       {isFiltersOpen && (
         <FilterDrawer handleDismiss={setIsFiltersOpen} margin={"50px"}>
           <Filters
-            selectedPlatforms={selectedPlatforms}
-            setSelectedPlatforms={setSelectedPlatforms}
-            selectedNintendoConsoles={selectedNintendoConsoles}
-            setSelectedNintendoConsoles={setSelectedNintendoConsoles}
-            selectedSegaConsoles={selectedSegaConsoles}
-            setSelectedSegaConsoles={setSelectedSegaConsoles}
-            selectedPlayStationConsoles={selectedPlayStationConsoles}
-            setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
-            selectedXboxConsoles={selectedXboxConsoles}
-            setSelectedXboxConsoles={setSelectedXboxConsoles}
+            isChecked={isChecked}
+            handleCheckBoxChange={handleCheckBoxChange}
           />
         </FilterDrawer>
       )}

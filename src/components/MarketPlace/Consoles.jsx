@@ -1,41 +1,25 @@
-import NintendoConsoles from "./NintendoConsoles";
-import SegaConsoles from "./SegaConsoles";
-import PlayStationConsoles from "./PlayStationConsoles";
-import XboxConsoles from "./XboxConsoles";
+import platforms from "../../platform_data";
 
-export default function Consoles({
-  selectedPlatforms,
-  selectedNintendoConsoles,
-  setSelectedNintendoConsoles,
-  selectedSegaConsoles,
-  setSelectedSegaConsoles,
-  selectedPlayStationConsoles,
-  setSelectedPlayStationConsoles,
-  selectedXboxConsoles,
-  setSelectedXboxConsoles,
-}) {
+export default function Consoles({ isChecked, handleCheckBoxChange }) {
   return (
     <div>
-      <NintendoConsoles
-        selectedPlatforms={selectedPlatforms}
-        selectedNintendoConsoles={selectedNintendoConsoles}
-        setSelectedNintendoConsoles={setSelectedNintendoConsoles}
-      />
-      <SegaConsoles
-        selectedPlatforms={selectedPlatforms}
-        selectedSegaConsoles={selectedSegaConsoles}
-        setSelectedSegaConsoles={setSelectedSegaConsoles}
-      />
-      <PlayStationConsoles
-        selectedPlatforms={selectedPlatforms}
-        selectedPlayStationConsoles={selectedPlayStationConsoles}
-        setSelectedPlayStationConsoles={setSelectedPlayStationConsoles}
-      />
-      <XboxConsoles
-        selectedPlatforms={selectedPlatforms}
-        selectedXboxConsoles={selectedXboxConsoles}
-        setSelectedXboxConsoles={setSelectedXboxConsoles}
-      />
+      {Object.keys(platforms).map((platform) => (
+        <fieldset key={platform}>
+          <legend>{platform} Consoles</legend>
+          {platforms[platform].map((console) => (
+            <div key={console}>
+              <input
+                type="checkbox"
+                id={console}
+                value={console}
+                checked={isChecked(platform, `${console}`)}
+                onChange={() => handleCheckBoxChange(platform, `${console}`)}
+              />
+              <label htmlFor={console}> {console}</label>
+            </div>
+          ))}
+        </fieldset>
+      ))}
     </div>
   );
 }
