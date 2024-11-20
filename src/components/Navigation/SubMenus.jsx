@@ -37,7 +37,19 @@ export default function SubMenus({
                         }}
                         onMouseEnter={() => {
                           queryClient.prefetchQuery({
-                            queryKey: ["games"],
+                            queryKey: [
+                              "games",
+                              `?perPage=12&page=1&sort=rating-desc&${platform}=${console}`,
+                            ],
+                            queryFn: async () => {
+                              const response = await fetch(
+                                `https://api.matemine.shop/games?perPage=12&page=1&sort=rating-desc&${platform}=${console}`
+                              );
+                              if (!response.ok) {
+                                throw new Error("There was an error");
+                              }
+                              return response.json();
+                            },
                           });
                         }}
                         onClick={() => {
@@ -64,6 +76,20 @@ export default function SubMenus({
                           setIsSubMenuOpen(false);
                         }}
                         to={`product/${game.game_id}`}
+                        onMouseEnter={() => {
+                          queryClient.prefetchQuery({
+                            queryKey: ["games", "game", game.game_id],
+                            queryFn: async () => {
+                              const response = await fetch(
+                                `https://api.matemine.shop/games/${game.game_id}`
+                              );
+                              if (!response.ok) {
+                                throw new Error("There was an error");
+                              }
+                              return response.json();
+                            },
+                          });
+                        }}
                       >
                         {game.title}
                       </SubSectionItem>
@@ -99,6 +125,20 @@ export default function SubMenus({
                               setIsSubMenuOpen(false);
                             }}
                             to={`product/${game.game_id}`}
+                            onMouseEnter={() => {
+                              queryClient.prefetchQuery({
+                                queryKey: ["games", "game", game.game_id],
+                                queryFn: async () => {
+                                  const response = await fetch(
+                                    `https://api.matemine.shop/games/${game.game_id}`
+                                  );
+                                  if (!response.ok) {
+                                    throw new Error("There was an error");
+                                  }
+                                  return response.json();
+                                },
+                              });
+                            }}
                           >
                             {game.title}
                           </SubSectionItem>

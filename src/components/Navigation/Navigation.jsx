@@ -8,6 +8,7 @@ import MobileMenu from "../MobileMenu/MobileMenu";
 import SubMenus from "./SubMenus";
 
 import Sign from "../Sign/Sign";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Navigation({
   isMobileMenuOpen,
@@ -17,8 +18,24 @@ function Navigation({
   activeMenu,
   setActiveMenu,
 }) {
+  const queryClient = useQueryClient();
   return (
-    <Wrapper>
+    <Wrapper
+      onMouseEnter={() => {
+        queryClient.prefetchQuery({
+          queryKey: ["games"],
+          queryFn: async () => {
+            const response = await fetch(
+              `https://api.matemine.shop/games?perPage=12&page=1&sort=rating-desc`
+            );
+            if (!response.ok) {
+              throw new Error("There was an error");
+            }
+            return response.json();
+          },
+        });
+      }}
+    >
       <NavigationBar>
         <Side>
           <Title to={"/"}>MateMine</Title>
