@@ -136,14 +136,6 @@ function Navigation({
           <MobileMenu handleDismiss={handleCloseMobileMenu} />
         )}
       </NavigationBar>
-      {/* <NintendoSubMenu
-        $isActive={activeMenu === "nintendo"}
-        setIsSubMenuOpen={setIsSubMenuOpen}
-        setActiveMenu={setActiveMenu}
-      />
-      <SegaSubMenu $isActive={activeMenu === "sega"} />
-      <PlayStationSubMenu $isActive={activeMenu === "playstation"} />
-      <XboxSubMenu $isActive={activeMenu === "xbox"} /> */}
 
       <SubMenus
         activeMenu={activeMenu}
