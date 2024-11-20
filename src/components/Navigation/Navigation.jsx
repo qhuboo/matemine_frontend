@@ -5,11 +5,6 @@ import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
 import { QUERIES } from "../../constants";
 import MobileMenu from "../MobileMenu/MobileMenu";
 
-import NintendoSubMenu from "./SubMenus/NintendoSubMenu";
-import SegaSubMenu from "./SubMenus/SegaSubMenu";
-import PlayStationSubMenu from "./SubMenus/PlayStationSubMenu";
-import XboxSubMenu from "./SubMenus/XboxSubMenu";
-
 import SubMenus from "./SubMenus";
 
 import Sign from "../Sign/Sign";
