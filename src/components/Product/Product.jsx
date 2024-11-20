@@ -1,74 +1,58 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 function Product() {
   const { gameId } = useParams();
-  const [game, setGame] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, status } = useQuery({
+    queryKey: ["games", "game", "screenshots", gameId],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://api.matemine.shop/games/screenshots/${gameId}`
+      );
 
-  useEffect(() => {
-    async function getGame(gameId) {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(
-          `https://api.matemine.shop/games/screenshots/${gameId}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response not ok");
-        }
-        const game = await response.json();
-        setGame(game);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error("There was an error");
       }
-    }
 
-    getGame(gameId);
-  }, [gameId]);
-
-  if (loading) {
-    return <div>Loading</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+      return response.json();
+    },
+    staleTime: Infinity,
+  });
 
   return (
-    <Wrapper>
-      <GameImages>
-        <Image1>
-          <img src={game[0].image} alt="" />
-        </Image1>
-        <Image2>
-          <img src={game[1].image} alt="" />
-        </Image2>
-        <Image3>
-          <img src={game[2].image} alt="" />
-        </Image3>
-        <Image4>
-          <img src={game[3].image} alt="" />
-        </Image4>
-      </GameImages>
-      <GameDetails>
-        <GameInfo>
-          <GameTitle>{game[0].title}</GameTitle>
-          Details
-          <GameDescription>{game[0].description}</GameDescription>
-        </GameInfo>
-        <AddToCart>
-          <GameTitle>{game[0].title}</GameTitle>
-          <GamePrice>${game[0].price}</GamePrice>
-          <AddToCartButton>Add to Cart</AddToCartButton>
-        </AddToCart>
-      </GameDetails>
-    </Wrapper>
+    <div>
+      {status === "success" && (
+        <Wrapper>
+          <GameImages>
+            <Image1>
+              <img src={data[0].image} alt="" />
+            </Image1>
+            <Image2>
+              <img src={data[1].image} alt="" />
+            </Image2>
+            <Image3>
+              <img src={data[2].image} alt="" />
+            </Image3>
+            <Image4>
+              <img src={data[3].image} alt="" />
+            </Image4>
+          </GameImages>
+          <GameDetails>
+            <GameInfo>
+              <GameTitle>{data[0].title}</GameTitle>
+              Details
+              <GameDescription>{data[0].description}</GameDescription>
+            </GameInfo>
+            <AddToCart>
+              <GameTitle>{data[0].title}</GameTitle>
+              <GamePrice>${data[0].price}</GamePrice>
+              <AddToCartButton>Add to Cart</AddToCartButton>
+            </AddToCart>
+          </GameDetails>
+        </Wrapper>
+      )}
+    </div>
   );
 }
 

@@ -4,12 +4,14 @@ import styled, { keyframes, css } from "styled-components";
 import { nintendoFavorites } from "../../../data";
 import { QUERIES } from "../../../constants.js";
 import { Link } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NintendoSubMenu({
   $isActive,
   setIsSubMenuOpen,
   setActiveMenu,
 }) {
+  const queryClient = useQueryClient();
   return (
     <SubMenuWrapper $isActive={$isActive}>
       <SubMenuContentWrapper $isActive={$isActive}>
@@ -18,7 +20,24 @@ export default function NintendoSubMenu({
             <SubSectionTitle>Consoles</SubSectionTitle>
             <SubSectionItemsWrapper>
               {platforms.nintendo.map((console) => (
-                <SubSectionItem key={console}>{console}</SubSectionItem>
+                <SubSectionItem
+                  key={console}
+                  to={{
+                    pathname: "/marketplace",
+                    search: `?perPage=12&page=1&sort=rating-desc&nintendo=${console}`,
+                  }}
+                  onMouseEnter={() => {
+                    queryClient.prefetchQuery({
+                      queryKey: ["games"],
+                    });
+                  }}
+                  onClick={() => {
+                    setActiveMenu("");
+                    setIsSubMenuOpen(false);
+                  }}
+                >
+                  {console}
+                </SubSectionItem>
               ))}
             </SubSectionItemsWrapper>
           </SubSectionWrapper>
@@ -26,16 +45,15 @@ export default function NintendoSubMenu({
             <SubSectionTitle>Top Picks</SubSectionTitle>
             <SubSectionItemsWrapper>
               {nintendoFavorites.map((game) => (
-                <SubSectionItem key={game.title}>
-                  <GameLink
-                    onClick={() => {
-                      setActiveMenu("");
-                      setIsSubMenuOpen(false);
-                    }}
-                    to={`product/${game.game_id}`}
-                  >
-                    {game.title}
-                  </GameLink>
+                <SubSectionItem
+                  key={game.title}
+                  onClick={() => {
+                    setActiveMenu("");
+                    setIsSubMenuOpen(false);
+                  }}
+                  to={`product/${game.game_id}`}
+                >
+                  {game.title}
                 </SubSectionItem>
               ))}
             </SubSectionItemsWrapper>
@@ -62,7 +80,8 @@ export default function NintendoSubMenu({
                     </GameImageWrapper>
                   </FeaturedGameImageWrapper>
                   <FeaturedGameTitleWrapper>
-                    <GameLink
+                    <SubSectionItem
+                      key={game.title}
                       onClick={() => {
                         setActiveMenu("");
                         setIsSubMenuOpen(false);
@@ -70,7 +89,7 @@ export default function NintendoSubMenu({
                       to={`product/${game.game_id}`}
                     >
                       {game.title}
-                    </GameLink>
+                    </SubSectionItem>
                   </FeaturedGameTitleWrapper>
                 </FeaturedGameCard>
               );
@@ -89,7 +108,7 @@ from {
 `;
 
 const SubMenuContentWrapper = styled.div`
-  //   border: 3px solid red;
+  // border: 3px solid red;
   display: flex;
   gap: 50px;
   height: 100%;
@@ -146,20 +165,22 @@ const SubSectionItemsWrapper = styled.div`
   //   border: 2px solid green;
 `;
 
-const SubSectionItem = styled.div`
+const SubSectionItem = styled(Link)`
   font-family: "Rajdhani";
   font-style: normal;
   font-weight: 400;
   font-size: 1.5rem;
+  text-decoration: none;
+  color: black;
+  display: block;
 
   @media (${QUERIES.laptopAndSmaller}) {
     font-size: 1.3rem;
   }
-`;
 
-const GameLink = styled(Link)`
-  text-decoration: none;
-  color: black;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const FeaturedWrapper = styled.div`

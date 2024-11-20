@@ -10,6 +10,8 @@ import SegaSubMenu from "./SubMenus/SegaSubMenu";
 import PlayStationSubMenu from "./SubMenus/PlayStationSubMenu";
 import XboxSubMenu from "./SubMenus/XboxSubMenu";
 
+import SubMenus from "./SubMenus";
+
 import Sign from "../Sign/Sign";
 
 function Navigation({
@@ -30,14 +32,14 @@ function Navigation({
           <NavLink
             to={{
               pathname: "/marketplace",
-              search: "?platforms=nintendo,sega,playstation,xbox",
+              search: "?perPage=12&page=1&sort=rating-desc",
             }}
             onClick={() => {
               setActiveMenu("");
               setIsSubMenuOpen(false);
             }}
           >
-            All Platforms
+            MarketPlace
           </NavLink>
           <SubMenuButton
             onClick={() => {
@@ -134,14 +136,20 @@ function Navigation({
           <MobileMenu handleDismiss={handleCloseMobileMenu} />
         )}
       </NavigationBar>
-      <NintendoSubMenu
+      {/* <NintendoSubMenu
         $isActive={activeMenu === "nintendo"}
         setIsSubMenuOpen={setIsSubMenuOpen}
         setActiveMenu={setActiveMenu}
       />
       <SegaSubMenu $isActive={activeMenu === "sega"} />
       <PlayStationSubMenu $isActive={activeMenu === "playstation"} />
-      <XboxSubMenu $isActive={activeMenu === "xbox"} />
+      <XboxSubMenu $isActive={activeMenu === "xbox"} /> */}
+
+      <SubMenus
+        activeMenu={activeMenu}
+        setIsSubMenuOpen={setIsSubMenuOpen}
+        setActiveMenu={setActiveMenu}
+      />
     </Wrapper>
   );
 }

@@ -1,29 +1,49 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { QUERIES } from "../../constants";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
+  const queryClient = useQueryClient();
   return (
     <Grid>
-      {gameList
-        .slice(gamesPerPage * currentPage, gamesPerPage * (currentPage + 1))
-        .map((game) => (
-          <GameCard to={`/product/${game.game_id}`} key={game.game_id}>
-            <GameCoverWrapper>
-              <GameCover>
-                <GameCoverImage
-                  src={game.sample_cover_image}
-                  alt={`Game Cover for the game ${game.title}`}
-                />
-              </GameCover>
-            </GameCoverWrapper>
+      {gameList.map((game) => (
+        <GameCard
+          to={`/product/${game.game_id}`}
+          key={game.game_id}
+          onMouseEnter={() => {
+            queryClient.prefetchQuery({
+              queryKey: ["games", "game", "screenshots", game.game_id],
+              queryFn: async () => {
+                console.log(game.game_id);
+                const response = await fetch(
+                  `https://api.matemine.shop/games/screenshots/${game.game_id}`
+                );
+                if (!response.ok) {
+                  throw new Error("There was an error");
+                }
 
-            <GameInfo>
-              <span>{game.title}</span>
-              <h3>${game.price}</h3>
-            </GameInfo>
-          </GameCard>
-        ))}
+                return response.json();
+              },
+              staleTime: Infinity,
+            });
+          }}
+        >
+          <GameCoverWrapper>
+            <GameCover>
+              <GameCoverImage
+                src={game.sample_cover_image}
+                alt={`Game Cover for the game ${game.title}`}
+              />
+            </GameCover>
+          </GameCoverWrapper>
+
+          <GameInfo>
+            <span>{game.title}</span>
+            <h3>${game.price}</h3>
+          </GameInfo>
+        </GameCard>
+      ))}
     </Grid>
   );
 }

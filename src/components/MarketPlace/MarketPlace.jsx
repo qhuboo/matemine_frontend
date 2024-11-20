@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
 import FilterDrawer from "./FilterDrawer";
@@ -14,14 +14,35 @@ function MarketPlace() {
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
+  if (!searchParams.get("perPage")) {
+    const newParams = {};
+    // Copy existing params
+    searchParams.forEach((value, key) => {
+      newParams[key] = value;
+    });
+    // Add perPage
+    newParams["perPage"] = "12";
+    setSearchParams(newParams);
+  }
+
+  if (!searchParams.get("page")) {
+    const newParams = {};
+    // Copy existing params
+    searchParams.forEach((value, key) => {
+      newParams[key] = value;
+    });
+    // Add perPage
+    newParams["page"] = "1";
+    setSearchParams(newParams);
+  }
   const location = useLocation();
 
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
 
   // Scroll to the top of the page when switching the page
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  // }, [page]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [searchParams.get("page")]);
 
   const { data, status, isLoading, error } = useQuery({
     queryKey: ["games", location.search],
@@ -145,9 +166,13 @@ function MarketPlace() {
               handleCheckBoxChange={handleCheckBoxChange}
             />
           </FiltersWrapper>
-          {/* {status === "success" && (
-            <GameGrid gameList={data} perPage={perPage} page={page} />
-          )} */}
+          {status === "success" && (
+            <GameGrid
+              gameList={data}
+              perPage={searchParams.get("perPage")}
+              page={searchParams.get("page")}
+            />
+          )}
         </MarketPlaceWrapper>
         <PaginationWrapper>
           {/* {totalPages > 0 && (

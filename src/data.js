@@ -2441,3 +2441,10 @@ export const xboxFavorites = [
     price: "89.31",
   },
 ];
+
+export const favorites = {
+  nintendo: nintendoFavorites,
+  sega: segaFavorites,
+  playstation: playstationFavorites,
+  xbox: xboxFavorites,
+};
