@@ -10,8 +10,8 @@ export default function SignIn({ setOpen }) {
 
     // Extract the form values
     const formDataObject = {
-      email: formData.get("email"),
-      password: formData.get("password"),
+      email: formData.get("login_email"),
+      password: formData.get("login_password"),
     };
 
     const url = "http://localhost:8080/users/login";
@@ -42,8 +42,8 @@ export default function SignIn({ setOpen }) {
   }
 
   return (
-    <FormRoot onSubmit={handleSubmit}>
-      <FormField name="email" required>
+    <FormRoot id="formLogin" onSubmit={handleSubmit}>
+      <FormField name="login_email" required>
         <LabelMessageWrapper>
           <FormLabel>Email</FormLabel>
           <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
@@ -53,26 +53,24 @@ export default function SignIn({ setOpen }) {
         </LabelMessageWrapper>
         <FormControl asChild>
           <input
+            autoComplete="username"
             type="email"
-            name="email"
-            id="email"
             placeholder="Enter your email"
             required
           />
         </FormControl>
       </FormField>
-      <FormField name="password" required>
+      <FormField name="login_password" required>
         <LabelMessageWrapper>
-          <Form.Label>Password</Form.Label>
+          <FormLabel>Password</FormLabel>
           <FormMessage match="valueMissing">
             Yo password missing gang
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
           <input
+            autoComplete="current-password"
             type="password"
-            name="password"
-            id="password"
             placeholder="Enter your password"
             required
           />
