@@ -42,7 +42,7 @@ export default function SignUp({ setOpen }) {
   }
 
   return (
-    <FormRoot onSubmit={handleSubmit}>
+    <FormRoot id="signupForm" onSubmit={handleSubmit}>
       <FormField name="firstName">
         <LabelMessageWrapper>
           <FormLabel>First Name</FormLabel>
@@ -50,8 +50,13 @@ export default function SignUp({ setOpen }) {
             Yo gang your first name missing
           </FormMessage>
         </LabelMessageWrapper>
-        <FormControl asChild placeholder="Enter your first name">
-          <input type="text" required />
+        <FormControl asChild>
+          <input
+            type="text"
+            autoComplete="given-name"
+            required
+            placeholder="Enter your first name"
+          />
         </FormControl>
       </FormField>
       <FormField name="lastName">
@@ -61,8 +66,13 @@ export default function SignUp({ setOpen }) {
             Yo gang your last name missing
           </FormMessage>
         </LabelMessageWrapper>
-        <FormControl asChild placeholder="Enter your last name">
-          <input type="text" required />
+        <FormControl asChild>
+          <input
+            type="text"
+            autoComplete="family-name"
+            required
+            placeholder="Enter your last name"
+          />
         </FormControl>
       </FormField>
       <FormField name="email">
@@ -72,8 +82,13 @@ export default function SignUp({ setOpen }) {
             Yo gang your email missing
           </FormMessage>
         </LabelMessageWrapper>
-        <FormControl asChild placeholder="Enter your email">
-          <input type="email" required />
+        <FormControl asChild>
+          <input
+            type="email"
+            autoComplete="username"
+            required
+            placeholder="Enter your email"
+          />
         </FormControl>
       </FormField>
       <FormField name="password">
@@ -84,7 +99,12 @@ export default function SignUp({ setOpen }) {
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
-          <input type="password" required placeholder="Enter your password" />
+          <input
+            type="password"
+            autoComplete="new-password"
+            required
+            placeholder="Enter your password"
+          />
         </FormControl>
       </FormField>
       <FormField name="confirmPassword">
@@ -106,7 +126,12 @@ export default function SignUp({ setOpen }) {
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
-          <input type="password" required placeholder="Confirm Password" />
+          <input
+            type="password"
+            autoComplete="new-password"
+            required
+            placeholder="Confirm Password"
+          />
         </FormControl>
       </FormField>
       <Form.Submit>Sign Up</Form.Submit>

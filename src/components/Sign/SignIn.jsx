@@ -10,8 +10,8 @@ export default function SignIn({ setOpen }) {
 
     // Extract the form values
     const formDataObject = {
-      email: formData.get("login_email"),
-      password: formData.get("login_password"),
+      email: formData.get("email"),
+      password: formData.get("password"),
     };
 
     const url = "http://localhost:8080/users/login";
@@ -43,7 +43,7 @@ export default function SignIn({ setOpen }) {
 
   return (
     <FormRoot id="formLogin" onSubmit={handleSubmit}>
-      <FormField name="login_email" required>
+      <FormField name="email" required>
         <LabelMessageWrapper>
           <FormLabel>Email</FormLabel>
           <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
@@ -60,7 +60,7 @@ export default function SignIn({ setOpen }) {
           />
         </FormControl>
       </FormField>
-      <FormField name="login_password" required>
+      <FormField name="password" required>
         <LabelMessageWrapper>
           <FormLabel>Password</FormLabel>
           <FormMessage match="valueMissing">
