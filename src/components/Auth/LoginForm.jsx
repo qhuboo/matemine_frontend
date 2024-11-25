@@ -14,7 +14,7 @@ export default function LoginForm({ setOpen }) {
       password: formData.get("password"),
     };
 
-    const url = "http://localhost:8080/users/login";
+    const url = "http://localhost:8080/auth/login";
 
     try {
       const response = await fetch(url, {
