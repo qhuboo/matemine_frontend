@@ -4,7 +4,7 @@ import Drawer from "../Drawer";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import platforms from "../../platform_data";
-import Sign from "../Sign/Sign";
+import AuthDialog from "../Auth/AuthDialog";
 
 function MobileMenu({ handleDismiss }) {
   return (
@@ -80,7 +80,7 @@ function MobileMenu({ handleDismiss }) {
             </Content>
           </Item>
         </Root>
-        <Sign />
+        <AuthDialog />
       </Wrapper>
     </MobileMenuDrawer>
   );

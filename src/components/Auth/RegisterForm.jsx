@@ -2,7 +2,7 @@ import * as Form from "@radix-ui/react-form";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function SignUp({ setOpen }) {
+export default function RegisterForm({ setOpen }) {
   const [error, setError] = useState(false);
 
   async function handleSubmit(event) {
@@ -19,7 +19,7 @@ export default function SignUp({ setOpen }) {
     console.log(formDataObject);
 
     try {
-      const url = "http://localhost:8080/users/login";
+      const url = "http://localhost:8080/auth/register";
       const response = await fetch(url, {
         method: "POST",
         headers: {},
@@ -42,7 +42,7 @@ export default function SignUp({ setOpen }) {
   }
 
   return (
-    <FormRoot id="signupForm" onSubmit={handleSubmit}>
+    <FormRoot id="registerForm" onSubmit={handleSubmit}>
       <FormField name="firstName">
         <LabelMessageWrapper>
           <FormLabel>First Name</FormLabel>
@@ -134,7 +134,7 @@ export default function SignUp({ setOpen }) {
           />
         </FormControl>
       </FormField>
-      <Form.Submit>Sign Up</Form.Submit>
+      <Form.Submit>Register</Form.Submit>
     </FormRoot>
   );
 }

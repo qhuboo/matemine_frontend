@@ -5,13 +5,14 @@ import { User } from "react-feather";
 import { styled, keyframes } from "styled-components";
 import { forwardRef, useState } from "react";
 
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+
 import { QUERIES } from "../../constants";
 
-export default function Sign() {
+export default function AuthDialog() {
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("signin");
+  const [activeTab, setActiveTab] = useState("login");
 
   return (
     <MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}>
@@ -25,45 +26,45 @@ export default function Sign() {
             <Dialog.Title />
             <Dialog.Description />
             <TabsRoot
-              defaultValue="signin"
+              defaultValue="login"
               value={activeTab}
               onValueChange={setActiveTab}
             >
               <TabsList>
-                <TabsTrigger value="signin" asChild>
+                <TabsTrigger value="login" asChild>
                   <ForwardedTabsTriggerWrapper>
-                    Sign In
+                    Login
                   </ForwardedTabsTriggerWrapper>
                 </TabsTrigger>
-                <TabsTrigger value="signup" asChild>
+                <TabsTrigger value="register" asChild>
                   <ForwardedTabsTriggerWrapper>
-                    Sign Up
+                    Register
                   </ForwardedTabsTriggerWrapper>
                 </TabsTrigger>
               </TabsList>
               <AnimatePresence initial={false} mode="popLayout">
-                {activeTab === "signin" && (
+                {activeTab === "login" && (
                   <TabsContent
                     forceMount
-                    key="signin"
-                    value="signin"
+                    key="login"
+                    value="login"
                     initial={{ x: `${110 * -1}%`, opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * -1}%`, opacity: 0 }}
                   >
-                    <SignIn setOpen={setOpen} />
+                    <LoginForm setOpen={setOpen} />
                   </TabsContent>
                 )}
-                {activeTab === "signup" && (
+                {activeTab === "register" && (
                   <TabsContent
                     forceMount
-                    key="signup"
-                    value="signup"
+                    key="register"
+                    value="register"
                     initial={{ x: `${110 * 1}%`, opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ x: `${110 * 1}%`, opacity: 0 }}
                   >
-                    <SignUp setOpen={setOpen} />
+                    <RegisterForm setOpen={setOpen} />
                   </TabsContent>
                 )}
               </AnimatePresence>

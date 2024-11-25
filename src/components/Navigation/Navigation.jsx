@@ -7,7 +7,7 @@ import MobileMenu from "../MobileMenu/MobileMenu";
 
 import SubMenus from "./SubMenus";
 
-import Sign from "../Sign/Sign";
+import AuthDialog from "../Auth/AuthDialog";
 import { useQueryClient } from "@tanstack/react-query";
 
 function Navigation({
@@ -114,7 +114,7 @@ function Navigation({
             <NavLink>
               <Search />
             </NavLink>
-            <Sign />
+            <AuthDialog />
             <NavLink>
               <Heart />
             </NavLink>

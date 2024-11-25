@@ -2,7 +2,7 @@ import * as Form from "@radix-ui/react-form";
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-export default function SignIn({ setOpen }) {
+export default function LoginForm({ setOpen }) {
   const [error, setError] = useState(false);
   async function handleSubmit(event) {
     event.preventDefault();
@@ -77,7 +77,7 @@ export default function SignIn({ setOpen }) {
         </FormControl>
       </FormField>
 
-      <Form.Submit>Sign In</Form.Submit>
+      <Form.Submit>Log In</Form.Submit>
       {error && <ErrorMessage>This is an error message</ErrorMessage>}
     </FormRoot>
   );
