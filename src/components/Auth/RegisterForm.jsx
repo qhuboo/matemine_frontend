@@ -10,9 +10,9 @@ export default function RegisterForm({ setOpen }) {
     const formData = new FormData(event.target);
 
     const formDataObject = {
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      email: formData.get("email"),
+      firstName: formData.get("firstName").trim(),
+      lastName: formData.get("lastName").trim(),
+      email: formData.get("email").trim(),
       password: formData.get("password"),
     };
 
@@ -34,7 +34,6 @@ export default function RegisterForm({ setOpen }) {
       console.log(data);
     } catch (error) {
       setError(true);
-      event.target.reset();
       console.log(error);
     }
   }
@@ -45,7 +44,10 @@ export default function RegisterForm({ setOpen }) {
         <LabelMessageWrapper>
           <FormLabel>First Name</FormLabel>
           <FormMessage match="valueMissing">
-            Yo gang your first name missing
+            Please enter your first name
+          </FormMessage>
+          <FormMessage match="patternMismatch">
+            First name can only include alphabetical characters
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
@@ -53,6 +55,7 @@ export default function RegisterForm({ setOpen }) {
             type="text"
             autoComplete="given-name"
             required
+            pattern="^[A-Za-z]+$"
             placeholder="Enter your first name"
           />
         </FormControl>
@@ -61,7 +64,10 @@ export default function RegisterForm({ setOpen }) {
         <LabelMessageWrapper>
           <FormLabel>Last Name</FormLabel>
           <FormMessage match="valueMissing">
-            Yo gang your last name missing
+            Please enter your last name
+          </FormMessage>
+          <FormMessage match="patternMismatch">
+            Last name can only include alphabetical characters
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
@@ -69,6 +75,7 @@ export default function RegisterForm({ setOpen }) {
             type="text"
             autoComplete="family-name"
             required
+            pattern="^[A-Za-z]+$"
             placeholder="Enter your last name"
           />
         </FormControl>
@@ -77,7 +84,10 @@ export default function RegisterForm({ setOpen }) {
         <LabelMessageWrapper>
           <FormLabel>Email</FormLabel>
           <FormMessage match="valueMissing">
-            Yo gang your email missing
+            Please enter your email address
+          </FormMessage>
+          <FormMessage match="typeMismatch">
+            Please enter a valid email address
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
@@ -93,7 +103,12 @@ export default function RegisterForm({ setOpen }) {
         <LabelMessageWrapper>
           <FormLabel>Password</FormLabel>
           <FormMessage match="valueMissing">
-            Yo gang your password missing
+            Please enter a password
+          </FormMessage>
+          <FormMessage match="patternMismatch">
+            The password must be at least 8 characters long, contain at least
+            one lowercase letter, one uppercase letter, one digit, and one
+            special character
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
@@ -102,6 +117,7 @@ export default function RegisterForm({ setOpen }) {
             autoComplete="new-password"
             required
             placeholder="Enter your password"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$"
           />
         </FormControl>
       </FormField>
@@ -109,7 +125,7 @@ export default function RegisterForm({ setOpen }) {
         <LabelMessageWrapper>
           <FormLabel>Confirm Password</FormLabel>
           <FormMessage match="valueMissing">
-            Yo gang re-enter your passowrd
+            Please re-enter your password
           </FormMessage>
           <FormMessage
             match={(value, formData) => {

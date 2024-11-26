@@ -10,7 +10,7 @@ export default function LoginForm({ setOpen }) {
 
     // Extract the form values
     const formDataObject = {
-      email: formData.get("email"),
+      email: formData.get("email").trim(),
       password: formData.get("password"),
     };
 
@@ -35,7 +35,6 @@ export default function LoginForm({ setOpen }) {
 
       console.log(data);
     } catch (error) {
-      event.target.reset();
       setError(true);
       console.error(error);
     }
@@ -46,9 +45,11 @@ export default function LoginForm({ setOpen }) {
       <FormField name="email" required>
         <LabelMessageWrapper>
           <FormLabel>Email</FormLabel>
-          <FormMessage match="valueMissing">Yo email missing gang</FormMessage>
+          <FormMessage match="valueMissing">
+            Please enter your email address
+          </FormMessage>
           <FormMessage match="typeMismatch">
-            That's not an email gang
+            Please enter a valid email address
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
@@ -64,7 +65,7 @@ export default function LoginForm({ setOpen }) {
         <LabelMessageWrapper>
           <FormLabel>Password</FormLabel>
           <FormMessage match="valueMissing">
-            Yo password missing gang
+            Please enter a password
           </FormMessage>
         </LabelMessageWrapper>
         <FormControl asChild>
