@@ -32,7 +32,6 @@ export default function LoginForm({ setOpen }) {
       }
 
       setOpen(false);
-
       console.log(data);
     } catch (error) {
       setError(true);
