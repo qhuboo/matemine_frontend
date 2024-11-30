@@ -15,7 +15,7 @@ export default function LoginForm({ setOpen }) {
     };
 
     const url = "http://localhost:8080/auth/login";
-
+    console.log(formDataObject);
     try {
       const response = await fetch(url, {
         method: "POST",

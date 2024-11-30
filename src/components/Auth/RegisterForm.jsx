@@ -16,6 +16,7 @@ export default function RegisterForm({ setOpen }) {
       password: formData.get("password"),
     };
 
+    console.log(formDataObject);
     try {
       const url = "http://localhost:8080/auth/register";
       const response = await fetch(url, {
