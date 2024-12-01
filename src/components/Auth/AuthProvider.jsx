@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -12,10 +12,10 @@ export default function AuthProvider({ children }) {
   function login(userData, token) {
     setAuthState({
       user: {
-        id: userData.id,
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,
+        admin: userData.admin,
       },
       isAuthenticated: true,
       token,

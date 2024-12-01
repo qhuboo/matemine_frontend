@@ -9,6 +9,7 @@ import SubMenus from "./SubMenus";
 
 import AuthDialog from "../Auth/AuthDialog";
 import { useQueryClient } from "@tanstack/react-query";
+import useAuth from "../Auth/hooks/useAuth";
 
 function Navigation({
   isMobileMenuOpen,
@@ -19,6 +20,7 @@ function Navigation({
   setActiveMenu,
 }) {
   const queryClient = useQueryClient();
+  const { user, isAuthenticated } = useAuth();
   return (
     <Wrapper
       onMouseEnter={() => {

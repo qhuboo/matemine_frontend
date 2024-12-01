@@ -1,11 +1,14 @@
 import * as Form from "@radix-ui/react-form";
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
+import useAuth from "./hooks/useAuth";
 
 export default function LoginForm({ setOpen }) {
-  const [error, setError] = useState(false);
+  const { login } = useAuth();
+  const [error, setError] = useState("");
   async function handleSubmit(event) {
     event.preventDefault();
+    setError("");
     const formData = new FormData(event.target);
 
     // Extract the form values
@@ -15,7 +18,7 @@ export default function LoginForm({ setOpen }) {
     };
 
     const url = "http://localhost:8080/auth/login";
-    console.log(formDataObject);
+    // console.log(formDataObject);
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -28,14 +31,22 @@ export default function LoginForm({ setOpen }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw Error(`There was an error(${response.status}): ${data.error}`);
+        throw Error(`${data.message}`);
       }
 
-      setOpen(false);
-      console.log(data);
+      if (data.isAuthenticated) {
+        login(
+          {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            admin: data.admin,
+          },
+          data.token
+        );
+      }
     } catch (error) {
-      setError(true);
-      console.error(error);
+      setError(error.message);
     }
   }
 
@@ -78,7 +89,7 @@ export default function LoginForm({ setOpen }) {
       </FormField>
 
       <Form.Submit>Log In</Form.Submit>
-      {error && <ErrorMessage>This is an error message</ErrorMessage>}
+      {error.length > 0 && <ErrorMessage>{error}</ErrorMessage>}
     </FormRoot>
   );
 }
