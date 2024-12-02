@@ -9,14 +9,21 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
 import { QUERIES } from "../../constants";
+import { useSearchParams } from "react-router-dom";
 
 export default function AuthDialog() {
-  const [open, setOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [open, setOpen] = useState(() => {
+    if (searchParams.get("login") === "true") {
+      return true;
+    }
+    return false;
+  });
   const [activeTab, setActiveTab] = useState("login");
 
   return (
     <MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}>
-      <DialogRoot open={open} onOpenChange={setOpen}>
+      <DialogRoot open={open} onOpenChange={setOpen} modal={true}>
         <DialogTrigger asChild>
           <User />
         </DialogTrigger>

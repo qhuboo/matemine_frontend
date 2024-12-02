@@ -13,8 +13,12 @@ import { keyframes } from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import useScrollLock from "../../hooks/useScrollLock";
 import AuthProvider from "../Auth/AuthProvider";
-
+import ProtectedRoutes from "../Auth/ProtectedRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Account from "../Account/Account";
+import Login from "../Auth/Login";
+import AuthDialog from "../Auth/AuthDialog";
+import Register from "../Auth/Register";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,6 +80,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <AuthDialog />
         <Wrapper ref={wrapperRef}>
           <ScrollToTop />
           <Main>
@@ -112,6 +117,21 @@ function App() {
                       </motion.div>
                     }
                   />
+                  <Route element={<ProtectedRoutes />}>
+                    <Route
+                      path="/account"
+                      element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -50 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <Account />
+                        </motion.div>
+                      }
+                    />
+                  </Route>
                   <Route
                     path="/marketplace"
                     element={
@@ -122,6 +142,32 @@ function App() {
                         transition={{ duration: 0.5 }}
                       >
                         <MarketPlace />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/login"
+                    element={
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <Login />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/register"
+                    element={
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <Register />
                       </motion.div>
                     }
                   />

@@ -7,7 +7,6 @@ import MobileMenu from "../MobileMenu/MobileMenu";
 
 import SubMenus from "./SubMenus";
 
-import AuthDialog from "../Auth/AuthDialog";
 import { useQueryClient } from "@tanstack/react-query";
 import useAuth from "../Auth/hooks/useAuth";
 
@@ -116,7 +115,9 @@ function Navigation({
             <NavLink>
               <Search />
             </NavLink>
-            <AuthDialog />
+            <NavLink to={"/account"}>
+              <User />
+            </NavLink>
             <NavLink>
               <Heart />
             </NavLink>

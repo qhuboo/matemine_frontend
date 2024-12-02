@@ -1,9 +1,13 @@
 import * as Form from "@radix-ui/react-form";
 import { useState } from "react";
 import styled from "styled-components";
+import useAuth from "./hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-export default function RegisterForm({ setOpen }) {
-  const [error, setError] = useState(false);
+export default function RegisterForm({ destination }) {
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -16,7 +20,6 @@ export default function RegisterForm({ setOpen }) {
       password: formData.get("password"),
     };
 
-    console.log(formDataObject);
     try {
       const url = "http://localhost:8080/auth/register";
       const response = await fetch(url, {
@@ -28,14 +31,23 @@ export default function RegisterForm({ setOpen }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw Error(`There was an error(${response.status}): ${data.error}`);
+        throw Error(`${data.message}`);
       }
 
-      setOpen(false);
-      console.log(data);
+      if (data.isAuthenticated) {
+        login(
+          {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            admin: data.admin,
+          },
+          data.token
+        );
+        navigate(destination);
+      }
     } catch (error) {
-      setError(true);
-      console.log(error);
+      setError(error.message);
     }
   }
 

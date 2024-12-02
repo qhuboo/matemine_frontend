@@ -2,10 +2,13 @@ import * as Form from "@radix-ui/react-form";
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import useAuth from "./hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginForm({ setOpen }) {
+export default function LoginForm({ destination }) {
   const { login } = useAuth();
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
@@ -18,7 +21,6 @@ export default function LoginForm({ setOpen }) {
     };
 
     const url = "http://localhost:8080/auth/login";
-    // console.log(formDataObject);
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -45,6 +47,7 @@ export default function LoginForm({ setOpen }) {
           data.token
         );
       }
+      navigate(destination);
     } catch (error) {
       setError(error.message);
     }
