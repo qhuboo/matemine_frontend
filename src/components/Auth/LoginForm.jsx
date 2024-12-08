@@ -1,27 +1,16 @@
 import * as Form from "@radix-ui/react-form";
-import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+
+const url = "http://localhost:8080/auth/login";
 
 export default function LoginForm({ destination }) {
-  const { login } = useAuth();
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setError("");
-    const formData = new FormData(event.target);
-
-    // Extract the form values
-    const formDataObject = {
-      email: formData.get("email").trim(),
-      password: formData.get("password"),
-    };
-
-    const url = "http://localhost:8080/auth/login";
-    try {
+  const { login, isAuthenticated } = useAuth();
+  const loginUser = useMutation({
+    mutationFn: async (formDataObject) => {
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -30,28 +19,45 @@ export default function LoginForm({ destination }) {
         body: JSON.stringify(formDataObject),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw Error(`${data.message}`);
+        const data = await response.json();
+        const error = new Error(data.message);
+        error.message = data.message;
+        throw error;
       }
 
+      return response.json();
+    },
+    onSuccess: (data) => {
       if (data.isAuthenticated) {
-        login(
-          {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            admin: data.admin,
-          },
-          data.token
-        );
+        login(data);
+        navigate(destination);
       }
-      navigate(destination);
-    } catch (error) {
-      setError(error.message);
+    },
+  });
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (loginUser.isPending || isAuthenticated) {
+      return;
+    }
+    const formData = new FormData(event.target);
+
+    // Extract the form values
+    const formDataObject = {
+      email: formData.get("email").trim(),
+      password: formData.get("password"),
+    };
+
+    loginUser.mutate(formDataObject);
+    if (loginUser.isSuccess) {
+      if (loginUser?.data?.isAuthenticated) {
+        navigate(destination);
+      }
     }
   }
+
+  console.log(loginUser.status);
 
   return (
     <FormRoot id="formLogin" onSubmit={handleSubmit}>
@@ -92,7 +98,9 @@ export default function LoginForm({ destination }) {
       </FormField>
 
       <Form.Submit>Log In</Form.Submit>
-      {error.length > 0 && <ErrorMessage>{error}</ErrorMessage>}
+      {loginUser.isError && (
+        <ErrorMessage>{loginUser.error.message}</ErrorMessage>
+      )}
     </FormRoot>
   );
 }

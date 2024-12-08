@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 export default function Login() {
   const { state } = useLocation();
   const destination = state?.path ? state.path : "/";
-  console.log(destination);
 
   return (
     <FormWrapper>

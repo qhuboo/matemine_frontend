@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -9,7 +9,16 @@ export default function AuthProvider({ children }) {
     token: null,
   });
 
-  function login(userData, token) {
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      if (userInfo) {
+        setAuthState(userInfo);
+      }
+    }
+  }, []);
+
+  function login(userData) {
     setAuthState({
       user: {
         firstName: userData.firstName,
@@ -18,18 +27,32 @@ export default function AuthProvider({ children }) {
         admin: userData.admin,
       },
       isAuthenticated: true,
-      token,
+      accessToken: userData.accessToken,
     });
-    // Something about localStorage
+    // Set the local storage
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        user: {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          admin: userData.admin,
+        },
+        isAuthenticated: true,
+        accessToken: userData.accessToken,
+      })
+    );
   }
 
   function logout() {
     setAuthState({
       user: null,
       isAuthenticated: false,
-      token: null,
+      accessToken: null,
     });
-    // Something about localStorage
+    // Remove user data from local storage
+    localStorage.removeItem("user");
   }
 
   return (
