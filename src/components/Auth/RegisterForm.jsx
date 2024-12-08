@@ -1,16 +1,56 @@
 import * as Form from "@radix-ui/react-form";
-import { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+
+const url = "http://localhost:8080/auth/register";
 
 export default function RegisterForm({ destination }) {
-  const { login } = useAuth();
-  const [error, setError] = useState("");
+  const { login, isAuthenticated } = useAuth();
+  const registerUser = useMutation({
+    mutationFn: async (formDataObject) => {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataObject),
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          const error = new Error(data.message);
+          error.message = data.message;
+          throw error;
+        }
+
+        return response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      if (data.isAuthenticated) {
+        login(data);
+        navigate(destination);
+      }
+    },
+  });
   const navigate = useNavigate();
+
+  console.log(registerUser.status);
+  console.log(isAuthenticated);
 
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log("Here");
+    if (registerUser.isPending || isAuthenticated) {
+      console.log("In here");
+      return;
+    }
     const formData = new FormData(event.target);
 
     const formDataObject = {
@@ -20,35 +60,7 @@ export default function RegisterForm({ destination }) {
       password: formData.get("password"),
     };
 
-    try {
-      const url = "http://localhost:8080/auth/register";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formDataObject),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw Error(`${data.message}`);
-      }
-
-      if (data.isAuthenticated) {
-        login(
-          {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            admin: data.admin,
-          },
-          data.token
-        );
-        navigate(destination);
-      }
-    } catch (error) {
-      setError(error.message);
-    }
+    registerUser.mutate(formDataObject);
   }
 
   return (
@@ -162,9 +174,20 @@ export default function RegisterForm({ destination }) {
         </FormControl>
       </FormField>
       <Form.Submit>Register</Form.Submit>
+      {registerUser.isError && (
+        <ErrorMessage>{registerUser.error.message}</ErrorMessage>
+      )}
     </FormRoot>
   );
 }
+
+const shakeAnimation = keyframes`
+0% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+50% { transform: translateX(5px); }
+75% { transform: translateX(-5px); }
+100% { transform: translateX(0); }
+`;
 
 const FormRoot = styled(Form.Root)`
   //   border: 3px solid red;
@@ -220,4 +243,10 @@ const FormControl = styled(Form.Control)`
     line-height: 1.5;
     transform: translateY(2px); /* Visual vertical centering */
   }
+`;
+
+const ErrorMessage = styled.div`
+  text-align: center;
+  color: red;
+  animation: ${shakeAnimation} 200ms ease;
 `;

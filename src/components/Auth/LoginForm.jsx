@@ -50,11 +50,6 @@ export default function LoginForm({ destination }) {
     };
 
     loginUser.mutate(formDataObject);
-    if (loginUser.isSuccess) {
-      if (loginUser?.data?.isAuthenticated) {
-        navigate(destination);
-      }
-    }
   }
 
   console.log(loginUser.status);

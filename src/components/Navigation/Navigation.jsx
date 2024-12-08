@@ -19,7 +19,7 @@ function Navigation({
   setActiveMenu,
 }) {
   const queryClient = useQueryClient();
-  const { user, isAuthenticated } = useAuth();
+  const user = useAuth();
   return (
     <Wrapper
       onMouseEnter={() => {
@@ -124,6 +124,7 @@ function Navigation({
             <NavLink to={"/cart"}>
               <ShoppingBag />
             </NavLink>
+            <button onClick={user.logout}>Logout</button>
           </IconLinks>
 
           <MobileLinks>
