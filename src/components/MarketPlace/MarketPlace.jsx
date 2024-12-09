@@ -31,12 +31,16 @@ function MarketPlace() {
       setSearchParams(newParams);
     }
 
-    if (!searchParams.get("page")) {
+    if (
+      !searchParams.get("page") ||
+      !/^[0-9]+$/.test(searchParams.get("page"))
+    ) {
       const newParams = {};
       // Copy existing params
       searchParams.forEach((value, key) => {
         newParams[key] = value;
       });
+
       // Add perPage
       newParams["page"] = "1";
       setSearchParams(newParams);
@@ -52,7 +56,7 @@ function MarketPlace() {
         newParams[key] = value;
       });
       // Add perPage
-      newParams["sort"] = "alpha-desc";
+      newParams["sort"] = "alpha-asc";
       setSearchParams(newParams);
     }
   }, [searchParams, setSearchParams]);
@@ -167,7 +171,7 @@ function MarketPlace() {
                 <label htmlFor="sort-by">Sort By: </label>
                 <select
                   id="sort-by"
-                  value={searchParams.get("sort") || "alpha-desc"}
+                  value={searchParams.get("sort") || "alpha-asc"}
                   onChange={(event) => {
                     event.preventDefault();
                     handleSelectChange("sort", event.target.value);
@@ -175,8 +179,8 @@ function MarketPlace() {
                 >
                   <option value="price-desc">Price-Desc</option>
                   <option value="price-asc">Price-Asc</option>
-                  <option value="alpha-desc">A-to-Z</option>
-                  <option value="alpha-asc">Z-to-A</option>
+                  <option value="alpha-asc">A-to-Z</option>
+                  <option value="alpha-desc">Z-to-A</option>
                   <option value="rating-desc">Rating Desc</option>
                   <option value="rating-asc">Rating Asc</option>
                 </select>
