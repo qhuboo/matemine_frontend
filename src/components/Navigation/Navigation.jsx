@@ -124,7 +124,9 @@ function Navigation({
             <NavLink to={"/cart"}>
               <ShoppingBag />
             </NavLink>
-            <button onClick={user.logout}>Logout</button>
+            {user.isAuthenticated && (
+              <button onClick={user.logout}>Logout</button>
+            )}
           </IconLinks>
 
           <MobileLinks>

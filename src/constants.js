@@ -10,4 +10,15 @@ const QUERIES = {
   laptopAndSmaller: `max-width: ${BREAKPOINTS.laptopMax / 16}rem`,
 };
 
-export { QUERIES };
+const validPerPageOptions = ["12", "24", "48", "76"];
+
+const validSortOptions = [
+  "alpha-desc",
+  "alpha-asc",
+  "rating-desc",
+  "rating-asc",
+  "price-desc",
+  "price-asc",
+];
+
+export { QUERIES, validPerPageOptions, validSortOptions };

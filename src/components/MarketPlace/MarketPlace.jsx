@@ -10,31 +10,53 @@ import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
 import { useQuery } from "@tanstack/react-query";
 
+import { validPerPageOptions, validSortOptions } from "../../constants";
+
 function MarketPlace() {
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
-  if (!searchParams.get("perPage")) {
-    const newParams = {};
-    // Copy existing params
-    searchParams.forEach((value, key) => {
-      newParams[key] = value;
-    });
-    // Add perPage
-    newParams["perPage"] = "12";
-    setSearchParams(newParams);
-  }
+  useEffect(() => {
+    if (
+      !searchParams.get("perPage") ||
+      !validPerPageOptions.includes(searchParams.get("perPage"))
+    ) {
+      const newParams = {};
+      // Copy existing params
+      searchParams.forEach((value, key) => {
+        newParams[key] = value;
+      });
+      // Add perPage
+      newParams["perPage"] = "12";
+      setSearchParams(newParams);
+    }
 
-  if (!searchParams.get("page")) {
-    const newParams = {};
-    // Copy existing params
-    searchParams.forEach((value, key) => {
-      newParams[key] = value;
-    });
-    // Add perPage
-    newParams["page"] = "1";
-    setSearchParams(newParams);
-  }
+    if (!searchParams.get("page")) {
+      const newParams = {};
+      // Copy existing params
+      searchParams.forEach((value, key) => {
+        newParams[key] = value;
+      });
+      // Add perPage
+      newParams["page"] = "1";
+      setSearchParams(newParams);
+    }
+
+    if (
+      !searchParams.get("sort") ||
+      !validSortOptions.includes(searchParams.get("sort"))
+    ) {
+      const newParams = {};
+      // Copy existing params
+      searchParams.forEach((value, key) => {
+        newParams[key] = value;
+      });
+      // Add perPage
+      newParams["sort"] = "alpha-desc";
+      setSearchParams(newParams);
+    }
+  }, [searchParams, setSearchParams]);
+
   const location = useLocation();
 
   const [isFiltersOpen, setIsFiltersOpen] = useToggle(false);
@@ -48,7 +70,7 @@ function MarketPlace() {
     queryKey: ["games", location.search],
     queryFn: async () => {
       const response = await fetch(
-        `https://api.matemine.shop/games${location.search}`
+        `http://localhost:8080/games${location.search}`
       );
 
       if (!response.ok) {
@@ -114,17 +136,19 @@ function MarketPlace() {
           <SortWrapper>
             <GamesPerPage>
               <form
-                onSubmit={(event) =>
-                  handleSelectChange("perPage", event.target.value)
-                }
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  handleSelectChange("perPage", event.target.value);
+                }}
               >
                 <label htmlFor="per-page">Show: </label>
                 <select
                   id="per-page"
                   value={searchParams.get("perPage") || "12"}
-                  onChange={(event) =>
-                    handleSelectChange("perPage", event.target.value)
-                  }
+                  onChange={(event) => {
+                    event.preventDefault();
+                    handleSelectChange("perPage", event.target.value);
+                  }}
                 >
                   <option value="12">12</option>
                   <option value="24">24</option>
@@ -135,17 +159,19 @@ function MarketPlace() {
             </GamesPerPage>
             <SortBy>
               <form
-                onSubmit={(event) =>
-                  handleSelectChange("sort", event.target.value)
-                }
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  handleSelectChange("sort", event.target.value);
+                }}
               >
                 <label htmlFor="sort-by">Sort By: </label>
                 <select
                   id="sort-by"
-                  value={searchParams.get("sort") || "rating-desc"}
-                  onChange={(event) =>
-                    handleSelectChange("sort", event.target.value)
-                  }
+                  value={searchParams.get("sort") || "alpha-desc"}
+                  onChange={(event) => {
+                    event.preventDefault();
+                    handleSelectChange("sort", event.target.value);
+                  }}
                 >
                   <option value="price-desc">Price-Desc</option>
                   <option value="price-asc">Price-Asc</option>
