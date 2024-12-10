@@ -40,7 +40,6 @@ function MarketPlace() {
       searchParams.forEach((value, key) => {
         newParams[key] = value;
       });
-
       // Add perPage
       newParams["page"] = "1";
       setSearchParams(newParams);

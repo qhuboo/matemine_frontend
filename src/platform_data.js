@@ -12,7 +12,7 @@ const platforms = {
     "Nintendo DSi",
     "Game Boy Color",
     "GameCube",
-    "N64",
+    "Nintendo 64",
   ],
   sega: [
     "SEGA CD",
