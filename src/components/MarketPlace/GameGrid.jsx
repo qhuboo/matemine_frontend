@@ -13,7 +13,7 @@ export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
           key={game.game_id}
           onMouseEnter={() => {
             queryClient.prefetchQuery({
-              queryKey: ["games", "game", "screenshots", game.game_id],
+              queryKey: ["games", "game", "screenshots", `${game.game_id}`],
               queryFn: async () => {
                 console.log(game.game_id);
                 const response = await fetch(

@@ -24,10 +24,10 @@ function Navigation({
     <Wrapper
       onMouseEnter={() => {
         queryClient.prefetchQuery({
-          queryKey: ["games"],
+          queryKey: ["games", "?perPage=12&page=1&sort=alpha-asc"],
           queryFn: async () => {
             const response = await fetch(
-              `https://api.matemine.shop/games?perPage=12&page=1&sort=rating-desc`
+              `https://api.matemine.shop/games?perPage=12&page=1&sort=alpha-asc`
             );
             if (!response.ok) {
               throw new Error("There was an error");
@@ -45,7 +45,7 @@ function Navigation({
           <NavLink
             to={{
               pathname: "/marketplace",
-              search: "?perPage=12&page=1&sort=rating-desc",
+              search: "?perPage=12&page=1&sort=alpha-asc",
             }}
             onClick={() => {
               setActiveMenu("");

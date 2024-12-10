@@ -20,6 +20,8 @@ import Login from "../Auth/Login";
 import AuthDialog from "../Auth/AuthDialog";
 import Register from "../Auth/Register";
 
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -79,6 +81,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
       <AuthProvider>
         <AuthDialog />
         <Wrapper ref={wrapperRef}>
