@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { validPerPageOptions, validSortOptions } from "../../constants";
 
-const url = import.meta.env + "/games";
+const url = import.meta.env.VITE_BACKEND_URL + "/games";
 
 function MarketPlace() {
   // Search Params

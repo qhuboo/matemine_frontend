@@ -8,7 +8,7 @@ function Product() {
     queryKey: ["games", "game", "screenshots", gameId],
     queryFn: async () => {
       const response = await fetch(
-        `https://api.matemine.shop/games/screenshots/${gameId}`
+        `${import.meta.env.VITE_BACKEND_URL}/games/screenshots/${gameId}`
       );
 
       if (!response.ok) {

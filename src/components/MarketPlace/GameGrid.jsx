@@ -17,7 +17,7 @@ export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
             queryClient.prefetchQuery({
               queryKey: ["games", "game", "screenshots", `${game.game_id}`],
               queryFn: async () => {
-                const response = await fetch(`${url}/${game.game_id}`, {
+                const response = await fetch(`${url}${game.game_id}`, {
                   credentials: "include",
                   headers: {
                     "Content-Type": "application/json",
