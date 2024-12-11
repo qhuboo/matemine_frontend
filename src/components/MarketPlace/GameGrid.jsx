@@ -15,9 +15,14 @@ export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
             queryClient.prefetchQuery({
               queryKey: ["games", "game", "screenshots", `${game.game_id}`],
               queryFn: async () => {
-                console.log(game.game_id);
                 const response = await fetch(
-                  `https://api.matemine.shop/games/screenshots/${game.game_id}`
+                  `http://localhost:8080/games/screenshots/${game.game_id}`,
+                  {
+                    credentials: "include",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
                 );
                 if (!response.ok) {
                   throw new Error("There was an error");
