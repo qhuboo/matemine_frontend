@@ -12,6 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { validPerPageOptions, validSortOptions } from "../../constants";
 
+const url = import.meta.env + "/games";
+
 function MarketPlace() {
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,9 +74,7 @@ function MarketPlace() {
   const { data, status, isLoading, error } = useQuery({
     queryKey: ["games", location.search],
     queryFn: async () => {
-      const response = await fetch(
-        `http://localhost:8080/games${location.search}`
-      );
+      const response = await fetch(`${url}${location.search}`);
 
       if (!response.ok) {
         throw new Error("There was an error");

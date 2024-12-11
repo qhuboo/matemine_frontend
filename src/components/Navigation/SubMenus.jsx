@@ -43,7 +43,9 @@ export default function SubMenus({
                             ],
                             queryFn: async () => {
                               const response = await fetch(
-                                `https://api.matemine.shop/games?perPage=12&page=1&sort=rating-desc&${platform}=${console}`
+                                `${
+                                  import.meta.env.VITE_BACKEND_URL
+                                }/games?perPage=12&page=1&sort=rating-desc&${platform}=${console}`
                               );
                               if (!response.ok) {
                                 throw new Error("There was an error");
@@ -81,7 +83,9 @@ export default function SubMenus({
                             queryKey: ["games", "game", game.game_id],
                             queryFn: async () => {
                               const response = await fetch(
-                                `https://api.matemine.shop/games/${game.game_id}`
+                                `${import.meta.env.VITE_BACKEND_URL}/games/${
+                                  game.game_id
+                                }`
                               );
                               if (!response.ok) {
                                 throw new Error("There was an error");
@@ -130,7 +134,9 @@ export default function SubMenus({
                                 queryKey: ["games", "game", game.game_id],
                                 queryFn: async () => {
                                   const response = await fetch(
-                                    `https://api.matemine.shop/games/${game.game_id}`
+                                    `${
+                                      import.meta.env.VITE_BACKEND_URL
+                                    }/games/${game.game_id}`
                                   );
                                   if (!response.ok) {
                                     throw new Error("There was an error");

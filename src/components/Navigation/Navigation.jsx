@@ -10,6 +10,8 @@ import SubMenus from "./SubMenus";
 import { useQueryClient } from "@tanstack/react-query";
 import useAuth from "../Auth/hooks/useAuth";
 
+const url = import.meta.env + "/games?perPage=12&page=1&sort=alpha-asc";
+
 function Navigation({
   isMobileMenuOpen,
   handleOpenMobileMenu,
@@ -26,9 +28,7 @@ function Navigation({
         queryClient.prefetchQuery({
           queryKey: ["games", "?perPage=12&page=1&sort=alpha-asc"],
           queryFn: async () => {
-            const response = await fetch(
-              `https://api.matemine.shop/games?perPage=12&page=1&sort=alpha-asc`
-            );
+            const response = await fetch(url);
             if (!response.ok) {
               throw new Error("There was an error");
             }

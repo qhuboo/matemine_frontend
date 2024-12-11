@@ -4,7 +4,7 @@ import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
-const url = "http://localhost:8080/auth/login";
+const url = (import.meta.env.VITE_BACKEND_URL = "/auth/login");
 
 export default function LoginForm({ destination }) {
   const navigate = useNavigate();
