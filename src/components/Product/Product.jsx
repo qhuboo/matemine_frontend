@@ -1,22 +1,15 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { fetchWrapper } from "../../utils";
 
 function Product() {
   const { gameId } = useParams();
   const { data, status } = useQuery({
-    queryKey: ["games", "game", "screenshots", gameId],
-    queryFn: async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/games/screenshots/${gameId}`
-      );
-
-      if (!response.ok) {
-        throw new Error("There was an error");
-      }
-
-      return response.json();
-    },
+    queryKey: ["games", "game", "screenshots", `${gameId}`],
+    queryFn: fetchWrapper.get(
+      `${import.meta.env.VITE_BACKEND_URL}/games/screenshots/${gameId}`
+    ),
     staleTime: Infinity,
   });
 
@@ -26,27 +19,27 @@ function Product() {
         <Wrapper>
           <GameImages>
             <Image1>
-              <img src={data[0].image} alt="" />
+              <img src={data[0]?.image} alt="" />
             </Image1>
             <Image2>
-              <img src={data[1].image} alt="" />
+              <img src={data[1]?.image} alt="" />
             </Image2>
             <Image3>
-              <img src={data[2].image} alt="" />
+              <img src={data[2]?.image} alt="" />
             </Image3>
             <Image4>
-              <img src={data[3].image} alt="" />
+              <img src={data[3]?.image} alt="" />
             </Image4>
           </GameImages>
           <GameDetails>
             <GameInfo>
-              <GameTitle>{data[0].title}</GameTitle>
+              <GameTitle>{data[0]?.title}</GameTitle>
               Details
-              <GameDescription>{data[0].description}</GameDescription>
+              <GameDescription>{data[0]?.description}</GameDescription>
             </GameInfo>
             <AddToCart>
-              <GameTitle>{data[0].title}</GameTitle>
-              <GamePrice>${data[0].price}</GamePrice>
+              <GameTitle>{data[0]?.title}</GameTitle>
+              <GamePrice>${data[0]?.price}</GamePrice>
               <AddToCartButton>Add to Cart</AddToCartButton>
             </AddToCart>
           </GameDetails>

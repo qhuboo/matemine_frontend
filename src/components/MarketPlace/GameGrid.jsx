@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { QUERIES } from "../../constants";
 import { useQueryClient } from "@tanstack/react-query";
+import { fetchWrapper } from "../../utils";
 
 const url = import.meta.env.VITE_BACKEND_URL + "/games/screenshots/";
 
@@ -16,19 +17,7 @@ export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
           onMouseEnter={() => {
             queryClient.prefetchQuery({
               queryKey: ["games", "game", "screenshots", `${game.game_id}`],
-              queryFn: async () => {
-                const response = await fetch(`${url}${game.game_id}`, {
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                });
-                if (!response.ok) {
-                  throw new Error("There was an error");
-                }
-
-                return response.json();
-              },
+              queryFn: fetchWrapper.get(`${url}${game.game_id}`),
               staleTime: Infinity,
             });
           }}

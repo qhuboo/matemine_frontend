@@ -11,6 +11,7 @@ import useToggle from "../../hooks/use-toggle";
 import { useQuery } from "@tanstack/react-query";
 
 import { validPerPageOptions, validSortOptions } from "../../constants";
+import { fetchWrapper } from "../../utils";
 
 const url = import.meta.env.VITE_BACKEND_URL + "/games";
 
@@ -73,15 +74,7 @@ function MarketPlace() {
 
   const { data, status, isLoading, error } = useQuery({
     queryKey: ["games", location.search],
-    queryFn: async () => {
-      const response = await fetch(`${url}${location.search}`);
-
-      if (!response.ok) {
-        throw new Error("There was an error");
-      }
-
-      return response.json();
-    },
+    queryFn: fetchWrapper.get(`${url}${location.search}`),
   });
 
   function getValues(group) {

@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import platforms from "../../platform_data.js";
 import { favorites } from "../../data.js";
+import { fetchWrapper } from "../../utils.js";
 
 export default function SubMenus({
   activeMenu,
@@ -41,17 +42,11 @@ export default function SubMenus({
                               "games",
                               `?perPage=12&page=1&sort=rating-desc&${platform}=${console}`,
                             ],
-                            queryFn: async () => {
-                              const response = await fetch(
-                                `${
-                                  import.meta.env.VITE_BACKEND_URL
-                                }/games?perPage=12&page=1&sort=rating-desc&${platform}=${console}`
-                              );
-                              if (!response.ok) {
-                                throw new Error("There was an error");
-                              }
-                              return response.json();
-                            },
+                            queryFn: fetchWrapper.get(
+                              `${
+                                import.meta.env.VITE_BACKEND_URL
+                              }/games?perPage=12&page=1&sort=rating-desc&${platform}=${console}`
+                            ),
                           });
                         }}
                         onClick={() => {
@@ -77,21 +72,20 @@ export default function SubMenus({
                           setActiveMenu("");
                           setIsSubMenuOpen(false);
                         }}
-                        to={`product/${game.game_id}`}
+                        to={`/product/${game.game_id}`}
                         onMouseEnter={() => {
                           queryClient.prefetchQuery({
-                            queryKey: ["games", "game", game.game_id],
-                            queryFn: async () => {
-                              const response = await fetch(
-                                `${import.meta.env.VITE_BACKEND_URL}/games/${
-                                  game.game_id
-                                }`
-                              );
-                              if (!response.ok) {
-                                throw new Error("There was an error");
-                              }
-                              return response.json();
-                            },
+                            queryKey: [
+                              "games",
+                              "game",
+                              "screenshots",
+                              `${game.game_id}`,
+                            ],
+                            queryFn: fetchWrapper.get(
+                              `${import.meta.env.VITE_BACKEND_URL}/games/${
+                                game.game_id
+                              }`
+                            ),
                           });
                         }}
                       >
@@ -113,7 +107,7 @@ export default function SubMenus({
                               setActiveMenu("");
                               setIsSubMenuOpen(false);
                             }}
-                            to={`product/${game.game_id}`}
+                            to={`/product/${game.game_id}`}
                           >
                             <FeaturedGameImage
                               src={game.sample_cover.image}
@@ -131,18 +125,17 @@ export default function SubMenus({
                             to={`product/${game.game_id}`}
                             onMouseEnter={() => {
                               queryClient.prefetchQuery({
-                                queryKey: ["games", "game", game.game_id],
-                                queryFn: async () => {
-                                  const response = await fetch(
-                                    `${
-                                      import.meta.env.VITE_BACKEND_URL
-                                    }/games/${game.game_id}`
-                                  );
-                                  if (!response.ok) {
-                                    throw new Error("There was an error");
-                                  }
-                                  return response.json();
-                                },
+                                queryKey: [
+                                  "games",
+                                  "game",
+                                  "screenshots",
+                                  `${game.game_id}`,
+                                ],
+                                queryFn: fetchWrapper.get(
+                                  `${import.meta.env.VITE_BACKEND_URL}/games/${
+                                    game.game_id
+                                  }`
+                                ),
                               });
                             }}
                           >

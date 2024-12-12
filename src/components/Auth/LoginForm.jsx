@@ -3,31 +3,15 @@ import styled, { keyframes } from "styled-components";
 import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { fetchWrapper } from "../../utils";
 
-const url = (import.meta.env.VITE_BACKEND_URL = "/auth/login");
+const url = import.meta.env.VITE_BACKEND_URL + "/auth/login";
 
 export default function LoginForm({ destination }) {
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
   const loginUser = useMutation({
-    mutationFn: async (formDataObject) => {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formDataObject),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        const error = new Error(data.message);
-        error.message = data.message;
-        throw error;
-      }
-
-      return response.json();
-    },
+    mutationFn: fetchWrapper.post(url),
     onSuccess: (data) => {
       if (data.isAuthenticated) {
         login(data);
@@ -51,8 +35,6 @@ export default function LoginForm({ destination }) {
 
     loginUser.mutate(formDataObject);
   }
-
-  console.log(loginUser.status);
 
   return (
     <FormRoot id="formLogin" onSubmit={handleSubmit}>

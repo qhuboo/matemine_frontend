@@ -3,52 +3,29 @@ import styled, { keyframes } from "styled-components";
 import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { fetchWrapper } from "../../utils";
 
 const url = import.meta.env.VITE_BACKEND_URL + "/auth/register";
 
 export default function RegisterForm({ destination }) {
+  const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
   const registerUser = useMutation({
-    mutationFn: async (formDataObject) => {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formDataObject),
-        });
-
-        if (!response.ok) {
-          const data = await response.json();
-          const error = new Error(data.message);
-          error.message = data.message;
-          throw error;
-        }
-
-        return response.json();
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    mutationFn: fetchWrapper.post(url),
     onSuccess: (data) => {
-      console.log(data);
       if (data.isAuthenticated) {
         login(data);
         navigate(destination);
       }
     },
   });
-  const navigate = useNavigate();
 
   console.log(registerUser.status);
   console.log(isAuthenticated);
 
   async function handleSubmit(event) {
     event.preventDefault();
-    console.log("Here");
     if (registerUser.isPending || isAuthenticated) {
-      console.log("In here");
       return;
     }
     const formData = new FormData(event.target);
