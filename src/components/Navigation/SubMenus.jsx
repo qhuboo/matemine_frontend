@@ -13,144 +13,140 @@ export default function SubMenus({
   setActiveMenu,
 }) {
   const queryClient = useQueryClient();
+
+  let games = [];
+  if (activeMenu !== "") {
+    games = platforms[activeMenu];
+  } else {
+    return;
+  }
+
   return (
     <SubMenuWrapper $isActive={activeMenu !== ""}>
-      {Object.keys(platforms).map((platform) => {
-        if (activeMenu === platform) {
-          return (
-            <SubMenuContentWrapper
-              $isActive={activeMenu === platform}
-              key={platform}
-            >
-              <LinksWrapper>
-                <SubSectionWrapper
-                  $isActive={activeMenu !== ""}
-                  $animationDelay={50}
+      <SubMenuContentWrapper $isActive={activeMenu !== ""} key={activeMenu}>
+        <LinksWrapper>
+          <SubSectionWrapper $isActive={activeMenu !== ""} $animationDelay={50}>
+            <SubSectionTitle>Consoles</SubSectionTitle>
+            <SubSectionItemsWrapper>
+              {games.map((console) => (
+                <SubSectionItem
+                  key={console}
+                  to={{
+                    pathname: "/marketplace",
+                    search: `?perPage=12&page=1&sort=rating-desc&${activeMenu}=${console}`,
+                  }}
+                  onMouseEnter={() => {
+                    queryClient.prefetchQuery({
+                      queryKey: [
+                        "games",
+                        `?perPage=12&page=1&sort=rating-desc&${activeMenu}=${console}`,
+                      ],
+                      queryFn: fetchWrapper.get(
+                        `${
+                          import.meta.env.VITE_BACKEND_URL
+                        }/games?perPage=12&page=1&sort=rating-desc&${activeMenu}=${console}`
+                      ),
+                    });
+                  }}
+                  onClick={() => {
+                    setActiveMenu("");
+                    setIsSubMenuOpen(false);
+                  }}
                 >
-                  <SubSectionTitle>Consoles</SubSectionTitle>
-                  <SubSectionItemsWrapper>
-                    {platforms[platform].map((console) => (
-                      <SubSectionItem
-                        key={console}
-                        to={{
-                          pathname: "/marketplace",
-                          search: `?perPage=12&page=1&sort=rating-desc&${platform}=${console}`,
-                        }}
-                        onMouseEnter={() => {
-                          queryClient.prefetchQuery({
-                            queryKey: [
-                              "games",
-                              `?perPage=12&page=1&sort=rating-desc&${platform}=${console}`,
-                            ],
-                            queryFn: fetchWrapper.get(
-                              `${
-                                import.meta.env.VITE_BACKEND_URL
-                              }/games?perPage=12&page=1&sort=rating-desc&${platform}=${console}`
-                            ),
-                          });
-                        }}
-                        onClick={() => {
-                          setActiveMenu("");
-                          setIsSubMenuOpen(false);
-                        }}
-                      >
-                        {console}
-                      </SubSectionItem>
-                    ))}
-                  </SubSectionItemsWrapper>
-                </SubSectionWrapper>
-                <SubSectionWrapper
-                  $isActive={activeMenu !== ""}
-                  $animationDelay={100}
+                  {console}
+                </SubSectionItem>
+              ))}
+            </SubSectionItemsWrapper>
+          </SubSectionWrapper>
+          <SubSectionWrapper
+            $isActive={activeMenu !== ""}
+            $animationDelay={100}
+          >
+            <SubSectionTitle>Top Picks</SubSectionTitle>
+            <SubSectionItemsWrapper>
+              {favorites[activeMenu].map((game) => (
+                <SubSectionItem
+                  key={game.title}
+                  onClick={() => {
+                    setActiveMenu("");
+                    setIsSubMenuOpen(false);
+                  }}
+                  to={`/product/${game.game_id}`}
+                  onMouseEnter={() => {
+                    queryClient.prefetchQuery({
+                      queryKey: [
+                        "games",
+                        "game",
+                        "screenshots",
+                        `${game.game_id}`,
+                      ],
+                      queryFn: fetchWrapper.get(
+                        `${
+                          import.meta.env.VITE_BACKEND_URL
+                        }/games/screenshots/${game.game_id}`
+                      ),
+                    });
+                  }}
                 >
-                  <SubSectionTitle>Top Picks</SubSectionTitle>
-                  <SubSectionItemsWrapper>
-                    {favorites[platform].map((game) => (
-                      <SubSectionItem
-                        key={game.title}
-                        onClick={() => {
-                          setActiveMenu("");
-                          setIsSubMenuOpen(false);
-                        }}
-                        to={`/product/${game.game_id}`}
-                        onMouseEnter={() => {
-                          queryClient.prefetchQuery({
-                            queryKey: [
-                              "games",
-                              "game",
-                              "screenshots",
-                              `${game.game_id}`,
-                            ],
-                            queryFn: fetchWrapper.get(
-                              `${import.meta.env.VITE_BACKEND_URL}/games/${
-                                game.game_id
-                              }`
-                            ),
-                          });
-                        }}
-                      >
-                        {game.title}
-                      </SubSectionItem>
-                    ))}
-                  </SubSectionItemsWrapper>
-                </SubSectionWrapper>
-              </LinksWrapper>
-              <FeaturedWrapper>
-                <FeaturedTitle>Featured</FeaturedTitle>
-                <FeaturedGames>
-                  {favorites[platform].slice(0, 3).map((game) => {
-                    return (
-                      <FeaturedGameCard key={game.title}>
-                        <FeaturedGameImageWrapper>
-                          <GameImageWrapper
-                            onClick={() => {
-                              setActiveMenu("");
-                              setIsSubMenuOpen(false);
-                            }}
-                            to={`/product/${game.game_id}`}
-                          >
-                            <FeaturedGameImage
-                              src={game.sample_cover.image}
-                              alt="hello"
-                            />
-                          </GameImageWrapper>
-                        </FeaturedGameImageWrapper>
-                        <FeaturedGameTitleWrapper>
-                          <SubSectionItem
-                            key={game.title}
-                            onClick={() => {
-                              setActiveMenu("");
-                              setIsSubMenuOpen(false);
-                            }}
-                            to={`product/${game.game_id}`}
-                            onMouseEnter={() => {
-                              queryClient.prefetchQuery({
-                                queryKey: [
-                                  "games",
-                                  "game",
-                                  "screenshots",
-                                  `${game.game_id}`,
-                                ],
-                                queryFn: fetchWrapper.get(
-                                  `${import.meta.env.VITE_BACKEND_URL}/games/${
-                                    game.game_id
-                                  }`
-                                ),
-                              });
-                            }}
-                          >
-                            {game.title}
-                          </SubSectionItem>
-                        </FeaturedGameTitleWrapper>
-                      </FeaturedGameCard>
-                    );
-                  })}
-                </FeaturedGames>
-              </FeaturedWrapper>
-            </SubMenuContentWrapper>
-          );
-        }
-      })}
+                  {game.title}
+                </SubSectionItem>
+              ))}
+            </SubSectionItemsWrapper>
+          </SubSectionWrapper>
+        </LinksWrapper>
+        <FeaturedWrapper>
+          <FeaturedTitle>Featured</FeaturedTitle>
+          <FeaturedGames>
+            {favorites[activeMenu].slice(0, 3).map((game) => {
+              return (
+                <FeaturedGameCard key={game.title}>
+                  <FeaturedGameImageWrapper>
+                    <GameImageWrapper
+                      onClick={() => {
+                        setActiveMenu("");
+                        setIsSubMenuOpen(false);
+                      }}
+                      to={`/product/${game.game_id}`}
+                    >
+                      <FeaturedGameImage
+                        src={game.sample_cover.image}
+                        alt="hello"
+                      />
+                    </GameImageWrapper>
+                  </FeaturedGameImageWrapper>
+                  <FeaturedGameTitleWrapper>
+                    <SubSectionItem
+                      key={game.title}
+                      onClick={() => {
+                        setActiveMenu("");
+                        setIsSubMenuOpen(false);
+                      }}
+                      to={`product/${game.game_id}`}
+                      onMouseEnter={() => {
+                        queryClient.prefetchQuery({
+                          queryKey: [
+                            "games",
+                            "game",
+                            "screenshots",
+                            `${game.game_id}`,
+                          ],
+                          queryFn: fetchWrapper.get(
+                            `${
+                              import.meta.env.VITE_BACKEND_URL
+                            }/games/screenshots/${game.game_id}`
+                          ),
+                        });
+                      }}
+                    >
+                      {game.title}
+                    </SubSectionItem>
+                  </FeaturedGameTitleWrapper>
+                </FeaturedGameCard>
+              );
+            })}
+          </FeaturedGames>
+        </FeaturedWrapper>
+      </SubMenuContentWrapper>
     </SubMenuWrapper>
   );
 }
