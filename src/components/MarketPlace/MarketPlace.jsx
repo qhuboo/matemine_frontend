@@ -100,6 +100,7 @@ function MarketPlace() {
     // Update or remove the changed group
     if (newValues.length) {
       newParams[group] = newValues.join(",");
+      newParams.page = 1;
     } else {
       delete newParams[group];
     }
@@ -116,6 +117,7 @@ function MarketPlace() {
 
     if (value) {
       newParams[name] = value;
+      newParams.page = 1;
     } else {
       delete newParams[name];
     }
@@ -193,7 +195,7 @@ function MarketPlace() {
         <PaginationWrapper>
           {status === "success" && data.totalPages > 0 && (
             <Pagination
-              totalPages={data.totalPages}
+              totalPages={data?.totalPages}
               searchParams={searchParams}
               setSearchParams={setSearchParams}
             />
