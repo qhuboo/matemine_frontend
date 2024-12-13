@@ -99,7 +99,24 @@ export default function SubMenus({
           <FeaturedGames>
             {favorites[activeMenu].slice(0, 3).map((game) => {
               return (
-                <FeaturedGameCard key={game.title}>
+                <FeaturedGameCard
+                  key={game.title}
+                  onMouseEnter={() => {
+                    queryClient.prefetchQuery({
+                      queryKey: [
+                        "games",
+                        "game",
+                        "screenshots",
+                        `${game.game_id}`,
+                      ],
+                      queryFn: fetchWrapper.get(
+                        `${
+                          import.meta.env.VITE_BACKEND_URL
+                        }/games/screenshots/${game.game_id}`
+                      ),
+                    });
+                  }}
+                >
                   <FeaturedGameImageWrapper>
                     <GameImageWrapper
                       onClick={() => {
@@ -122,21 +139,6 @@ export default function SubMenus({
                         setIsSubMenuOpen(false);
                       }}
                       to={`product/${game.game_id}`}
-                      onMouseEnter={() => {
-                        queryClient.prefetchQuery({
-                          queryKey: [
-                            "games",
-                            "game",
-                            "screenshots",
-                            `${game.game_id}`,
-                          ],
-                          queryFn: fetchWrapper.get(
-                            `${
-                              import.meta.env.VITE_BACKEND_URL
-                            }/games/screenshots/${game.game_id}`
-                          ),
-                        });
-                      }}
                     >
                       {game.title}
                     </SubSectionItem>

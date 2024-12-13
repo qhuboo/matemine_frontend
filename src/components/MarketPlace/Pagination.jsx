@@ -1,17 +1,28 @@
 import styled from "styled-components";
 
 export default function Pagination({
-  currentPage,
-  setCurrentPage,
   totalPages,
+  searchParams,
+  setSearchParams,
 }) {
+  function handlePageChange(page) {
+    const newParams = {};
+
+    searchParams.forEach((value, key) => (newParams[key] = value));
+
+    if (page) {
+      newParams.page = page + 1;
+      setSearchParams(newParams);
+    }
+  }
+
   return (
     <Pages>
       {[...Array(totalPages).keys()].map((page) => {
         return (
           <PageButton
-            onClick={() => setCurrentPage(page)}
-            $currentPage={currentPage}
+            onClick={() => handlePageChange(page)}
+            $currentPage={page}
             $page={page}
             key={page}
           >

@@ -188,22 +188,16 @@ function MarketPlace() {
               handleCheckBoxChange={handleCheckBoxChange}
             />
           </FiltersWrapper>
-          {status === "success" && (
-            <GameGrid
-              gameList={data}
-              perPage={searchParams.get("perPage")}
-              page={searchParams.get("page")}
-            />
-          )}
+          {status === "success" && <GameGrid gameList={data.games} />}
         </MarketPlaceWrapper>
         <PaginationWrapper>
-          {/* {totalPages > 0 && (
+          {status === "success" && data.totalPages > 0 && (
             <Pagination
-              totalPages={totalPages}
-              page={page}
-              setPage={setPage}
+              totalPages={data.totalPages}
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
             />
-          )} */}
+          )}
         </PaginationWrapper>
       </Wrapper>
       {isFiltersOpen && (

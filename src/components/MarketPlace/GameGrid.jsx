@@ -6,7 +6,7 @@ import { fetchWrapper } from "../../utils";
 
 const url = import.meta.env.VITE_BACKEND_URL + "/games/screenshots/";
 
-export default function GameGrid({ gameList, gamesPerPage, currentPage }) {
+export default function GameGrid({ gameList }) {
   const queryClient = useQueryClient();
   return (
     <Grid>
