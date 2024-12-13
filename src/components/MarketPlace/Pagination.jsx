@@ -17,26 +17,17 @@ export default function Pagination({
 
   let left = 0;
   let right = 5;
-  console.log(currentPage);
-  console.log(totalPages);
+
   if (currentPage <= 4) {
-    console.log("1. Got in heo");
     left = 0;
     right = 5;
   } else if (totalPages - 4 < currentPage && currentPage < totalPages + 1) {
-    console.log("2. Got in heo");
-    console.log(currentPage);
-    console.log(totalPages);
-    console.log("2. Got in heo");
     left = totalPages - 5;
     right = totalPages;
   } else {
-    console.log("3. Got in heo");
     left = currentPage - 3;
     right = currentPage + 2;
   }
-
-  console.log({ left, right });
 
   return (
     <Pages>
