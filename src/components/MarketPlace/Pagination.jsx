@@ -5,6 +5,7 @@ export default function Pagination({
   searchParams,
   setSearchParams,
 }) {
+  let currentPage = Number(searchParams.get("page"));
   function handlePageChange(page) {
     const newParams = {};
 
@@ -16,13 +17,23 @@ export default function Pagination({
     }
   }
 
+  let left = 0;
+  let right = 5;
+  if (Number(currentPage) > 4) {
+    left = Number(currentPage) - 3;
+    right = Number(currentPage) + 2;
+  } else if (Number(currentPage) > Number(totalPages) - 5) {
+    left = Number(totalPages) - 5;
+    right = Number(totalPages) - 1;
+  }
+  console.log(left);
   return (
     <Pages>
-      {[...Array(totalPages).keys()].map((page) => {
+      {[...Array(totalPages).keys()].slice(left, right).map((page) => {
         return (
           <PageButton
             onClick={() => handlePageChange(page)}
-            $currentPage={page}
+            $currentPage={currentPage}
             $page={page}
             key={page}
           >
@@ -41,7 +52,7 @@ const Pages = styled.div`
 
 const PageButton = styled.button`
   background-color: ${(props) =>
-    props.$currentPage === props.$page ? "blue" : "#0095ff"};
+    Number(props.$currentPage) === props.$page + 1 ? "blue" : "#0095ff"};
   border: 1px solid transparent;
   border-radius: 3px;
   box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
