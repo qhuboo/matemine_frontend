@@ -34,6 +34,7 @@ function MobileMenu({ handleDismiss }) {
                 {platforms.nintendo.map((console) => {
                   return (
                     <NavLink
+                      onClick={() => handleDismiss()}
                       to={{
                         pathname: "/marketplace",
                         search: `?perPage=12&page=1&sort=alpha-asc&nintendo=${console}`,
@@ -58,6 +59,7 @@ function MobileMenu({ handleDismiss }) {
                 {platforms.sega.map((console) => {
                   return (
                     <NavLink
+                      onClick={() => handleDismiss()}
                       to={{
                         pathname: "/marketplace",
                         search: `?perPage=12&page=1&sort=alpha-asc&sega=${console}`,
@@ -82,6 +84,7 @@ function MobileMenu({ handleDismiss }) {
                 {platforms.playstation.map((console) => {
                   return (
                     <NavLink
+                      onClick={() => handleDismiss()}
                       to={{
                         pathname: "/marketplace",
                         search: `?perPage=12&page=1&sort=alpha-asc&playstation=${console}`,
@@ -106,6 +109,7 @@ function MobileMenu({ handleDismiss }) {
                 {platforms.xbox.map((console) => {
                   return (
                     <NavLink
+                      onClick={() => handleDismiss()}
                       to={{
                         pathname: "/marketplace",
                         search: `?perPage=12&page=1&sort=alpha-asc&xbox=${console}`,
