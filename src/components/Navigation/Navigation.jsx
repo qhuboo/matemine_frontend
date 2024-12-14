@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Search, User, Menu, ShoppingBag, Heart } from "react-feather";
+import { Search, Menu, ShoppingBag, Heart } from "react-feather";
 
 import { QUERIES } from "../../constants";
 import MobileMenu from "../MobileMenu/MobileMenu";
@@ -10,6 +10,9 @@ import SubMenus from "./SubMenus";
 import { useQueryClient } from "@tanstack/react-query";
 import useAuth from "../Auth/hooks/useAuth";
 import { fetchWrapper } from "../../utils";
+
+import LoggedInUserIcon from "../Auth/LoggedInUserIcon";
+import NotLoggedInUserIcon from "../Auth/NotLoggedInUserIcon";
 
 const url = import.meta.env + "/games?perPage=12&page=1&sort=alpha-asc";
 
@@ -111,7 +114,11 @@ function Navigation({
               <Search />
             </NavLink>
             <NavLink to={"/account"}>
-              <User />
+              {user.isAuthenticated ? (
+                <LoggedInUserIcon />
+              ) : (
+                <NotLoggedInUserIcon />
+              )}
             </NavLink>
             <NavLink>
               <Heart />
