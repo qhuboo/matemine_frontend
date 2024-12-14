@@ -14,7 +14,7 @@ function MobileMenu({ handleDismiss }) {
           <NavLink
             to={{
               pathname: "/marketplace",
-              search: "?platforms=nintendo,sega,playstation,xbox",
+              search: "?perPage=12&page=1&sort=alpha-asc",
             }}
             onClick={() => handleDismiss()}
           >
@@ -32,7 +32,17 @@ function MobileMenu({ handleDismiss }) {
             <Content>
               <ContentWrapper>
                 {platforms.nintendo.map((console) => {
-                  return <div key={console}>{console}</div>;
+                  return (
+                    <NavLink
+                      to={{
+                        pathname: "/marketplace",
+                        search: `?perPage=12&page=1&sort=alpha-asc&nintendo=${console}`,
+                      }}
+                      key={console}
+                    >
+                      {console}
+                    </NavLink>
+                  );
                 })}
               </ContentWrapper>
             </Content>
@@ -46,7 +56,17 @@ function MobileMenu({ handleDismiss }) {
             <Content>
               <ContentWrapper>
                 {platforms.sega.map((console) => {
-                  return <div key={console}>{console}</div>;
+                  return (
+                    <NavLink
+                      to={{
+                        pathname: "/marketplace",
+                        search: `?perPage=12&page=1&sort=alpha-asc&sega=${console}`,
+                      }}
+                      key={console}
+                    >
+                      {console}
+                    </NavLink>
+                  );
                 })}
               </ContentWrapper>
             </Content>
@@ -60,7 +80,17 @@ function MobileMenu({ handleDismiss }) {
             <Content>
               <ContentWrapper>
                 {platforms.playstation.map((console) => {
-                  return <div key={console}>{console}</div>;
+                  return (
+                    <NavLink
+                      to={{
+                        pathname: "/marketplace",
+                        search: `?perPage=12&page=1&sort=alpha-asc&playstation=${console}`,
+                      }}
+                      key={console}
+                    >
+                      {console}
+                    </NavLink>
+                  );
                 })}
               </ContentWrapper>
             </Content>
@@ -74,13 +104,23 @@ function MobileMenu({ handleDismiss }) {
             <Content>
               <ContentWrapper>
                 {platforms.xbox.map((console) => {
-                  return <div key={console}>{console}</div>;
+                  return (
+                    <NavLink
+                      to={{
+                        pathname: "/marketplace",
+                        search: `?perPage=12&page=1&sort=alpha-asc&xbox=${console}`,
+                      }}
+                      key={console}
+                    >
+                      {console}
+                    </NavLink>
+                  );
                 })}
               </ContentWrapper>
             </Content>
           </Item>
         </Root>
-        <NavLink to={"/account"}>
+        <NavLink to={"/account"} onClick={() => handleDismiss()}>
           <User />
         </NavLink>
       </Wrapper>
