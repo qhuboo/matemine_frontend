@@ -6,7 +6,7 @@ export default function AuthProvider({ children }) {
   const [authState, setAuthState] = useState({
     user: null,
     isAuthenticated: false,
-    token: null,
+    accessToken: null,
   });
 
   useEffect(() => {

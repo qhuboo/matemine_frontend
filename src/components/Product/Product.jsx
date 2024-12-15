@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchWrapper } from "../../utils";
+import useAuth from "../Auth/hooks/useAuth";
 
 function Product() {
+  const user = useAuth();
   const { gameId } = useParams();
   const { data, status } = useQuery({
     queryKey: ["games", "game", "screenshots", `${gameId}`],
@@ -12,6 +14,43 @@ function Product() {
     ),
     staleTime: Infinity,
   });
+
+  const addToCart = useMutation({
+    mutationFn: fetchWrapper.protectedPost(
+      `${import.meta.env.VITE_BACKEND_URL}/cart/add`
+    ),
+    onSuccess: (data) => {
+      console.log("OnSuccess");
+      if (data.accessToken) {
+        console.log("replacing the access token");
+        user.login({
+          ...user.user,
+          isAuthencated: true,
+          accessToken: data.accessToken,
+        });
+      }
+    },
+    onError: (error) => {
+      console.log("There was an error");
+      console.log(error);
+    },
+  });
+
+  function handleCartChange() {
+    if (addToCart.isPending) {
+      return;
+    }
+
+    if (!user.isAuthenticated) {
+      console.log("User not logged in");
+      return;
+    }
+
+    const game = { gameId: data[0].game_id };
+    const toSend = { game, email: user.user.email };
+    const body = { toSend, accessToken: user.accessToken };
+    addToCart.mutate(body);
+  }
 
   return (
     <div>
@@ -40,7 +79,9 @@ function Product() {
             <AddToCart>
               <GameTitle>{data[0]?.title}</GameTitle>
               <GamePrice>${data[0]?.price}</GamePrice>
-              <AddToCartButton>Add to Cart</AddToCartButton>
+              <AddToCartButton onClick={handleCartChange}>
+                Add to Cart
+              </AddToCartButton>
             </AddToCart>
           </GameDetails>
         </Wrapper>
