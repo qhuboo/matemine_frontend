@@ -20,9 +20,9 @@ function Product() {
       `${import.meta.env.VITE_BACKEND_URL}/cart/add`
     ),
     onSuccess: (data) => {
-      console.log("OnSuccess");
+      // console.log("OnSuccess");
       if (data.accessToken) {
-        console.log("replacing the access token");
+        // console.log("replacing the access token");
         user.login({
           ...user.user,
           isAuthencated: true,
@@ -47,9 +47,10 @@ function Product() {
       return;
     }
 
-    const game = { gameId: data[0].game_id };
-    const toSend = { game, email: user.user.email };
-    const body = { toSend, accessToken: user.accessToken };
+    const gameId = data[0].game_id;
+    const accessToken = user.accessToken;
+    const email = user.user.email;
+    const body = { gameId, accessToken, email };
     addToCart.mutate(body);
   }
 
@@ -80,6 +81,7 @@ function Product() {
             <AddToCart>
               <GameTitle>{data[0]?.title}</GameTitle>
               <GamePrice>${data[0]?.price}</GamePrice>
+              <select name="" id=""></select>
               <AddToCartButton onClick={handleCartChange}>
                 Add to Cart
               </AddToCartButton>
@@ -199,6 +201,7 @@ const GamePrice = styled.div`
 
 const AddToCartButton = styled.button`
   border: none;
+  cursor: pointer;
   border-radius: 6px;
   color: white;
   padding: 12px 32px;

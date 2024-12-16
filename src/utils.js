@@ -42,24 +42,24 @@ const fetchWrapper = {
   },
 
   protectedPost: (url) => async (body) => {
-    console.log("Making the initial request");
-    const response = await fetch(url, {
+    // console.log("Making the initial request");
+    const initialResponse = await fetch(url, {
       method: "POST",
       credentials: "include",
       headers: {
         Authorization: `Bearer ${body.accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body.toSend),
+      body: JSON.stringify({ gameId: body.gameId }),
     });
+    const initialData = await initialResponse.json();
 
-    if (!response.ok) {
-      const data = await response.json();
+    if (!initialResponse.ok) {
       // If the backend returns a message that the access token is expired
       // hit the refresh route and get a new token pain
-      if (data.message === "Access token expired") {
-        console.log("Hitting the refresh route");
-        const response = await fetch(
+      if (initialData.message === "Access token expired") {
+        // console.log("Hitting the refresh route");
+        const refreshResponse = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/auth/refresh`,
           {
             method: "POST",
@@ -67,48 +67,46 @@ const fetchWrapper = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email: body.toSend.email }),
+            body: JSON.stringify({ email: body.email }),
           }
         );
 
-        if (!response.ok) {
-          const data = await response.json();
-          const error = new Error(data.message);
-          error.message = data.message;
+        const refreshData = await refreshResponse.json();
+
+        if (!refreshResponse.ok) {
+          const error = new Error(refreshData.message);
+          error.message = refreshData.message;
           throw error;
         }
 
-        const data = await response.json();
         // Check if the refresh was successful
-        if (data.accessToken) {
-          console.log("Retrying the fetch");
+        if (refreshData.accessToken) {
+          // console.log("Retrying the fetch");
           // Retry the request with the new access token
           const retryResponse = await fetch(url, {
             method: "POST",
             credentials: "include",
             headers: {
-              Authorization: `Bearer ${data.accessToken}`,
+              Authorization: `Bearer ${refreshData.accessToken}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(body.toSend),
+            body: JSON.stringify({ gameId: body.gameId }),
           });
-
+          const retryData = await retryResponse.json();
           if (!retryResponse.ok) {
-            const data = await response.json();
-            const error = new Error(data.message);
-            error.message = data.message;
+            const error = new Error(retryData.message);
+            error.message = retryData.message;
             throw error;
           }
 
-          const retryData = await retryResponse.json();
-          retryData.accessToken = data.accessToken;
+          retryData.accessToken = refreshData.accessToken;
 
           return retryData;
         }
       }
     }
 
-    return response.json();
+    return initialData;
   },
 };
 
