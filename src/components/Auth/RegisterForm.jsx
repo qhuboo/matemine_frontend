@@ -20,9 +20,6 @@ export default function RegisterForm({ destination }) {
     },
   });
 
-  console.log(registerUser.status);
-  console.log(isAuthenticated);
-
   async function handleSubmit(event) {
     event.preventDefault();
     if (registerUser.isPending || isAuthenticated) {

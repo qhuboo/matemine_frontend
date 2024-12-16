@@ -29,6 +29,7 @@ function Product() {
           accessToken: data.accessToken,
         });
       }
+      console.log(data.message);
     },
     onError: (error) => {
       console.log("There was an error");
