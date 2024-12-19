@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "../api";
 
-export default function usePrefetchMarketPlace() {
+export default function usePrefetchMarketPlaceGames() {
   const queryClient = useQueryClient();
 
   const queryString = new URLSearchParams(

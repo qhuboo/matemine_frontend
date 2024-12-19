@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 
-export default function useMarketPlaceGames(location) {
+export default function useGetMarketPlaceGames(location) {
   const queryString = new URLSearchParams(location.search).toString();
 
   return useQuery({

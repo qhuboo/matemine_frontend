@@ -8,7 +8,7 @@ import MobileMenu from "../MobileMenu/MobileMenu";
 import SubMenus from "./SubMenus";
 
 import useAuth from "../Auth/hooks/useAuth";
-import usePrefetchMarketPlace from "../../api/apiHooks/usePrefetchMarketPlace";
+import usePrefetchMarketPlaceGames from "../../api/apiHooks/usePrefetchMarketPlaceGames";
 
 function Navigation({
   isMobileMenuOpen,
@@ -20,12 +20,12 @@ function Navigation({
 }) {
   const user = useAuth();
 
-  const prefetchMarketPlace = usePrefetchMarketPlace();
+  const prefetchMarketPlaceGames = usePrefetchMarketPlaceGames();
 
   return (
     <Wrapper
       onMouseEnter={() => {
-        prefetchMarketPlace();
+        prefetchMarketPlaceGames();
       }}
     >
       <NavigationBar>

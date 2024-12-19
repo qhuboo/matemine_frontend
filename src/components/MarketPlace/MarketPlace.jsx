@@ -9,8 +9,7 @@ import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
 
-import useMarketPlaceGames from "../../api/apiHooks/useMarketPlaceGames";
-
+import useGetMarketPlaceGames from "../../api/apiHooks/useGetMarketPlaceGames";
 import { validPerPageOptions, validSortOptions } from "../../constants";
 
 function MarketPlace() {
@@ -55,7 +54,7 @@ function MarketPlace() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [searchParams.get("page")]);
 
-  const { data, status } = useMarketPlaceGames(location);
+  const { data, status } = useGetMarketPlaceGames(location);
   function getValues(group) {
     const value = searchParams.get(group);
     return value ? value.split(",") : [];
@@ -112,52 +111,38 @@ function MarketPlace() {
           </MobileFilterButton>
           <SortWrapper>
             <GamesPerPage>
-              <form
-                onSubmit={(event) => {
+              <label htmlFor="per-page">Show: </label>
+              <select
+                id="per-page"
+                value={searchParams.get("perPage") || "12"}
+                onChange={(event) => {
                   event.preventDefault();
                   handleSelectChange("perPage", event.target.value);
                 }}
               >
-                <label htmlFor="per-page">Show: </label>
-                <select
-                  id="per-page"
-                  value={searchParams.get("perPage") || "12"}
-                  onChange={(event) => {
-                    event.preventDefault();
-                    handleSelectChange("perPage", event.target.value);
-                  }}
-                >
-                  <option value="12">12</option>
-                  <option value="24">24</option>
-                  <option value="48">48</option>
-                  <option value="76">76</option>
-                </select>
-              </form>
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+                <option value="76">76</option>
+              </select>
             </GamesPerPage>
             <SortBy>
-              <form
-                onSubmit={(event) => {
+              <label htmlFor="sort-by">Sort By: </label>
+              <select
+                id="sort-by"
+                value={searchParams.get("sort") || "alpha-asc"}
+                onChange={(event) => {
                   event.preventDefault();
                   handleSelectChange("sort", event.target.value);
                 }}
               >
-                <label htmlFor="sort-by">Sort By: </label>
-                <select
-                  id="sort-by"
-                  value={searchParams.get("sort") || "alpha-asc"}
-                  onChange={(event) => {
-                    event.preventDefault();
-                    handleSelectChange("sort", event.target.value);
-                  }}
-                >
-                  <option value="price-desc">Price-Desc</option>
-                  <option value="price-asc">Price-Asc</option>
-                  <option value="alpha-asc">A-to-Z</option>
-                  <option value="alpha-desc">Z-to-A</option>
-                  <option value="rating-desc">Rating Desc</option>
-                  <option value="rating-asc">Rating Asc</option>
-                </select>
-              </form>
+                <option value="price-desc">Price-Desc</option>
+                <option value="price-asc">Price-Asc</option>
+                <option value="alpha-asc">A-to-Z</option>
+                <option value="alpha-desc">Z-to-A</option>
+                <option value="rating-desc">Rating Desc</option>
+                <option value="rating-asc">Rating Asc</option>
+              </select>
             </SortBy>
           </SortWrapper>
         </FilterAndSortWrapper>
