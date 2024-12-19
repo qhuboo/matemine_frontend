@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { QUERIES } from "../../constants";
-import { useQueryClient } from "@tanstack/react-query";
-import { fetchWrapper } from "../../utils";
 
-const url = import.meta.env.VITE_BACKEND_URL + "/games/screenshots/";
+import usePrefetchGameScreenshots from "../../api/apiHooks/usePrefetchGameScreenshots";
 
 export default function GameGrid({ gameList }) {
-  const queryClient = useQueryClient();
+  const prefetchGameScreenshots = usePrefetchGameScreenshots();
+
   return (
     <Grid>
       {gameList.map((game) => (
@@ -15,11 +14,7 @@ export default function GameGrid({ gameList }) {
           to={`/product/${game.game_id}`}
           key={game.game_id}
           onMouseEnter={() => {
-            queryClient.prefetchQuery({
-              queryKey: ["games", "game", "screenshots", `${game.game_id}`],
-              queryFn: fetchWrapper.get(`${url}${game.game_id}`),
-              staleTime: Infinity,
-            });
+            prefetchGameScreenshots(game.game_id);
           }}
         >
           <GameCoverWrapper>

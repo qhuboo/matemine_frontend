@@ -1,41 +1,46 @@
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchWrapper } from "../../utils";
+import { useParams, useSearchParams } from "react-router-dom";
 import useAuth from "../Auth/hooks/useAuth";
+import { useEffect } from "react";
+import useGetGameScreenshots from "../../api/apiHooks/useGetGameScreenshots";
+import useAddGameToCart from "../../api/apiHooks/useAddGameToCart";
 
 function Product() {
   const user = useAuth();
   const { gameId } = useParams();
-  const { data, status } = useQuery({
-    queryKey: ["games", "game", "screenshots", `${gameId}`],
-    queryFn: fetchWrapper.get(
-      `${import.meta.env.VITE_BACKEND_URL}/games/screenshots/${gameId}`
-    ),
-    staleTime: Infinity,
-  });
+  const { data, status } = useGetGameScreenshots(gameId);
 
-  const addToCart = useMutation({
-    mutationFn: fetchWrapper.protectedPost(
-      `${import.meta.env.VITE_BACKEND_URL}/cart/add`
-    ),
-    onSuccess: (data) => {
-      // console.log("OnSuccess");
-      if (data.accessToken) {
-        // console.log("replacing the access token");
-        user.login({
-          ...user.user,
-          isAuthencated: true,
-          accessToken: data.accessToken,
-        });
-      }
-      console.log(data.message);
-    },
-    onError: (error) => {
-      console.log("There was an error");
-      console.log(error);
-    },
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (
+      !searchParams.get("quantity") ||
+      !/^[0-9]+$/.test(searchParams.get("quantity"))
+    ) {
+      const newParams = {};
+      searchParams.get((value, key) => {
+        newParams[key] = value;
+      });
+      newParams.quantity = "1";
+      setSearchParams(newParams);
+    }
+  }, [searchParams, setSearchParams]);
+
+  const addToCart = useAddGameToCart();
+
+  function handleQuantityChange(event) {
+    event.preventDefault();
+
+    const newParams = {};
+    searchParams.get((value, key) => {
+      newParams[key] = value;
+    });
+
+    if (event.target.value) {
+      newParams.quantity = event.target.value;
+    }
+    setSearchParams(newParams);
+  }
 
   function handleCartChange() {
     if (addToCart.isPending) {
@@ -48,10 +53,12 @@ function Product() {
     }
 
     const gameId = data[0].game_id;
+    const quantity = searchParams.get("quantity");
+    const body = { gameId, quantity };
     const accessToken = user.accessToken;
     const email = user.user.email;
-    const body = { gameId, accessToken, email };
-    addToCart.mutate(body);
+    const payload = { body, accessToken, email };
+    addToCart.mutate(payload);
   }
 
   return (
@@ -81,7 +88,34 @@ function Product() {
             <AddToCart>
               <GameTitle>{data[0]?.title}</GameTitle>
               <GamePrice>${data[0]?.price}</GamePrice>
-              <select name="" id=""></select>
+              <QuantityWrapper>
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                  }}
+                >
+                  <label htmlFor="quantity-select">Quantity </label>
+                  <select
+                    name="quantity"
+                    id="quantity-select"
+                    value={searchParams.get("quantity") || "1"}
+                    onChange={handleQuantityChange}
+                  >
+                    {[
+                      ...Array(10)
+                        .keys()
+                        .map((index) => index + 1)
+                        .map((quantity) => {
+                          return (
+                            <option key={quantity} value={quantity}>
+                              {quantity}
+                            </option>
+                          );
+                        }),
+                    ]}
+                  </select>
+                </form>
+              </QuantityWrapper>
               <AddToCartButton onClick={handleCartChange}>
                 Add to Cart
               </AddToCartButton>
@@ -139,6 +173,7 @@ const GameTitle = styled.p`
 `;
 
 const GameDetails = styled.div`
+  // border: 2px solid red;
   display: flex;
 
   @media (max-width: 1100px) {
@@ -147,7 +182,7 @@ const GameDetails = styled.div`
 `;
 
 const GameInfo = styled.div`
-  //   border: 2px solid chartreuse;
+  // border: 2px solid chartreuse;
   border-right: 1px solid #e5e7eb;
   padding-right: 25px;
   margin-right: 25px;
@@ -174,9 +209,11 @@ const GameDescription = styled.p`
 `;
 
 const AddToCart = styled.div`
-  //   border: 2px solid blue;
+  // border: 2px solid blue;
   flex: 1;
-
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   ${GameTitle} {
     display: none;
   }
@@ -192,7 +229,7 @@ const AddToCart = styled.div`
 
 const GamePrice = styled.div`
   font-size: 1.8rem;
-  margin-bottom: 35px;
+  // margin-bottom: 35px;
 
   @media (max-width: 1100px) {
     font-size: 1.2rem;
@@ -211,6 +248,11 @@ const AddToCartButton = styled.button`
   @media (max-width: 1100px) {
     font-size: 1rem;
   }
+`;
+
+const QuantityWrapper = styled.div`
+  // border: 3px solid red;
+  font-size: 1.25rem;
 `;
 
 export default Product;

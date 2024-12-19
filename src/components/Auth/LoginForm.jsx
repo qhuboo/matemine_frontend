@@ -1,28 +1,16 @@
 import * as Form from "@radix-ui/react-form";
 import styled, { keyframes } from "styled-components";
-import useAuth from "./hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { fetchWrapper } from "../../utils";
 
-const url = import.meta.env.VITE_BACKEND_URL + "/auth/login";
+import useLogin from "../../api/apiHooks/useLogin";
+import useAuth from "./hooks/useAuth";
 
 export default function LoginForm({ destination }) {
-  const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
-  const loginUser = useMutation({
-    mutationFn: fetchWrapper.post(url),
-    onSuccess: (data) => {
-      if (data.isAuthenticated) {
-        login(data);
-        navigate(destination);
-      }
-    },
-  });
+  const user = useAuth();
+  const loginUser = useLogin(destination);
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (loginUser.isPending || isAuthenticated) {
+    if (loginUser.isPending || user.isAuthenticated) {
       return;
     }
     const formData = new FormData(event.target);

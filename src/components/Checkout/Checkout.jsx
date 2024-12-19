@@ -1,7 +1,10 @@
 import styled from "styled-components";
-import { cart_data } from "../../data";
+
+import useGetCart from "../../api/apiHooks/useGetCart";
 
 function Checkout() {
+  const cartItems = useGetCart();
+
   return (
     <Wrapper>
       <OrderSummary>
@@ -10,17 +13,19 @@ function Checkout() {
           Check your items. And Select a suitable shipping method.
         </p>
         <CartItems>
-          {cart_data.map((game) => {
-            return (
-              <CartItem key={game.game_id}>
-                <Cover src={game.sample_cover_image} alt="" />
-                <GameInfo>
-                  <GameTitle>{game.title}</GameTitle>
-                  <GamePrice>${game.price}</GamePrice>
-                </GameInfo>
-              </CartItem>
-            );
-          })}
+          {!cartItems.isPending &&
+            cartItems.data.length > 0 &&
+            cartItems.data.map((game) => {
+              return (
+                <CartItem key={game.game_id}>
+                  <Cover src={game.sample_cover_image} alt="" />
+                  <GameInfo>
+                    <GameTitle>{game.title}</GameTitle>
+                    <GamePrice>${game.price}</GamePrice>
+                  </GameInfo>
+                </CartItem>
+              );
+            })}
         </CartItems>
       </OrderSummary>
       <PaymentDetails>

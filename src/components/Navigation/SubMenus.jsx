@@ -1,18 +1,19 @@
 import styled, { keyframes, css } from "styled-components";
 import { QUERIES } from "../../constants.js";
 import { Link } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 
 import platforms from "../../platform_data.js";
 import { favorites } from "../../data.js";
-import { fetchWrapper } from "../../utils.js";
+import usePrefetchMarketPlaceWithConsole from "../../api/apiHooks/usePrefetchMarketPlaceWithConsole.jsx";
+import usePrefetchGameScreenshots from "../../api/apiHooks/usePrefetchGameScreenshots.jsx";
 
 export default function SubMenus({
   activeMenu,
   setIsSubMenuOpen,
   setActiveMenu,
 }) {
-  const queryClient = useQueryClient();
+  const prefetchGameScreenshots = usePrefetchGameScreenshots();
+  const prefetchMarketPlaceWithConsoles = usePrefetchMarketPlaceWithConsole();
 
   let games = [];
   if (activeMenu !== "") {
@@ -36,17 +37,7 @@ export default function SubMenus({
                     search: `?perPage=12&page=1&sort=rating-desc&${activeMenu}=${console}`,
                   }}
                   onMouseEnter={() => {
-                    queryClient.prefetchQuery({
-                      queryKey: [
-                        "games",
-                        `?perPage=12&page=1&sort=rating-desc&${activeMenu}=${console}`,
-                      ],
-                      queryFn: fetchWrapper.get(
-                        `${
-                          import.meta.env.VITE_BACKEND_URL
-                        }/games?perPage=12&page=1&sort=rating-desc&${activeMenu}=${console}`
-                      ),
-                    });
+                    prefetchMarketPlaceWithConsoles(activeMenu, console);
                   }}
                   onClick={() => {
                     setActiveMenu("");
@@ -73,19 +64,7 @@ export default function SubMenus({
                   }}
                   to={`/product/${game.game_id}`}
                   onMouseEnter={() => {
-                    queryClient.prefetchQuery({
-                      queryKey: [
-                        "games",
-                        "game",
-                        "screenshots",
-                        `${game.game_id}`,
-                      ],
-                      queryFn: fetchWrapper.get(
-                        `${
-                          import.meta.env.VITE_BACKEND_URL
-                        }/games/screenshots/${game.game_id}`
-                      ),
-                    });
+                    prefetchGameScreenshots(game.game_id);
                   }}
                 >
                   {game.title}
@@ -102,19 +81,7 @@ export default function SubMenus({
                 <FeaturedGameCard
                   key={game.title}
                   onMouseEnter={() => {
-                    queryClient.prefetchQuery({
-                      queryKey: [
-                        "games",
-                        "game",
-                        "screenshots",
-                        `${game.game_id}`,
-                      ],
-                      queryFn: fetchWrapper.get(
-                        `${
-                          import.meta.env.VITE_BACKEND_URL
-                        }/games/screenshots/${game.game_id}`
-                      ),
-                    });
+                    prefetchGameScreenshots(game.game_id);
                   }}
                 >
                   <FeaturedGameImageWrapper>

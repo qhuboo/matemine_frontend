@@ -1,24 +1,29 @@
 import styled from "styled-components";
-import { cart_data } from "../../data";
 import { Link } from "react-router-dom";
 
+import useGetCart from "../../api/apiHooks/useGetCart";
+
 function Cart() {
+  const cartItems = useGetCart();
+
   return (
     <Wrapper>
       <h2>Shopping Cart</h2>
       <CartItems>
-        {cart_data.map((item) => (
-          <CartItem key={item.game_id}>
-            <GameInfo>
-              <GameCover
-                src={item.sample_cover_image}
-                alt={`Sample cover image for the game: ${item.title}`}
-              />
-              <GameTitle>{item.title}</GameTitle>
-            </GameInfo>
-            <GamePrice>${item.price}</GamePrice>
-          </CartItem>
-        ))}
+        {!cartItems.isPending &&
+          cartItems.data.length > 0 &&
+          cartItems.data.map((game) => (
+            <CartItem key={game.game_id}>
+              <GameInfo>
+                <GameCover
+                  src={game.sample_cover_image}
+                  alt={`Sample cover image for the game: ${game.title}`}
+                />
+                <GameTitle>{game.title}</GameTitle>
+              </GameInfo>
+              <GamePrice>${game.price}</GamePrice>
+            </CartItem>
+          ))}
       </CartItems>
       <Subtotal>
         <SubtotalTitle>
@@ -27,15 +32,17 @@ function Cart() {
         </SubtotalTitle>
         <p>
           $
-          {parseFloat(
-            cart_data
-              .reduce(
-                (accumulatedPrice, currentGame) =>
-                  accumulatedPrice + parseFloat(currentGame.price),
-                0
-              )
-              .toFixed(2)
-          )}
+          {!cartItems.isPending &&
+            cartItems.data.length > 0 &&
+            parseFloat(
+              cartItems.data
+                .reduce(
+                  (accumulatedPrice, currentGame) =>
+                    accumulatedPrice + parseFloat(currentGame.price),
+                  0
+                )
+                .toFixed(2)
+            )}
         </p>
       </Subtotal>
       <CheckoutButton to={"/checkout"}>Checkout</CheckoutButton>

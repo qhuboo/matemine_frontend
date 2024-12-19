@@ -8,12 +8,10 @@ import GameGrid from "./GameGrid";
 import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
 import useToggle from "../../hooks/use-toggle";
-import { useQuery } from "@tanstack/react-query";
+
+import useMarketPlaceGames from "../../api/apiHooks/useMarketPlaceGames";
 
 import { validPerPageOptions, validSortOptions } from "../../constants";
-import { fetchWrapper } from "../../utils";
-
-const url = import.meta.env.VITE_BACKEND_URL + "/games";
 
 function MarketPlace() {
   // Search Params
@@ -72,11 +70,7 @@ function MarketPlace() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [searchParams.get("page")]);
 
-  const { data, status, isLoading, error } = useQuery({
-    queryKey: ["games", location.search],
-    queryFn: fetchWrapper.get(`${url}${location.search}`),
-  });
-
+  const { data, status, isLoading, error } = useMarketPlaceGames(location);
   function getValues(group) {
     const value = searchParams.get(group);
     return value ? value.split(",") : [];
