@@ -18,47 +18,32 @@ function MarketPlace() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    const newParams = {};
+    searchParams.forEach((value, key) => {
+      newParams[key] = value;
+    });
     if (
       !searchParams.get("perPage") ||
       !validPerPageOptions.includes(searchParams.get("perPage"))
     ) {
-      const newParams = {};
-      // Copy existing params
-      searchParams.forEach((value, key) => {
-        newParams[key] = value;
-      });
-      // Add perPage
       newParams["perPage"] = "12";
-      setSearchParams(newParams);
     }
 
     if (
       !searchParams.get("page") ||
       !/^[0-9]+$/.test(searchParams.get("page"))
     ) {
-      const newParams = {};
-      // Copy existing params
-      searchParams.forEach((value, key) => {
-        newParams[key] = value;
-      });
-      // Add perPage
       newParams["page"] = "1";
-      setSearchParams(newParams);
     }
 
     if (
       !searchParams.get("sort") ||
       !validSortOptions.includes(searchParams.get("sort"))
     ) {
-      const newParams = {};
-      // Copy existing params
-      searchParams.forEach((value, key) => {
-        newParams[key] = value;
-      });
-      // Add perPage
       newParams["sort"] = "alpha-asc";
-      setSearchParams(newParams);
     }
+
+    setSearchParams(newParams, { replace: true });
   }, [searchParams, setSearchParams]);
 
   const location = useLocation();
@@ -70,7 +55,7 @@ function MarketPlace() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [searchParams.get("page")]);
 
-  const { data, status, isLoading, error } = useMarketPlaceGames(location);
+  const { data, status } = useMarketPlaceGames(location);
   function getValues(group) {
     const value = searchParams.get(group);
     return value ? value.split(",") : [];
@@ -99,7 +84,7 @@ function MarketPlace() {
       delete newParams[group];
     }
 
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   }
 
   function handleSelectChange(name, value) {
@@ -115,7 +100,7 @@ function MarketPlace() {
     } else {
       delete newParams[name];
     }
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   }
 
   return (

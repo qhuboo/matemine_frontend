@@ -12,7 +12,7 @@ export default function Pagination({
     searchParams.forEach((value, key) => (newParams[key] = value));
 
     newParams.page = page + 1;
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   }
 
   let left = 0;

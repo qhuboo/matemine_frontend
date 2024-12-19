@@ -22,7 +22,7 @@ function Product() {
         newParams[key] = value;
       });
       newParams.quantity = "1";
-      setSearchParams(newParams);
+      setSearchParams(newParams, { replace: true });
     }
   }, [searchParams, setSearchParams]);
 
@@ -39,7 +39,7 @@ function Product() {
     if (event.target.value) {
       newParams.quantity = event.target.value;
     }
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   }
 
   function handleCartChange() {
