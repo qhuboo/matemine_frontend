@@ -115,8 +115,16 @@ function Navigation({
             <NavLink to={"/cart"}>
               <ShoppingBag />
             </NavLink>
-            {user.isAuthenticated && (
-              <button onClick={user.logout}>Logout</button>
+            {user.isAuthenticated ? (
+              <button
+                onClick={async () => {
+                  await user.logout();
+                }}
+              >
+                Logout
+              </button>
+            ) : (
+              <NavLink to={"/login"}>Log In</NavLink>
             )}
           </IconLinks>
 

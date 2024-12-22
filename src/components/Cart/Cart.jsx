@@ -6,13 +6,20 @@ import useGetCart from "../../api/apiHooks/useGetCart";
 function Cart() {
   const cartItems = useGetCart();
 
+  function handleQuantityChange(event) {
+    const gameId = event.target.dataset.gameId;
+    const quantity = event.target.value;
+    console.log(gameId);
+    console.log(quantity);
+  }
+
   return (
     <Wrapper>
       <h2>Shopping Cart</h2>
       <CartItems>
         {!cartItems.isPending &&
-          cartItems.data.length > 0 &&
-          cartItems.data.map((game) => (
+          cartItems.data.data.length > 0 &&
+          cartItems.data.data.map((game) => (
             <CartItem key={game.game_id}>
               <GameInfo>
                 <GameCover
@@ -21,7 +28,30 @@ function Cart() {
                 />
                 <GameTitle>{game.title}</GameTitle>
               </GameInfo>
-              <GamePrice>${game.price}</GamePrice>
+              <GamePrice>
+                <label htmlFor="quantity-select">Quantity </label>
+                <select
+                  name={`${game.game_id}-quantity`}
+                  data-game-id={game.game_id}
+                  id="quantity-select"
+                  value={game.quantity}
+                  onChange={handleQuantityChange}
+                >
+                  {[
+                    ...Array(10)
+                      .keys()
+                      .map((index) => index + 1)
+                      .map((quantity) => {
+                        return (
+                          <option key={quantity} value={quantity}>
+                            {quantity}
+                          </option>
+                        );
+                      }),
+                  ]}
+                </select>{" "}
+                x ${game.price}
+              </GamePrice>
             </CartItem>
           ))}
       </CartItems>
@@ -33,9 +63,9 @@ function Cart() {
         <p>
           $
           {!cartItems.isPending &&
-            cartItems.data.length > 0 &&
+            cartItems.data.data.length > 0 &&
             parseFloat(
-              cartItems.data
+              cartItems.data.data
                 .reduce(
                   (accumulatedPrice, currentGame) =>
                     accumulatedPrice + parseFloat(currentGame.price),

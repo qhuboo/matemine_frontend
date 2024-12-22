@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 import useAuth from "../../components/Auth/hooks/useAuth";
 
@@ -20,27 +20,12 @@ export default function useGetCart() {
       if (user.accessToken !== cart.data.accessToken) {
         user.login({
           ...user.user,
-          isAuthencated: true,
+          isAuthenticated: true,
           accessToken: cart.data.accessToken,
         });
       }
     }
   }, [cart.status, cart.data, user]);
 
-  const cartItems = useQueries({
-    queries: (cart?.data?.data || []).map((game) => ({
-      queryKey: ["game", `${game.game_id}`],
-      queryFn: api.get(
-        `${import.meta.env.VITE_BACKEND_URL}/games/${game.game_id}`
-      ),
-    })),
-    combine: (results) => {
-      return {
-        data: results.map((result) => result.data),
-        isPending: results.some((result) => result.isPending),
-      };
-    },
-  });
-
-  return cartItems;
+  return cart;
 }

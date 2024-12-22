@@ -14,8 +14,8 @@ function Checkout() {
         </p>
         <CartItems>
           {!cartItems.isPending &&
-            cartItems.data.length > 0 &&
-            cartItems.data.map((game) => {
+            cartItems.data.data.length > 0 &&
+            cartItems.data.data.map((game) => {
               return (
                 <CartItem key={game.game_id}>
                   <Cover src={game.sample_cover_image} alt="" />

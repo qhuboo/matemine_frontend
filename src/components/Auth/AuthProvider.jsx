@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
@@ -8,6 +9,8 @@ export default function AuthProvider({ children }) {
     isAuthenticated: false,
     accessToken: null,
   });
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -45,7 +48,7 @@ export default function AuthProvider({ children }) {
     );
   }
 
-  function logout() {
+  async function logout() {
     setAuthState({
       user: null,
       isAuthenticated: false,
@@ -53,6 +56,7 @@ export default function AuthProvider({ children }) {
     });
     // Remove user data from local storage
     localStorage.removeItem("user");
+    await queryClient.removeQueries({ queryKey: ["cart"] });
   }
 
   return (

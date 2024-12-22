@@ -4,12 +4,13 @@ import useAuth from "../Auth/hooks/useAuth";
 import { useEffect } from "react";
 import useGetGameScreenshots from "../../api/apiHooks/useGetGameScreenshots";
 import useAddGameToCart from "../../api/apiHooks/useAddGameToCart";
+import useGetGame from "../../api/apiHooks/useGetGame";
 
 function Product() {
   const user = useAuth();
   const { gameId } = useParams();
-  const { data, status } = useGetGameScreenshots(gameId);
-
+  const screenshots = useGetGameScreenshots(gameId);
+  const game = useGetGame(gameId);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -52,7 +53,7 @@ function Product() {
       return;
     }
 
-    const gameId = data[0].game_id;
+    const gameId = game.data.game_id;
     const quantity = searchParams.get("quantity");
     const body = { gameId, quantity };
     const accessToken = user.accessToken;
@@ -63,66 +64,70 @@ function Product() {
 
   return (
     <div>
-      {status === "success" && (
-        <Wrapper>
-          <GameImages>
-            <Image1>
-              <img src={data[0]?.image} alt="" />
-            </Image1>
-            <Image2>
-              <img src={data[1]?.image} alt="" />
-            </Image2>
-            <Image3>
-              <img src={data[2]?.image} alt="" />
-            </Image3>
-            <Image4>
-              <img src={data[3]?.image} alt="" />
-            </Image4>
-          </GameImages>
-          <GameDetails>
-            <GameInfo>
-              <GameTitle>{data[0]?.title}</GameTitle>
-              Details
-              <GameDescription>{data[0]?.description}</GameDescription>
-            </GameInfo>
-            <AddToCart>
-              <GameTitle>{data[0]?.title}</GameTitle>
-              <GamePrice>${data[0]?.price}</GamePrice>
-              <QuantityWrapper>
-                <form
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                  }}
-                >
-                  <label htmlFor="quantity-select">Quantity </label>
-                  <select
-                    name="quantity"
-                    id="quantity-select"
-                    value={searchParams.get("quantity") || "1"}
-                    onChange={handleQuantityChange}
-                  >
-                    {[
-                      ...Array(10)
-                        .keys()
-                        .map((index) => index + 1)
-                        .map((quantity) => {
-                          return (
-                            <option key={quantity} value={quantity}>
-                              {quantity}
-                            </option>
-                          );
-                        }),
-                    ]}
-                  </select>
-                </form>
-              </QuantityWrapper>
-              <AddToCartButton onClick={handleCartChange}>
-                Add to Cart
-              </AddToCartButton>
-            </AddToCart>
-          </GameDetails>
-        </Wrapper>
-      )}
+      {screenshots.status === "success" &&
+        !screenshots.isLoading &&
+        !screenshots.isFetching && (
+          <Wrapper>
+            <GameImages>
+              <Image1>
+                <img src={screenshots.data[0]?.image} alt="" />
+              </Image1>
+              <Image2>
+                <img src={screenshots.data[1]?.image} alt="" />
+              </Image2>
+              <Image3>
+                <img src={screenshots.data[2]?.image} alt="" />
+              </Image3>
+              <Image4>
+                <img src={screenshots.data[3]?.image} alt="" />
+              </Image4>
+            </GameImages>
+            <GameDetails>
+              {game.status === "success" &&
+                !game.isLoading &&
+                !game.isFetching && (
+                  <GameInfo>
+                    <GameTitle>{game.data?.title}</GameTitle>
+                    Details
+                    <GameDescription>{game.data?.description}</GameDescription>
+                  </GameInfo>
+                )}
+              {game.status === "success" &&
+                !game.isLoading &&
+                !game.isFetching && (
+                  <AddToCart>
+                    <GameTitle>{game.data?.title}</GameTitle>
+                    <GamePrice>${game.data?.price}</GamePrice>
+                    <QuantityWrapper>
+                      <label htmlFor="quantity-select">Quantity </label>
+                      <select
+                        name="quantity"
+                        id="quantity-select"
+                        value={searchParams.get("quantity") || "1"}
+                        onChange={handleQuantityChange}
+                      >
+                        {[
+                          ...Array(10)
+                            .keys()
+                            .map((index) => index + 1)
+                            .map((quantity) => {
+                              return (
+                                <option key={quantity} value={quantity}>
+                                  {quantity}
+                                </option>
+                              );
+                            }),
+                        ]}
+                      </select>
+                    </QuantityWrapper>
+                    <AddToCartButton onClick={handleCartChange}>
+                      Add to Cart
+                    </AddToCartButton>
+                  </AddToCart>
+                )}
+            </GameDetails>
+          </Wrapper>
+        )}
     </div>
   );
 }
