@@ -55,10 +55,13 @@ function Product() {
 
     const gameId = game.data.game_id;
     const quantity = searchParams.get("quantity");
-    const body = { gameId, quantity };
-    const accessToken = user.accessToken;
-    const email = user.user.email;
-    const payload = { body, accessToken, email };
+
+    const payload = {
+      body: { gameId, quantity },
+      accessToken: user.accessToken,
+      email: user?.user?.email,
+    };
+    console.log(payload);
     addToCart.mutate(payload);
   }
 

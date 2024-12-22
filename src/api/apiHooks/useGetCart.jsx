@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../api";
+import api from "../api";
 import useAuth from "../../components/Auth/hooks/useAuth";
 
 export default function useGetCart() {

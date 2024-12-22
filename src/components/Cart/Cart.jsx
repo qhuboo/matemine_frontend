@@ -1,25 +1,40 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import useAuth from "../Auth/hooks/useAuth";
 import useGetCart from "../../api/apiHooks/useGetCart";
+import useChangeCartQuantity from "../../api/apiHooks/useChangeCartQuantity";
 
 function Cart() {
+  const user = useAuth();
   const cartItems = useGetCart();
+  const changeCartQuantity = useChangeCartQuantity();
 
   function handleQuantityChange(event) {
+    console.log("handleQuantityChange");
     const gameId = event.target.dataset.gameId;
     const quantity = event.target.value;
+
+    // Create the payload object, body, accessToken, and email
     console.log(gameId);
     console.log(quantity);
+    console.log(user?.accessToken);
+    console.log(user?.user?.email);
+    const payload = {
+      body: { gameId, quantity },
+      accessToken: user?.accessToken,
+      email: user?.user?.email,
+    };
+    console.log(payload);
+    changeCartQuantity.mutate(payload);
   }
 
   return (
     <Wrapper>
       <h2>Shopping Cart</h2>
       <CartItems>
-        {!cartItems.isPending &&
-          cartItems.data.data.length > 0 &&
-          cartItems.data.data.map((game) => (
+        {cartItems?.status === "success" &&
+          cartItems?.data?.data?.length > 0 &&
+          cartItems?.data?.data.map((game) => (
             <CartItem key={game.game_id}>
               <GameInfo>
                 <GameCover
@@ -62,8 +77,8 @@ function Cart() {
         </SubtotalTitle>
         <p>
           $
-          {!cartItems.isPending &&
-            cartItems.data.data.length > 0 &&
+          {cartItems?.status === "success" &&
+            cartItems?.data?.data?.length > 0 &&
             parseFloat(
               cartItems.data.data
                 .reduce(

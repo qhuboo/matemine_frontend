@@ -1,4 +1,4 @@
-export const api = {
+const api = {
   get: (url) => async () => {
     const response = await fetch(url, {
       credentials: "include",
@@ -97,7 +97,7 @@ export const api = {
 
           const retryData = await retryResponse.json();
           console.log("retryData:");
-          console.log(refreshData);
+          console.log(retryData);
 
           if (!retryResponse.ok) {
             const error = new Error(retryData.message);
@@ -188,3 +188,5 @@ export const api = {
     return { data: initialData };
   },
 };
+
+export default api;
