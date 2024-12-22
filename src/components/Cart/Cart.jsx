@@ -10,22 +10,27 @@ function Cart() {
   const changeCartQuantity = useChangeCartQuantity();
 
   function handleQuantityChange(event) {
-    console.log("handleQuantityChange");
+    event.preventDefault();
+
+    if (changeCartQuantity.isPending) {
+      return;
+    }
+
     const gameId = event.target.dataset.gameId;
     const quantity = event.target.value;
 
     // Create the payload object, body, accessToken, and email
-    console.log(gameId);
-    console.log(quantity);
-    console.log(user?.accessToken);
-    console.log(user?.user?.email);
+
     const payload = {
       body: { gameId, quantity },
       accessToken: user?.accessToken,
       email: user?.user?.email,
     };
-    console.log(payload);
     changeCartQuantity.mutate(payload);
+  }
+
+  if (cartItems.isPending) {
+    return <div>Loading...</div>;
   }
 
   return (

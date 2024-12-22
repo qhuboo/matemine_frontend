@@ -53,7 +53,7 @@ function Product() {
       return;
     }
 
-    const gameId = game.data.game_id;
+    const gameId = game?.data.game_id;
     const quantity = searchParams.get("quantity");
 
     const payload = {
@@ -61,77 +61,69 @@ function Product() {
       accessToken: user.accessToken,
       email: user?.user?.email,
     };
-    console.log(payload);
     addToCart.mutate(payload);
   }
 
   return (
-    <div>
+    <Wrapper>
       {screenshots.status === "success" &&
         !screenshots.isLoading &&
         !screenshots.isFetching && (
-          <Wrapper>
-            <GameImages>
-              <Image1>
-                <img src={screenshots.data[0]?.image} alt="" />
-              </Image1>
-              <Image2>
-                <img src={screenshots.data[1]?.image} alt="" />
-              </Image2>
-              <Image3>
-                <img src={screenshots.data[2]?.image} alt="" />
-              </Image3>
-              <Image4>
-                <img src={screenshots.data[3]?.image} alt="" />
-              </Image4>
-            </GameImages>
-            <GameDetails>
-              {game.status === "success" &&
-                !game.isLoading &&
-                !game.isFetching && (
-                  <GameInfo>
-                    <GameTitle>{game.data?.title}</GameTitle>
-                    Details
-                    <GameDescription>{game.data?.description}</GameDescription>
-                  </GameInfo>
-                )}
-              {game.status === "success" &&
-                !game.isLoading &&
-                !game.isFetching && (
-                  <AddToCart>
-                    <GameTitle>{game.data?.title}</GameTitle>
-                    <GamePrice>${game.data?.price}</GamePrice>
-                    <QuantityWrapper>
-                      <label htmlFor="quantity-select">Quantity </label>
-                      <select
-                        name="quantity"
-                        id="quantity-select"
-                        value={searchParams.get("quantity") || "1"}
-                        onChange={handleQuantityChange}
-                      >
-                        {[
-                          ...Array(10)
-                            .keys()
-                            .map((index) => index + 1)
-                            .map((quantity) => {
-                              return (
-                                <option key={quantity} value={quantity}>
-                                  {quantity}
-                                </option>
-                              );
-                            }),
-                        ]}
-                      </select>
-                    </QuantityWrapper>
-                    <AddToCartButton onClick={handleCartChange}>
-                      Add to Cart
-                    </AddToCartButton>
-                  </AddToCart>
-                )}
-            </GameDetails>
-          </Wrapper>
+          <GameImages>
+            <Image1>
+              <img src={screenshots.data[0]?.image} alt="" />
+            </Image1>
+            <Image2>
+              <img src={screenshots.data[1]?.image} alt="" />
+            </Image2>
+            <Image3>
+              <img src={screenshots.data[2]?.image} alt="" />
+            </Image3>
+            <Image4>
+              <img src={screenshots.data[3]?.image} alt="" />
+            </Image4>
+          </GameImages>
         )}
-    </div>
+      {game.status === "success" && !game.isLoading && !game.isFetching && (
+        <GameDetails>
+          <GameInfo>
+            <GameTitle>{game.data?.title}</GameTitle>
+            Details
+            <GameDescription>{game.data?.description}</GameDescription>
+          </GameInfo>
+
+          <AddToCart>
+            <GameTitle>{game.data?.title}</GameTitle>
+            <GamePrice>${game.data?.price}</GamePrice>
+            <QuantityWrapper>
+              <label htmlFor="quantity-select">Quantity </label>
+              <select
+                name="quantity"
+                id="quantity-select"
+                value={searchParams.get("quantity") || "1"}
+                onChange={handleQuantityChange}
+              >
+                {[
+                  ...Array(10)
+                    .keys()
+                    .map((index) => index + 1)
+                    .map((quantity) => {
+                      return (
+                        <option key={quantity} value={quantity}>
+                          {quantity}
+                        </option>
+                      );
+                    }),
+                ]}
+              </select>
+            </QuantityWrapper>
+            <AddToCartButton onClick={handleCartChange}>
+              Add to Cart
+            </AddToCartButton>
+          </AddToCart>
+        </GameDetails>
+      )}
+    </Wrapper>
   );
 }
 

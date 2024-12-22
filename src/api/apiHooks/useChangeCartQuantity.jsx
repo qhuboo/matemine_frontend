@@ -9,8 +9,14 @@ export default function useChangeCartQuantity() {
     mutationFn: api.protectedPost(
       `${import.meta.env.VITE_BACKEND_URL}/cart/quantity`
     ),
-    onMutate: (payload) => {
+    onMutate: async (payload) => {
       console.log("On mutate");
+
+      // Cancel any queries that are fetching
+      await queryClient.cancelQueries({
+        queryKey: ["cart"],
+      });
+
       const gameId = Number(payload?.body?.gameId);
       const quantity = Number(payload?.body?.quantity);
 
@@ -47,13 +53,9 @@ export default function useChangeCartQuantity() {
     },
     onSuccess: (data) => {
       console.log("On success");
-      // Refetch the cart after a succesful cart mutation
-      //   queryClient.refetchQueries({ queryKey: ["cart"] });
-      queryClient.invalidateQueries({
-        queryKey: ["cart"],
-        refetchType: "active",
-      });
 
+      // If the mutation needed to hit the refresh route update the
+      // auth state accessToken
       if (data?.accessToken) {
         console.log("There was a token refresh");
         console.log(user);
@@ -68,6 +70,14 @@ export default function useChangeCartQuantity() {
       console.log("On error");
       console.log(error);
       rollback?.();
+    },
+    onSettled: () => {
+      console.log("On settled");
+      // Invalidate the cart after a succesful cart mutation
+      queryClient.invalidateQueries({
+        queryKey: ["cart"],
+        refetchType: "active",
+      });
     },
   });
 }

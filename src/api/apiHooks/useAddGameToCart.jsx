@@ -9,8 +9,14 @@ export default function useAddGameToCart() {
     mutationFn: api.protectedPost(
       `${import.meta.env.VITE_BACKEND_URL}/cart/add`
     ),
-    onMutate: (payload) => {
+    onMutate: async (payload) => {
       console.log("On mutate");
+
+      // Cancel any queries that are fetching
+      await queryClient.cancelQueries({
+        queryKey: ["cart"],
+      });
+
       const cartCache = queryClient.getQueryData(["cart"]);
       // Check to see if the cart cache exists
       if (cartCache) {
@@ -72,8 +78,6 @@ export default function useAddGameToCart() {
     },
     onSuccess: (data) => {
       console.log("On success");
-      // Refetch the cart after a succesful cart mutation
-      queryClient.refetchQueries({ queryKey: ["cart"] });
 
       // If the mutation needed to hit the refresh route update the
       // auth state accessToken
@@ -94,6 +98,8 @@ export default function useAddGameToCart() {
     },
     onSettled: () => {
       console.log("On settled");
+      // Refetch the cart after a succesful cart mutation
+      queryClient.refetchQueries({ queryKey: ["cart"] });
     },
   });
 }
