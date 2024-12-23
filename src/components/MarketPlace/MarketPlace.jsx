@@ -7,7 +7,7 @@ import FilterDrawer from "./FilterDrawer";
 import GameGrid from "./GameGrid";
 import { QUERIES } from "../../constants";
 import { Filter } from "react-feather";
-import useToggle from "../../hooks/use-toggle";
+import useToggle from "../../hooks/useToggle";
 
 import useGetMarketPlaceGames from "../../api/apiHooks/useGetMarketPlaceGames";
 import { validPerPageOptions, validSortOptions } from "../../constants";

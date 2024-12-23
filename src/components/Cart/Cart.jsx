@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import useAuth from "../Auth/hooks/useAuth";
 import useGetCart from "../../api/apiHooks/useGetCart";
 import useChangeCartQuantity from "../../api/apiHooks/useChangeCartQuantity";
+import { Trash2 } from "react-feather";
+import useRemoveFromCart from "../../api/apiHooks/useRemoveFromCart";
 
 function Cart() {
   const user = useAuth();
   const cartItems = useGetCart();
   const changeCartQuantity = useChangeCartQuantity();
+  const removeFromCart = useRemoveFromCart();
 
   function handleQuantityChange(event) {
     event.preventDefault();
@@ -29,7 +32,26 @@ function Cart() {
     changeCartQuantity.mutate(payload);
   }
 
-  if (cartItems.isPending) {
+  function handleRemoveFromCart(event) {
+    console.log("remove from cart");
+
+    if (removeFromCart.isPending) {
+      return;
+    }
+
+    const gameId = Number(event.target.dataset.gameId);
+
+    const payload = {
+      body: { gameId },
+      accessToken: user?.accessToken,
+      email: user?.user?.email,
+    };
+
+    console.log(payload);
+    removeFromCart.mutate(payload);
+  }
+
+  if (cartItems.isPending && user.isAuthenticated) {
     return <div>Loading...</div>;
   }
 
@@ -48,30 +70,35 @@ function Cart() {
                 />
                 <GameTitle>{game.title}</GameTitle>
               </GameInfo>
-              <GamePrice>
-                <label htmlFor="quantity-select">Quantity </label>
-                <select
-                  name={`${game.game_id}-quantity`}
-                  data-game-id={game.game_id}
-                  id="quantity-select"
-                  value={game.quantity}
-                  onChange={handleQuantityChange}
-                >
-                  {[
-                    ...Array(10)
-                      .keys()
-                      .map((index) => index + 1)
-                      .map((quantity) => {
-                        return (
-                          <option key={quantity} value={quantity}>
-                            {quantity}
-                          </option>
-                        );
-                      }),
-                  ]}
-                </select>{" "}
-                x ${game.price}
-              </GamePrice>
+              <CartActions>
+                <GamePrice>
+                  <label htmlFor="quantity-select">Quantity </label>
+                  <select
+                    name={`${game.game_id}-quantity`}
+                    data-game-id={game.game_id}
+                    id="quantity-select"
+                    value={game.quantity}
+                    onChange={handleQuantityChange}
+                  >
+                    {[
+                      ...Array(10)
+                        .keys()
+                        .map((index) => index + 1)
+                        .map((quantity) => {
+                          return (
+                            <option key={quantity} value={quantity}>
+                              {quantity}
+                            </option>
+                          );
+                        }),
+                    ]}
+                  </select>{" "}
+                  x ${game.price}
+                </GamePrice>
+                <button onClick={handleRemoveFromCart}>
+                  <Trash2 data-game-id={game.game_id} />
+                </button>
+              </CartActions>
             </CartItem>
           ))}
       </CartItems>
@@ -110,7 +137,7 @@ function Cart() {
 }
 
 const Wrapper = styled.div`
-  //   border: 2px dotted blue;
+  border: 2px dotted blue;
   display: grid;
   grid-template-columns: 1fr;
   gap: 25px;
@@ -119,7 +146,7 @@ const Wrapper = styled.div`
 `;
 
 const CartItems = styled.div`
-  //   border: 3px solid springgreen;
+  // border: 3px solid springgreen;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -130,6 +157,7 @@ const CartItems = styled.div`
 `;
 
 const CartItem = styled.div`
+  // border: 3px solid red;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -137,6 +165,7 @@ const CartItem = styled.div`
 `;
 
 const GameInfo = styled.div`
+  // border: 3px solid blue;
   display: flex;
   align-items: center;
   gap: 25px;
@@ -149,12 +178,19 @@ const GameInfo = styled.div`
 `;
 
 const GameCover = styled.img`
+  // border: 4px dotted black;
   width: 150px;
   border-radius: 5px;
 `;
 
 const GameTitle = styled.p`
-  font-size: 1rem;
+  font-size: 1.4rem;
+`;
+
+const CartActions = styled.div`
+  // border: 3px solid red;
+  display: flex;
+  gap: 50px;
 `;
 
 const GamePrice = styled.p`
