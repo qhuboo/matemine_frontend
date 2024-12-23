@@ -29,7 +29,7 @@ export default function useAddGameToCart() {
         const { quantity } = payload.body;
 
         // Check if the game is already in the cart and if so, update the quantity
-        const game = cart.find((game) => game.game_id === gameId);
+        const game = cart.find((game) => game.game_id === Number(gameId));
 
         if (game) {
           console.log("Game already in the cart");
@@ -38,7 +38,9 @@ export default function useAddGameToCart() {
           const newGame = { ...game, quantity: newQuantity };
 
           // Make a copy of the cart with the game removed
-          const cartWOGame = cart.filter((game) => game.game_id !== gameId);
+          const cartWOGame = cart.filter(
+            (game) => game.game_id !== Number(gameId)
+          );
 
           // Create a new cart with the new game added
           const newCart = [...cartWOGame, newGame];
@@ -73,7 +75,6 @@ export default function useAddGameToCart() {
         };
       } else {
         console.log("The cart does not exist, no optimistic mutation");
-        return;
       }
     },
     onSuccess: (data) => {

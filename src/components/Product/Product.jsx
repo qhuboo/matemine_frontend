@@ -53,6 +53,7 @@ function Product() {
       return;
     }
 
+    console.log("Handle cart change");
     const gameId = game?.data.game_id;
     const quantity = searchParams.get("quantity");
 
