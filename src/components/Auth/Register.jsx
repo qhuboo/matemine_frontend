@@ -5,7 +5,6 @@ import styled from "styled-components";
 export default function Register() {
   const { state } = useLocation();
   const destination = state?.destination ? state.destination : "/";
-  console.log(destination);
 
   return (
     <FormWrapper>
@@ -15,5 +14,10 @@ export default function Register() {
 }
 
 const FormWrapper = styled.div`
-  border: 2px solid red;
+  // border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
 `;

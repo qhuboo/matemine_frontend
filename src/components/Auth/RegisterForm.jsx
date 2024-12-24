@@ -1,8 +1,8 @@
 import * as Form from "@radix-ui/react-form";
 import styled, { keyframes } from "styled-components";
 import useAuth from "./hooks/useAuth";
-
 import useRegister from "../../api/apiHooks/useRegister";
+import { QUERIES } from "../../constants";
 
 export default function RegisterForm({ destination }) {
   const user = useAuth();
@@ -151,16 +151,29 @@ const shakeAnimation = keyframes`
 `;
 
 const FormRoot = styled(Form.Root)`
-  //   border: 3px solid red;
+  // border: 3px dashed red;
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 25px;
   font-family: "Rajdhani";
   font-weight: 600;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    width: 75%;
+  }
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    width: 90%;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    width: 100%;
+  }
 `;
 
 const FormField = styled(Form.Field)`
-  //   border: 3px solid green;
+  // border: 3px solid green;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -168,31 +181,43 @@ const FormField = styled(Form.Field)`
 `;
 
 const LabelMessageWrapper = styled.div`
-  //   border: 2px solid red;
+  // border: 2px solid red;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const FormLabel = styled(Form.Label)`
-  //   border: 3px solid yellow;
+  // border: 3px solid yellow;
+  font-size: 1.25rem;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 1.15rem;
+  }
 `;
 
 const FormMessage = styled(Form.Message)`
-  //   border: 3px solid springgreen;
+  // border: 3px solid springgreen;
   font-size: 1rem;
   display: flex;
   align-items: center;
-  font-weight: 400;
   transform: translateY(2px); /* Visual vertical alignment */
+  color: red;
+  animation: ${shakeAnimation} 200ms ease;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 0.9rem;
+    transform: translateY(-0px); /* Visual vertical alignment */
+  }
 `;
 
 const FormControl = styled(Form.Control)`
-  //   border: 3px solid yellow;
+  // border: 3px solid purple;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   border-radius: 4px;
   font-size: 1.2rem;
   line-height: 2;

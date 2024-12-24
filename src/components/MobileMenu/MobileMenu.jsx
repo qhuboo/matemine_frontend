@@ -5,8 +5,10 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import platforms from "../../platform_data";
 import { User } from "react-feather";
+import useAuth from "../Auth/hooks/useAuth";
 
 function MobileMenu({ handleDismiss }) {
+  const user = useAuth();
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
       <Wrapper>
@@ -127,6 +129,11 @@ function MobileMenu({ handleDismiss }) {
         <NavLink to={"/account"} onClick={() => handleDismiss()}>
           <User />
         </NavLink>
+        {user.isAuthenticated ? (
+          <button>Log out</button>
+        ) : (
+          <button>Log in</button>
+        )}
       </Wrapper>
     </MobileMenuDrawer>
   );

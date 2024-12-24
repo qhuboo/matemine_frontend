@@ -10,7 +10,7 @@ export default function useRegister(destination) {
   return useMutation({
     mutationFn: api.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register`),
     onSuccess: (data) => {
-      if (data.isAuthenticated) {
+      if (data?.isAuthenticated) {
         user.login(data);
         navigate(destination);
       }

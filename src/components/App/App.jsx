@@ -10,14 +10,12 @@ import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
-import { AnimatePresence, motion } from "framer-motion";
 import useScrollLock from "../../hooks/useScrollLock";
 import AuthProvider from "../Auth/AuthProvider";
 import ProtectedRoutes from "../Auth/ProtectedRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Account from "../Account/Account";
 import Login from "../Auth/Login";
-import AuthDialog from "../Auth/AuthDialog";
 import Register from "../Auth/Register";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -83,7 +81,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={true} />
       <AuthProvider>
-        <AuthDialog />
         <Wrapper ref={wrapperRef}>
           <ScrollToTop />
           <Main>
@@ -105,116 +102,74 @@ function App() {
                 />
               )}
               <GapDiv />
-              <AnimatePresence mode="wait">
-                <Routes location={location} key={location.pathname}>
+              <Routes location={location} key={location.pathname}>
+                <Route
+                  path="/"
+                  element={
+                    <div>
+                      <MainPage />
+                    </div>
+                  }
+                />
+                <Route element={<ProtectedRoutes />}>
                   <Route
-                    path="/"
+                    path="/account"
                     element={
-                      <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <MainPage />
-                      </motion.div>
+                      <div>
+                        <Account />
+                      </div>
                     }
                   />
-                  <Route element={<ProtectedRoutes />}>
-                    <Route
-                      path="/account"
-                      element={
-                        <motion.div
-                          initial={{ opacity: 0, y: 50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -50 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <Account />
-                        </motion.div>
-                      }
-                    />
-                  </Route>
-                  <Route
-                    path="/marketplace"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <MarketPlace />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/login"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Login />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/register"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Register />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/cart"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Cart />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/checkout"
-                    element={
-                      <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Checkout />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/product/:gameId"
-                    element={
-                      <motion.div
-                        initial={{ opacity: 0, x: 100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -100 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Product />
-                      </motion.div>
-                    }
-                  />
-                </Routes>
-              </AnimatePresence>
+                </Route>
+                <Route
+                  path="/marketplace"
+                  element={
+                    <div>
+                      <MarketPlace />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <div>
+                      <Login />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/register"
+                  element={
+                    <div>
+                      <Register />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <div>
+                      <Cart />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <div>
+                      <Checkout />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/product/:gameId"
+                  element={
+                    <div>
+                      <Product />
+                    </div>
+                  }
+                />
+              </Routes>
             </ContentWrapper>
           </Main>
           <GlobalStyles />

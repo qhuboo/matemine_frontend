@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 
 import useLogin from "../../api/apiHooks/useLogin";
 import useAuth from "./hooks/useAuth";
+import { QUERIES } from "../../constants";
 
 export default function LoginForm({ destination }) {
   const user = useAuth();
@@ -62,7 +63,9 @@ export default function LoginForm({ destination }) {
         </FormControl>
       </FormField>
 
-      <Form.Submit>Log In</Form.Submit>
+      <Form.Submit asChild>
+        <LoginButton>Log In</LoginButton>
+      </Form.Submit>
       {loginUser.isError && (
         <ErrorMessage>{loginUser.error.message}</ErrorMessage>
       )}
@@ -79,16 +82,29 @@ const shakeAnimation = keyframes`
 `;
 
 const FormRoot = styled(Form.Root)`
-  //   border: 3px solid red;
+  // border: 3px dashed red;
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 25px;
   font-family: "Rajdhani";
   font-weight: 600;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    width: 75%;
+  }
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    width: 90%;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    width: 100%;
+  }
 `;
 
 const FormField = styled(Form.Field)`
-  //   border: 3px solid green;
+  // border: 3px solid green;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,29 +112,39 @@ const FormField = styled(Form.Field)`
 `;
 
 const LabelMessageWrapper = styled.div`
-  //   border: 2px solid red;
+  // border: 2px solid red;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const FormLabel = styled(Form.Label)`
-  //   border: 3px solid green;
+  // border: 3px solid green;
+  font-size: 1.25rem;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 1.2rem;
+  }
 `;
 
 const FormMessage = styled(Form.Message)`
-  //   border: 3px solid springgreen;
+  // border: 3px solid springgreen;
   font-size: 1rem;
   display: flex;
   align-items: center;
-  font-weight: 600;
   transform: translateY(2px); /* Visual vertical alignment */
   color: red;
   animation: ${shakeAnimation} 200ms ease;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 0.9rem;
+    transform: translateY(-0px); /* Visual vertical alignment */
+  }
 `;
 
 const FormControl = styled(Form.Control)`
-  //   border: 3px solid purple;
+  // border: 3px solid purple;
   width: 100%;
   display: flex;
   align-items: center;
@@ -140,4 +166,8 @@ const ErrorMessage = styled.div`
   text-align: center;
   color: red;
   animation: ${shakeAnimation} 200ms ease;
+`;
+
+const LoginButton = styled.button`
+  cursor: pointer;
 `;
