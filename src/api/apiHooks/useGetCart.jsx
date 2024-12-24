@@ -16,16 +16,12 @@ export default function useGetCart() {
   });
 
   useEffect(() => {
-    if (cart.status === "success" && cart.data.accessToken) {
-      if (user.accessToken !== cart.data.accessToken) {
-        user.login({
-          ...user.user,
-          isAuthenticated: true,
-          accessToken: cart.data.accessToken,
-        });
+    if (cart?.status === "success" && cart?.data?.accessToken) {
+      if (user?.accessToken !== cart?.data?.accessToken) {
+        user?.updateAccessToken(cart?.data?.accessToken);
       }
     }
-  }, [cart.status, cart.data, user]);
+  }, [cart?.status, cart?.data, user]);
 
   return cart;
 }

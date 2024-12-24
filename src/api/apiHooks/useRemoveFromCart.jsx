@@ -62,13 +62,9 @@ export default function useRemoveFromCart() {
 
       // If the mutation needed to hit the refresh route update the
       // auth state accessToken
-      if (data.accessToken) {
+      if (data?.accessToken) {
         console.log("There was a token refresh");
-        user.login({
-          ...user.user,
-          isAuthenticated: true,
-          accessToken: data.accessToken,
-        });
+        user.updateAccessToken(data.accessToken);
       }
     },
     onError: (error, variables, rollback) => {

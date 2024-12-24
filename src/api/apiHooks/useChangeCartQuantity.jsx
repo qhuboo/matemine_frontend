@@ -58,12 +58,7 @@ export default function useChangeCartQuantity() {
       // auth state accessToken
       if (data?.accessToken) {
         console.log("There was a token refresh");
-        console.log(user);
-        user.login({
-          ...user.user,
-          isAuthenticated: true,
-          accessToken: data?.accessToken,
-        });
+        user.updateAccessToken(data.accessToken);
       }
     },
     onError: (error, variables, rollback) => {

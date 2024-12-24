@@ -4,22 +4,62 @@ import { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
-  const [authState, setAuthState] = useState({
-    user: null,
-    isAuthenticated: false,
-    accessToken: null,
+  const [authState, setAuthState] = useState(() => {
+    try {
+      const user = localStorage.getItem("user");
+      return user
+        ? JSON.parse(user)
+        : {
+            user: null,
+            isAuthenticated: false,
+            accessToken: null,
+          };
+    } catch (error) {
+      console.log("Failed to parse auth state from local storage");
+      console.log(error);
+      return {
+        user: null,
+        isAuthenticated: false,
+        accessToken: null,
+      };
+    }
   });
 
-  const queryClient = useQueryClient();
-
+  // Update local storage when auth state changess
   useEffect(() => {
-    if (localStorage.getItem("user")) {
-      const userInfo = JSON.parse(localStorage.getItem("user"));
-      if (userInfo) {
-        setAuthState(userInfo);
-      }
+    if (authState.isAuthenticated) {
+      localStorage.setItem("user", JSON.stringify(authState));
+    } else {
+      localStorage.removeItem("user");
     }
-  }, []);
+  }, [authState]);
+
+  // Sync local storage accross tabs but I still don't know how this works
+  // useEffect(() => {
+  //   const handleStorageChange = (event) => {
+  //     if (event.key === "user") {
+  //       // If "user" was removed or updated in another tab:
+  //       const updatedUser = localStorage.getItem("user");
+  //       if (updatedUser) {
+  //         setAuthState(JSON.parse(updatedUser));
+  //       } else {
+  //         // If the user key was removed, log out in this tab too.
+  //         setAuthState({
+  //           user: null,
+  //           isAuthenticated: false,
+  //           accessToken: null,
+  //         });
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
+
+  const queryClient = useQueryClient();
 
   function login(userData) {
     setAuthState({
@@ -32,20 +72,6 @@ export default function AuthProvider({ children }) {
       isAuthenticated: true,
       accessToken: userData.accessToken,
     });
-    // Set the local storage
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        user: {
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          email: userData.email,
-          admin: userData.admin,
-        },
-        isAuthenticated: true,
-        accessToken: userData.accessToken,
-      })
-    );
   }
 
   async function logout() {
@@ -54,13 +80,17 @@ export default function AuthProvider({ children }) {
       isAuthenticated: false,
       accessToken: null,
     });
-    // Remove user data from local storage
-    localStorage.removeItem("user");
     await queryClient.removeQueries({ queryKey: ["cart"] });
   }
 
+  function updateAccessToken(accessToken) {
+    setAuthState((prevAuthState) => ({ ...prevAuthState, accessToken }));
+  }
+
   return (
-    <AuthContext.Provider value={{ ...authState, login, logout }}>
+    <AuthContext.Provider
+      value={{ ...authState, login, logout, updateAccessToken }}
+    >
       {children}
     </AuthContext.Provider>
   );
