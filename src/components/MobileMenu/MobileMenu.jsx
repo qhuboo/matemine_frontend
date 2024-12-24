@@ -134,7 +134,13 @@ function MobileMenu({ handleDismiss }) {
             <button>Log out</button>
           </NavLink>
         ) : (
-          <button onClick={() => user.logout()}>Log in</button>
+          <button
+            onClick={async () => {
+              await user.logout();
+            }}
+          >
+            Log in
+          </button>
         )}
       </Wrapper>
     </MobileMenuDrawer>
