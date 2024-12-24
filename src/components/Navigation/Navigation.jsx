@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Search, Menu, ShoppingBag, Heart } from "react-feather";
-// import { User } from "react-feather";
+import { User } from "react-feather";
 
 import { QUERIES } from "../../constants";
 import MobileMenu from "../MobileMenu/MobileMenu";
@@ -107,7 +107,9 @@ function Navigation({
             <NavLink>
               <Search />
             </NavLink>
-            <NavLink to={"/account"}>{/* <User /> */}</NavLink>
+            <NavLink to={"/account"}>
+              <User />
+            </NavLink>
             <NavLink>
               <Heart />
             </NavLink>
