@@ -104,16 +104,13 @@ function Product() {
                 onChange={handleQuantityChange}
               >
                 {[
-                  ...Array(10)
-                    .keys()
+                  ...[...Array(10).keys()]
                     .map((index) => index + 1)
-                    .map((quantity) => {
-                      return (
-                        <option key={quantity} value={quantity}>
-                          {quantity}
-                        </option>
-                      );
-                    }),
+                    .map((quantity) => (
+                      <option key={quantity} value={quantity}>
+                        {quantity}
+                      </option>
+                    )),
                 ]}
               </select>
             </QuantityWrapper>
