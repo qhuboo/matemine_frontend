@@ -1,7 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Tabs from "@radix-ui/react-tabs";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
-import { User } from "react-feather";
+// import { User } from "react-feather";
 import { styled, keyframes } from "styled-components";
 import { forwardRef, useState } from "react";
 
@@ -24,9 +24,7 @@ export default function AuthDialog() {
   return (
     <MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}>
       <DialogRoot open={open} onOpenChange={setOpen} modal={true}>
-        <DialogTrigger asChild>
-          <User />
-        </DialogTrigger>
+        <DialogTrigger asChild>{/* <User /> */}</DialogTrigger>
         <Dialog.Portal>
           <DialogOverlay />
           <DialogContent>

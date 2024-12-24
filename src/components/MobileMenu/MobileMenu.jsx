@@ -4,7 +4,7 @@ import Drawer from "../Drawer";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import platforms from "../../platform_data";
-import { User } from "react-feather";
+// import { User } from "react-feather";
 
 function MobileMenu({ handleDismiss }) {
   return (
@@ -125,7 +125,7 @@ function MobileMenu({ handleDismiss }) {
           </Item>
         </Root>
         <NavLink to={"/account"} onClick={() => handleDismiss()}>
-          <User />
+          {/* <User /> */}
         </NavLink>
       </Wrapper>
     </MobileMenuDrawer>
