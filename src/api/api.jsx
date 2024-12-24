@@ -36,7 +36,6 @@ const api = {
 
     return response.json();
   },
-
   protectedPost: (url) => async (payload) => {
     console.log("************* POST *************");
     console.log("Making the initial request");
@@ -65,6 +64,7 @@ const api = {
             method: "POST",
             credentials: "include",
             headers: {
+              Authorization: `Bearer ${payload.accessToken}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email: payload.email }),
@@ -107,10 +107,15 @@ const api = {
           console.log("************* POST *************");
           return { data: retryData, accessToken: refreshData.accessToken };
         }
+      } else {
+        // If the error returned from the initial response is not an access token expiration throw the error
+        const error = new Error(initialResponse.message);
+        error.message = initialResponse.message;
+        throw error;
       }
     }
     console.log("************* POST *************");
-    return { data: initialData };
+    return { data: initialData, accessToken: payload.accessToken };
   },
   protectedGet: (url, payload) => async () => {
     console.log("************* GET *************");
@@ -130,7 +135,7 @@ const api = {
 
     if (!initialResponse.ok) {
       // If the backend returns a message that the access token is expired
-      // hit the refresh route and get a new token pain
+      // hit the refresh route and get a new token pair
       if (initialData.message === "Access token expired") {
         console.log("Hitting the refresh route");
         const refreshResponse = await fetch(
@@ -139,6 +144,7 @@ const api = {
             method: "POST",
             credentials: "include",
             headers: {
+              Authorization: `Bearer ${payload.accessToken}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email: payload.email }),
@@ -181,11 +187,16 @@ const api = {
           console.log("************* GET *************");
           return { data: retryData, accessToken: refreshData.accessToken };
         }
+      } else {
+        // If the error returned from the initial response is not an access token expiration throw the error
+        const error = new Error(initialResponse.message);
+        error.message = initialResponse.message;
+        throw error;
       }
     }
 
     console.log("************* GET *************");
-    return { data: initialData };
+    return { data: initialData, accessToken: payload.accessToken };
   },
 };
 
