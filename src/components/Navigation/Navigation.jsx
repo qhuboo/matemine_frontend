@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Search, Menu, ShoppingBag, Heart } from "react-feather";
+import { Menu, ShoppingBag, Heart } from "react-feather";
 import { User } from "react-feather";
 
 import { QUERIES } from "../../constants";
@@ -114,15 +114,15 @@ function Navigation({
               <ShoppingBag />
             </NavLink>
             {user.isAuthenticated ? (
-              <button
+              <LogoutButton
                 onClick={async () => {
                   await user.logout();
                 }}
               >
                 Logout
-              </button>
+              </LogoutButton>
             ) : (
-              <NavLink to={"/login"}>Log In</NavLink>
+              <LoginButton to={"/login"}>Log In</LoginButton>
             )}
           </IconLinks>
 
@@ -300,6 +300,34 @@ const SubMenuButton = styled.button`
   @media (${QUERIES.laptopAndSmaller}) {
     font-size: 1.3rem;
   }
+`;
+
+const LoginButton = styled(NavLink)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: rgb(239, 239, 239);
+  border: 1px solid black;
+  border-radius: 6px;
+  font-family: "Rajdhani";
+  font-weight: 600;
+  font-size: 1.25rem;
+`;
+
+const LogoutButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: black;
+  font-family: "Rajdhani";
+  font-weight: 600;
+  font-size: 1.25rem;
 `;
 
 export default Navigation;
