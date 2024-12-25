@@ -136,7 +136,7 @@ const SubMenuWrapper = styled.div`
   clip-path: ${(props) =>
     props.$isActive ? "inset(0%)" : "inset(0% 0% 100% 0%)"};
   opacity: ${(props) => (props.$isActive ? 1 : 0)};
-  transition: clip-path 800ms cubic-bezier(1, -0.01, 0, 1), opacity 100ms ease;
+  transition: clip-path 300ms cubic-bezier(1, -0.01, 0, 1), opacity 100ms ease;
 `;
 
 const SubMenuContentWrapper = styled.div`
@@ -147,7 +147,7 @@ const SubMenuContentWrapper = styled.div`
   ${(props) =>
     props.$isActive
       ? css`
-          animation: ${slideIn} 1000ms both cubic-bezier(0.87, 0, 0.13, 1);
+          animation: ${slideIn} 300ms both cubic-bezier(0.87, 0, 0.13, 1);
         `
       : css`
           transform: translateY(100%);
@@ -173,7 +173,7 @@ const SubSectionWrapper = styled.div`
   ${(props) =>
     props.$isActive
       ? css`
-          animation: ${slideIn} 1000ms both cubic-bezier(0.87, 0, 0.13, 1);
+          animation: ${slideIn} 300ms both cubic-bezier(0.87, 0, 0.13, 1);
           animation-delay: ${props.$animationDelay}ms;
         `
       : css`
