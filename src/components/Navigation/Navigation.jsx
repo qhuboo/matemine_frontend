@@ -247,6 +247,7 @@ const Links = styled.ul`
 
 const IconLinks = styled(Links)`
   // border: 3px dashed red;
+  transform: translateY(-2px); // Vertical Centering
   gap: 100px;
 
   @media (max-width: 1880px) {
