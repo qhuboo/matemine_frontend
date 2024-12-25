@@ -94,7 +94,7 @@ function Cart() {
                   x ${game.price}
                 </GamePrice>
                 <button onClick={handleRemoveFromCart}>
-                  <Trash2 data-game-id={game.game_id} />
+                  <TrashIcon data-game-id={game.game_id} />
                 </button>
               </CartActions>
             </CartItem>
@@ -148,7 +148,6 @@ const CartItems = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  color: black;
 
   & > *:not(:last-child) {
     border-bottom: 1px solid #e5e7eb;
@@ -191,6 +190,7 @@ const GameCover = styled.img`
 
 const GameTitle = styled.p`
   font-size: 1.4rem;
+  color: black;
 
   @media (${QUERIES.tabletAndSmaller}) {
     font-size: 1.2rem;
@@ -244,6 +244,10 @@ const CheckoutButton = styled(Link)`
   border-radius: 6px;
   padding: 10px;
   color: white;
+`;
+
+const TrashIcon = styled(Trash2)`
+  color: black;
 `;
 
 export default Cart;
