@@ -10,6 +10,8 @@ import { QUERIES } from "../../constants";
 
 export default function MobileMenu({ handleDismiss }) {
   const user = useAuth();
+  console.log(Object.keys(platforms));
+
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
       <Wrapper>
@@ -25,107 +27,36 @@ export default function MobileMenu({ handleDismiss }) {
           </NavLink>
         </Title>
         <Root type="single" collapsible>
-          <Item value="item-1">
-            <Header asChild>
-              <Trigger>
-                <Title>Nintendo</Title>
-                <StyledChevronDownIcon />
-              </Trigger>
-            </Header>
-            <Content>
-              <ContentWrapper>
-                {platforms.nintendo.map((console) => {
-                  return (
-                    <NavLink
-                      onClick={() => handleDismiss()}
-                      to={{
-                        pathname: "/marketplace",
-                        search: `?perPage=12&page=1&sort=alpha-asc&nintendo=${console}`,
-                      }}
-                      key={console}
-                    >
-                      {console}
-                    </NavLink>
-                  );
-                })}
-              </ContentWrapper>
-            </Content>
-          </Item>
-          <Item value="item-2">
-            <Header asChild>
-              <Trigger>
-                <Title>Sega</Title> <StyledChevronDownIcon />
-              </Trigger>
-            </Header>
-            <Content>
-              <ContentWrapper>
-                {platforms.sega.map((console) => {
-                  return (
-                    <NavLink
-                      onClick={() => handleDismiss()}
-                      to={{
-                        pathname: "/marketplace",
-                        search: `?perPage=12&page=1&sort=alpha-asc&sega=${console}`,
-                      }}
-                      key={console}
-                    >
-                      {console}
-                    </NavLink>
-                  );
-                })}
-              </ContentWrapper>
-            </Content>
-          </Item>
-          <Item value="item-3">
-            <Header asChild>
-              <Trigger>
-                <Title>PlayStation</Title> <StyledChevronDownIcon />
-              </Trigger>
-            </Header>
-            <Content>
-              <ContentWrapper>
-                {platforms.playstation.map((console) => {
-                  return (
-                    <NavLink
-                      onClick={() => handleDismiss()}
-                      to={{
-                        pathname: "/marketplace",
-                        search: `?perPage=12&page=1&sort=alpha-asc&playstation=${console}`,
-                      }}
-                      key={console}
-                    >
-                      {console}
-                    </NavLink>
-                  );
-                })}
-              </ContentWrapper>
-            </Content>
-          </Item>
-          <Item value="item-4">
-            <Header asChild>
-              <Trigger>
-                <Title>Xbox</Title> <StyledChevronDownIcon />
-              </Trigger>
-            </Header>
-            <Content>
-              <ContentWrapper>
-                {platforms.xbox.map((console) => {
-                  return (
-                    <NavLink
-                      onClick={() => handleDismiss()}
-                      to={{
-                        pathname: "/marketplace",
-                        search: `?perPage=12&page=1&sort=alpha-asc&xbox=${console}`,
-                      }}
-                      key={console}
-                    >
-                      {console}
-                    </NavLink>
-                  );
-                })}
-              </ContentWrapper>
-            </Content>
-          </Item>
+          {Object.keys(platforms).map((platform) => {
+            return (
+              <Item value={platform} key={platform}>
+                <Header asChild>
+                  <Trigger>
+                    <Title>{platform}</Title>
+                    <StyledChevronDownIcon />
+                  </Trigger>
+                </Header>
+                <Content>
+                  <ContentWrapper>
+                    {platforms[platform].map((console) => {
+                      return (
+                        <NavLink
+                          onClick={handleDismiss}
+                          to={{
+                            pathname: "/marketplace",
+                            search: `?perPage=12&page=1&sort=alpha-asc&${platform}=${console}`,
+                          }}
+                          key={console}
+                        >
+                          {console}
+                        </NavLink>
+                      );
+                    })}
+                  </ContentWrapper>
+                </Content>
+              </Item>
+            );
+          })}
         </Root>
 
         <UserLinks>
@@ -192,6 +123,10 @@ const Title = styled.div`
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 3rem;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 2.5rem;
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -297,8 +232,8 @@ const LogoutButton = styled.button`
   gap: 10px;
   padding: 10px;
   border: 1px solid black;
-
   border-radius: 6px;
+  color: black;
 `;
 
 const LoginButton = styled(NavLink)`
