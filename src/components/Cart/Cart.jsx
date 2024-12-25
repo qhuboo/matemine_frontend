@@ -148,6 +148,7 @@ const CartItems = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  color: black;
 
   & > *:not(:last-child) {
     border-bottom: 1px solid #e5e7eb;
