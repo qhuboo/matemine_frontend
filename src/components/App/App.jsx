@@ -43,9 +43,6 @@ function App() {
     scrollPosition
   );
 
-  // Get the current location for AnimatePresence
-  const location = useLocation();
-
   // Open and close event handler function
   function handleOpenMobileMenu() {
     setScrollPositionClose(scrollPosition);
@@ -102,7 +99,7 @@ function App() {
                 />
               )}
               <GapDiv />
-              <Routes location={location} key={location.pathname}>
+              <Routes>
                 <Route
                   path="/"
                   element={
