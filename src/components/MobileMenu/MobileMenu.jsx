@@ -130,17 +130,17 @@ function MobileMenu({ handleDismiss }) {
           <User />
         </NavLink>
         {user.isAuthenticated ? (
-          <NavLink to={"/login"}>
-            <button>Log out</button>
-          </NavLink>
-        ) : (
           <button
             onClick={async () => {
               await user.logout();
             }}
           >
-            Log in
+            Log out
           </button>
+        ) : (
+          <NavLink to={"/login"}>
+            <button>Log in</button>
+          </NavLink>
         )}
       </Wrapper>
     </MobileMenuDrawer>
