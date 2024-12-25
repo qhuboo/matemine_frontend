@@ -25,8 +25,8 @@ function Navigation({
 
   return (
     <Wrapper
-      onMouseEnter={() => {
-        prefetchMarketPlaceGames();
+      onMouseEnter={async () => {
+        await prefetchMarketPlaceGames();
       }}
     >
       <NavigationBar>
