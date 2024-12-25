@@ -10,7 +10,6 @@ import { QUERIES } from "../../constants";
 
 export default function MobileMenu({ handleDismiss }) {
   const user = useAuth();
-  console.log(Object.keys(platforms));
 
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
