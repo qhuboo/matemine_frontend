@@ -4,10 +4,11 @@ import Drawer from "../Drawer";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import platforms from "../../platform_data";
-import { User } from "react-feather";
+import { User, LogIn, LogOut, Heart, ShoppingBag } from "react-feather";
 import useAuth from "../Auth/hooks/useAuth";
+import { QUERIES } from "../../constants";
 
-function MobileMenu({ handleDismiss }) {
+export default function MobileMenu({ handleDismiss }) {
   const user = useAuth();
   return (
     <MobileMenuDrawer handleDismiss={handleDismiss}>
@@ -126,21 +127,31 @@ function MobileMenu({ handleDismiss }) {
             </Content>
           </Item>
         </Root>
-        <NavLink to={"/account"} onClick={() => handleDismiss()}>
-          <User />
-        </NavLink>
+
+        <UserLinks>
+          <NavLink to={"/account"} onClick={() => handleDismiss()}>
+            <UserIcon />
+          </NavLink>
+          <NavLink onClick={() => handleDismiss()}>
+            <HeartIcon />
+          </NavLink>
+          <NavLink to={"/cart"} onClick={() => handleDismiss()}>
+            <ShoppingBagIcon />
+          </NavLink>
+        </UserLinks>
         {user.isAuthenticated ? (
-          <button
+          <LogoutButton
             onClick={async () => {
               await user.logout();
+              handleDismiss();
             }}
           >
-            Log out
-          </button>
+            Log out <LogOut />
+          </LogoutButton>
         ) : (
-          <NavLink to={"/login"}>
-            <button>Log in</button>
-          </NavLink>
+          <LoginButton to={"/login"} onClick={() => handleDismiss()}>
+            Log in <LogIn />
+          </LoginButton>
         )}
       </Wrapper>
     </MobileMenuDrawer>
@@ -164,13 +175,20 @@ from {
   height: 0;
   }
 `;
+const MobileMenuDrawer = styled(Drawer)`
+  margin-top: 50px;
+`;
 
 const Wrapper = styled.div`
   // border: 3px solid red;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Title = styled.div`
+  // border: 2px solid green;
   font-family: "Rajdhani";
   font-weight: 600;
   font-size: 3rem;
@@ -185,10 +203,6 @@ const StyledChevronDownIcon = styled(ChevronDownIcon)`
   width: 32px;
   height: 32px;
   transition: transform 300ms ease;
-`;
-
-const MobileMenuDrawer = styled(Drawer)`
-  margin-top: 50px;
 `;
 
 const Root = styled(Accordion.Root)`
@@ -239,4 +253,60 @@ const Trigger = styled(Accordion.Trigger)`
   }
 `;
 
-export default MobileMenu;
+const UserLinks = styled.div`
+  // border: 3px dashed springgreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 40px;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    justify-content: space-evenly;
+    gap: 10px;
+  }
+`;
+
+const UserIcon = styled(User)`
+  padding: 25px;
+  width: 80px;
+  height: 80px;
+  flex: 1;
+`;
+
+const HeartIcon = styled(Heart)`
+  padding: 25px;
+  width: 80px;
+  height: 80px;
+  flex: 1;
+  flex-shrink: 0;
+`;
+
+const ShoppingBagIcon = styled(ShoppingBag)`
+  padding: 25px;
+  width: 80px;
+  height: 80px;
+  flex: 1;
+`;
+
+const LogoutButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+`;
+
+const LoginButton = styled(NavLink)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+  padding: 10px;
+  background-color: rgb(239, 239, 239);
+  border: 1px solid black;
+  border-radius: 6px;
+`;

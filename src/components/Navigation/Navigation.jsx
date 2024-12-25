@@ -133,9 +133,6 @@ function Navigation({
             <NavLink>
               <Search />
             </NavLink>
-            <NavLink to={"/cart"}>
-              <ShoppingBag />
-            </NavLink>
           </MobileLinks>
 
           <MobileMenuButton
