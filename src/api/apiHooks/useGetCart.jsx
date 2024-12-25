@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../api";
 import useAuth from "../../components/Auth/hooks/useAuth";
 
 export default function useGetCart() {
   const user = useAuth();
+  const queryClient = useQueryClient();
 
   const cart = useQuery({
     queryKey: ["cart"],
@@ -22,6 +23,27 @@ export default function useGetCart() {
       }
     }
   }, [cart?.status, cart?.data, user]);
+
+  useEffect(() => {
+    if (cart?.data?.data) {
+      cart?.data?.data.forEach((game) => {
+        const GameWOQuantity = { ...game };
+        delete GameWOQuantity.quantity;
+        queryClient.setQueryData(["game", `${game.game_id}`], GameWOQuantity);
+      });
+
+      cart?.data?.data.forEach(async (game) => {
+        await queryClient.prefetchQuery({
+          queryKey: ["screenshots", `${game.game_id}`],
+          queryFn: api.get(
+            `${import.meta.env.VITE_BACKEND_URL}/games/screenshots/${
+              game.game_id
+            }`
+          ),
+        });
+      });
+    }
+  }, [cart?.data?.data, queryClient]);
 
   return cart;
 }
