@@ -184,7 +184,7 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  // border: 2px solid red;
+  // border: 2px solid yellow;
   height: 100dvh;
   --navigation-bar-height: 100px;
   isolation: isolate;

@@ -104,9 +104,6 @@ function Navigation({
           <Side />
 
           <IconLinks>
-            <NavLink>
-              <Search />
-            </NavLink>
             <NavLink to={"/account"}>
               <User />
             </NavLink>
@@ -128,12 +125,6 @@ function Navigation({
               <NavLink to={"/login"}>Log In</NavLink>
             )}
           </IconLinks>
-
-          <MobileLinks>
-            <NavLink>
-              <Search />
-            </NavLink>
-          </MobileLinks>
 
           <MobileMenuButton
             onClick={() => {
@@ -179,7 +170,7 @@ const NavigationBar = styled.nav`
   align-items: center;
   padding: var(--padding);
 
-  @media (${QUERIES.tabletAndSmaller}) {
+  @media (${QUERIES.laptopAndSmaller}) {
     --padding: 20px;
   }
 
@@ -207,6 +198,7 @@ const MobileMenuButton = styled.button`
 `;
 
 const Title = styled(Link)`
+  // border: 2px solid blue;
   font-family: "Ron";
   font-size: 3rem;
   color: black;
@@ -240,8 +232,13 @@ const Links = styled.ul`
   // border: 2px solid darkcyan;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 4vw;
   padding: 0 20px;
+
+  @media (${QUERIES.laptopAndSmaller}) {
+    gap: 2vw;
+  }
 
   @media (${QUERIES.tabletAndSmaller}) {
     display: none;
@@ -249,9 +246,30 @@ const Links = styled.ul`
 `;
 
 const IconLinks = styled(Links)`
-  gap: 50px;
+  // border: 3px dashed red;
+  gap: 100px;
+
+  @media (max-width: 1880px) {
+    gap: 80px;
+  }
+
+  @media (max-width: 1750px) {
+    gap: 60px;
+  }
+
+  @media (max-width: 1590px) {
+    gap: 40px;
+  }
 
   @media (${QUERIES.laptopAndSmaller}) {
+    gap: 60px;
+  }
+
+  @media (max-width: 1300px) {
+    gap: 40px;
+  }
+
+  @media (max-width: 1200px) {
     gap: 25px;
   }
 `;
@@ -281,27 +299,6 @@ const SubMenuButton = styled.button`
 
   @media (${QUERIES.laptopAndSmaller}) {
     font-size: 1.3rem;
-  }
-`;
-
-const MobileLinks = styled.div`
-  display: none;
-
-  @media (${QUERIES.tabletAndSmaller}) {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    padding-right: 50px;
-  }
-
-  @media (${QUERIES.mobileAndSmaller}) {
-    gap: 25px;
-    padding-right: 25px;
-  }
-
-  @media (max-width: 350px) {
-    gap: 5px;
-    padding-right: 5px;
   }
 `;
 
