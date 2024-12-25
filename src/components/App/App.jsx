@@ -298,6 +298,7 @@ const Backdrop = styled.div`
   z-index: 1;
   animation: ${fadeIn} 400ms ease;
   overflow-y: hidden;
+  height: 230%;
 
   @media (${QUERIES.tabletAndSmaller}) {
     display: none;
