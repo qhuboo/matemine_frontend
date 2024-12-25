@@ -296,6 +296,8 @@ const LogoutButton = styled.button`
   margin-top: 20px;
   gap: 10px;
   padding: 10px;
+  border: 1px solid black;
+
   border-radius: 6px;
 `;
 
