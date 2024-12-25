@@ -5,6 +5,7 @@ import useGetCart from "../../api/apiHooks/useGetCart";
 import useChangeCartQuantity from "../../api/apiHooks/useChangeCartQuantity";
 import { Trash2 } from "react-feather";
 import useRemoveFromCart from "../../api/apiHooks/useRemoveFromCart";
+import { QUERIES } from "../../constants";
 
 function Cart() {
   const user = useAuth();
@@ -63,7 +64,7 @@ function Cart() {
           cartItems?.data?.data?.length > 0 &&
           cartItems?.data?.data.map((game) => (
             <CartItem key={game.game_id}>
-              <GameInfo>
+              <GameInfo to={`/product/${game.game_id}`}>
                 <GameCover
                   src={game.sample_cover_image}
                   alt={`Sample cover image for the game: ${game.title}`}
@@ -134,12 +135,12 @@ function Cart() {
 }
 
 const Wrapper = styled.div`
-  border: 2px dotted blue;
+  // border: 2px dotted blue;
   display: grid;
   grid-template-columns: 1fr;
   gap: 25px;
   text-align: center;
-  padding: 20px;
+  // padding: 20px;
 `;
 
 const CartItems = styled.div`
@@ -158,19 +159,26 @@ const CartItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 25px;
   padding-bottom: 20px;
 `;
 
-const GameInfo = styled.div`
+const GameInfo = styled(Link)`
   // border: 3px solid blue;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  cursor: pointer;
   gap: 25px;
 
-  @media (max-width: 500px) {
+  @media (${QUERIES.tabletAndSmaller}) {
+    // border: 3px solid yellow;
     flex-direction: column;
-    gap: 20px;
     align-items: flex-start;
+    gap: 20px;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
   }
 `;
 
@@ -182,17 +190,35 @@ const GameCover = styled.img`
 
 const GameTitle = styled.p`
   font-size: 1.4rem;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    font-size: 1.2rem;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 1rem;
+  }
 `;
 
 const CartActions = styled.div`
   // border: 3px solid red;
   display: flex;
+  align-items: center;
   gap: 50px;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+
+  @media (${QUERIES.tabletAndSmaller}) {
+    font-size: 1.1rem;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 1rem;
+    gap: 10px;
+  }
 `;
 
-const GamePrice = styled.p`
-  font-size: 1.2rem;
-`;
+const GamePrice = styled.p``;
 
 const Subtotal = styled.div`
   display: flex;
