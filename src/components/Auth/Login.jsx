@@ -1,11 +1,22 @@
 import styled from "styled-components";
 import LoginForm from "./LoginForm";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight } from "react-feather";
+import useAuth from "./hooks/useAuth";
+import { useEffect } from "react";
 
 export default function Login() {
+  const user = useAuth();
+  const navigate = useNavigate();
   const { state } = useLocation();
   const destination = state?.path ? state.path : "/";
+
+  useEffect(() => {
+    if (user?.isAuthenticated) {
+      console.log("in heo");
+      navigate("/account");
+    }
+  }, [user, navigate]);
 
   return (
     <FormWrapper>
