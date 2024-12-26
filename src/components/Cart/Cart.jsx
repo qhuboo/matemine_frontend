@@ -33,14 +33,12 @@ function Cart() {
     changeCartQuantity.mutate(payload);
   }
 
-  function handleRemoveFromCart(event) {
+  function handleRemoveFromCart(gameId) {
     console.log("remove from cart");
 
     if (removeFromCart.isPending) {
       return;
     }
-
-    const gameId = Number(event.target.dataset.gameId);
 
     const payload = {
       body: { gameId },
@@ -93,7 +91,11 @@ function Cart() {
                   </select>{" "}
                   x ${game.price}
                 </GamePrice>
-                <button onClick={handleRemoveFromCart}>
+                <button
+                  onClick={() => {
+                    handleRemoveFromCart(Number(game.game_id));
+                  }}
+                >
                   <TrashIcon data-game-id={game.game_id} />
                 </button>
               </CartActions>
