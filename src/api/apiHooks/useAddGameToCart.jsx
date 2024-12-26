@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../api";
 import useAuth from "../../components/Auth/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function useAddGameToCart() {
+  const navigate = useNavigate();
   const user = useAuth();
   const queryClient = useQueryClient();
   return useMutation({
@@ -86,6 +88,7 @@ export default function useAddGameToCart() {
         console.log("There was a token refresh");
         user.updateAccessToken(data.accessToken);
       }
+      navigate("/cart");
     },
     onError: (error, variables, rollback) => {
       console.log("On error");

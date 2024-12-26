@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useParams, useSearchParams } from "react-router-dom";
 import useAuth from "../Auth/hooks/useAuth";
+import { AnimatePresence } from "framer-motion";
+import { PacmanLoader } from "react-spinners";
 import { useEffect } from "react";
 import useGetGameScreenshots from "../../api/apiHooks/useGetGameScreenshots";
 import useAddGameToCart from "../../api/apiHooks/useAddGameToCart";
@@ -12,6 +14,7 @@ function Product() {
   const screenshots = useGetGameScreenshots(gameId);
   const game = useGetGame(gameId);
   const [searchParams, setSearchParams] = useSearchParams();
+  const addToCart = useAddGameToCart();
 
   useEffect(() => {
     if (
@@ -26,8 +29,6 @@ function Product() {
       setSearchParams(newParams, { replace: true });
     }
   }, [searchParams, setSearchParams]);
-
-  const addToCart = useAddGameToCart();
 
   function handleQuantityChange(event) {
     event.preventDefault();
@@ -114,9 +115,17 @@ function Product() {
                 ]}
               </select>
             </QuantityWrapper>
-            <AddToCartButton onClick={handleCartChange}>
-              Add to Cart
-            </AddToCartButton>
+            <AnimatePresence>
+              <AddToCartButton onClick={handleCartChange}>
+                {addToCart.isPending ? (
+                  <PacmanLoader color="#fffc00" size={20} />
+                ) : addToCart.isError ? (
+                  <p>There was an error, try again</p>
+                ) : (
+                  <p>Add to cart</p>
+                )}
+              </AddToCartButton>
+            </AnimatePresence>
           </AddToCart>
         </GameDetails>
       )}
@@ -235,6 +244,9 @@ const GamePrice = styled.div`
 
 const AddToCartButton = styled.button`
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   border-radius: 6px;
   color: white;

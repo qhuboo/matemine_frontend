@@ -4,7 +4,7 @@ import MarketPlace from "../MarketPlace";
 import Cart from "../Cart";
 import Checkout from "../Checkout";
 import Product from "../Product/Product";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
