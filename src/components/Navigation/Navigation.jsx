@@ -104,25 +104,47 @@ export default function Navigation({
           <Side />
 
           <IconLinks>
-            <NavLink to={"/account"}>
+            <NavLink
+              to={"/account"}
+              onClick={() => {
+                setActiveMenu("");
+                setIsSubMenuOpen(false);
+              }}
+            >
               <User />
             </NavLink>
             <NavLink>
               <Heart />
             </NavLink>
-            <NavLink to={"/cart"}>
+            <NavLink
+              to={"/cart"}
+              onClick={() => {
+                setActiveMenu("");
+                setIsSubMenuOpen(false);
+              }}
+            >
               <ShoppingBag />
             </NavLink>
             {user.isAuthenticated ? (
               <LogoutButton
                 onClick={async () => {
                   await user.logout();
+                  setActiveMenu("");
+                  setIsSubMenuOpen(false);
                 }}
               >
                 Logout
               </LogoutButton>
             ) : (
-              <LoginButton to={"/login"}>Log In</LoginButton>
+              <LoginButton
+                to={"/login"}
+                onClick={() => {
+                  setActiveMenu("");
+                  setIsSubMenuOpen(false);
+                }}
+              >
+                Log In
+              </LoginButton>
             )}
           </IconLinks>
 
