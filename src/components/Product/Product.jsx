@@ -116,13 +116,18 @@ export default function Product() {
               </select>
             </QuantityWrapper>
             <AnimatePresence>
-              <AddToCartButton onClick={handleCartChange}>
+              <AddToCartButton
+                onClick={handleCartChange}
+                disabled={!user.isAuthenticated}
+              >
                 {addToCart.isPending ? (
                   <PacmanLoader color="#fffc00" size={20} />
                 ) : addToCart.isError ? (
                   <p>There was an error, try again</p>
-                ) : (
+                ) : user.isAuthenticated ? (
                   <p>Add to cart</p>
+                ) : (
+                  <p>Please log in to add to cart</p>
                 )}
               </AddToCartButton>
             </AnimatePresence>
