@@ -253,4 +253,5 @@ const CheckoutButton = styled(Link)`
 
 const TrashIcon = styled(Trash2)`
   color: black;
+  cursor: pointer;
 `;

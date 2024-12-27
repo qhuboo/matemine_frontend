@@ -134,7 +134,9 @@ export default function RegisterForm({ destination }) {
           />
         </FormControl>
       </FormField>
-      <Form.Submit>Register</Form.Submit>
+      <Form.Submit asChild>
+        <RegisterButton>Register</RegisterButton>
+      </Form.Submit>
       {registerUser.isError && (
         <ErrorMessage>{registerUser.error.message}</ErrorMessage>
       )}
@@ -235,4 +237,8 @@ const ErrorMessage = styled.div`
   text-align: center;
   color: red;
   animation: ${shakeAnimation} 200ms ease;
+`;
+
+const RegisterButton = styled.button`
+  cursor: pointer;
 `;
