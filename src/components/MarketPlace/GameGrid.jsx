@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { QUERIES } from "../../constants";
+import he from "he";
 
 import usePrefetchGameScreenshots from "../../api/apiHooks/usePrefetchGameScreenshots";
 
@@ -21,13 +22,13 @@ export default function GameGrid({ gameList }) {
             <GameCover>
               <GameCoverImage
                 src={game.sample_cover_image}
-                alt={`Game Cover for the game ${game.title}`}
+                alt={`Game Cover for the game ${he.decode(game?.title)}`}
               />
             </GameCover>
           </GameCoverWrapper>
 
           <GameInfo>
-            <span>{game.title}</span>
+            <span>{he.decode(game?.title)}</span>
             <h3>${game.price}</h3>
           </GameInfo>
         </GameCard>

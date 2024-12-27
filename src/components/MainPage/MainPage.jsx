@@ -6,6 +6,7 @@ import {
   playstationFavorites,
   xboxFavorites,
 } from "../../data";
+import he from "he";
 
 export default function MainPage() {
   return (
@@ -24,7 +25,7 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{game.title}</GameTitle>
+                  <GameTitle>{he.decode(game?.title)}</GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -42,7 +43,7 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{game.title}</GameTitle>
+                  <GameTitle>{he.decode(game?.title)}</GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -60,7 +61,7 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{game.title}</GameTitle>
+                  <GameTitle>{he.decode(game?.title)}</GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -78,7 +79,7 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{game.title}</GameTitle>
+                  <GameTitle>{he.decode(game?.title)}</GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>

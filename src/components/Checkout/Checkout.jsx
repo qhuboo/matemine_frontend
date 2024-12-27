@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import he from "he";
 import useGetCart from "../../api/apiHooks/useGetCart";
 
 export default function Checkout() {
@@ -20,7 +20,7 @@ export default function Checkout() {
                 <CartItem key={game.game_id}>
                   <Cover src={game.sample_cover_image} alt="" />
                   <GameInfo>
-                    <GameTitle>{game.title}</GameTitle>
+                    <GameTitle>{he.decode(game?.title)}</GameTitle>
                     <GamePrice>${game.price}</GamePrice>
                   </GameInfo>
                 </CartItem>

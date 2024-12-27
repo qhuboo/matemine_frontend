@@ -1,7 +1,7 @@
 import styled, { keyframes, css } from "styled-components";
 import { QUERIES } from "../../constants.js";
 import { Link } from "react-router-dom";
-
+import he from "he";
 import platforms from "../../platform_data.js";
 import { favorites } from "../../data.js";
 import usePrefetchMarketPlaceWithConsole from "../../api/apiHooks/usePrefetchMarketPlaceWithConsole.jsx";
@@ -57,7 +57,7 @@ export default function SubMenus({
             <SubSectionItemsWrapper>
               {favorites[activeMenu].map((game) => (
                 <SubSectionItem
-                  key={game.title}
+                  key={he.decode(game?.title)}
                   onClick={() => {
                     setActiveMenu("");
                     setIsSubMenuOpen(false);
@@ -67,7 +67,7 @@ export default function SubMenus({
                     prefetchGameScreenshots(game.game_id);
                   }}
                 >
-                  {game.title}
+                  {he.decode(game?.title)}
                 </SubSectionItem>
               ))}
             </SubSectionItemsWrapper>
@@ -79,7 +79,7 @@ export default function SubMenus({
             {favorites[activeMenu].slice(0, 3).map((game) => {
               return (
                 <FeaturedGameCard
-                  key={game.title}
+                  key={he.decode(game?.title)}
                   onMouseEnter={() => {
                     prefetchGameScreenshots(game.game_id);
                   }}
@@ -100,14 +100,14 @@ export default function SubMenus({
                   </FeaturedGameImageWrapper>
                   <FeaturedGameTitleWrapper>
                     <SubSectionItem
-                      key={game.title}
+                      key={he.decode(game?.title)}
                       onClick={() => {
                         setActiveMenu("");
                         setIsSubMenuOpen(false);
                       }}
                       to={`product/${game.game_id}`}
                     >
-                      {game.title}
+                      {he.decode(game?.title)}
                     </SubSectionItem>
                   </FeaturedGameTitleWrapper>
                 </FeaturedGameCard>

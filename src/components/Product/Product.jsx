@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import useGetGameScreenshots from "../../api/apiHooks/useGetGameScreenshots";
 import useAddGameToCart from "../../api/apiHooks/useAddGameToCart";
 import useGetGame from "../../api/apiHooks/useGetGame";
+import he from "he";
 
 export default function Product() {
   const user = useAuth();
@@ -88,13 +89,13 @@ export default function Product() {
       {game.status === "success" && !game.isLoading && !game.isFetching && (
         <GameDetails>
           <GameInfo>
-            <GameTitle>{game.data?.title}</GameTitle>
+            <GameTitle>{he.decode(game.data?.title)}</GameTitle>
             Details
             <GameDescription>{game.data?.description}</GameDescription>
           </GameInfo>
 
           <AddToCart>
-            <GameTitle>{game.data?.title}</GameTitle>
+            <GameTitle>{he.decode(game.data?.title)}</GameTitle>
             <GamePrice>${game.data?.price}</GamePrice>
             <QuantityWrapper>
               <label htmlFor="quantity-select">Quantity </label>

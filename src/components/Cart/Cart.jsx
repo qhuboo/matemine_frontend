@@ -6,6 +6,7 @@ import useChangeCartQuantity from "../../api/apiHooks/useChangeCartQuantity";
 import { Trash2 } from "react-feather";
 import useRemoveFromCart from "../../api/apiHooks/useRemoveFromCart";
 import { QUERIES } from "../../constants";
+import he from "he";
 
 export default function Cart() {
   const user = useAuth();
@@ -65,9 +66,11 @@ export default function Cart() {
               <GameInfo to={`/product/${game.game_id}`}>
                 <GameCover
                   src={game.sample_cover_image}
-                  alt={`Sample cover image for the game: ${game.title}`}
+                  alt={`Sample cover image for the game: ${he.decode(
+                    game?.title
+                  )}`}
                 />
-                <GameTitle>{game.title}</GameTitle>
+                <GameTitle>{he.decode(game?.title)}</GameTitle>
               </GameInfo>
               <CartActions>
                 <GamePrice>
@@ -96,7 +99,7 @@ export default function Cart() {
                     handleRemoveFromCart(Number(game.game_id));
                   }}
                 >
-                  <TrashIcon data-game-id={game.game_id} />
+                  <TrashIcon />
                 </button>
               </CartActions>
             </CartItem>
