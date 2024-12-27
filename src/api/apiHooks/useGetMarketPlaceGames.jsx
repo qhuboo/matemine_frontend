@@ -16,7 +16,6 @@ export default function useGetMarketPlaceGames(location) {
 
   useEffect(() => {
     if (games.data) {
-      console.log("Games have changed");
       games.data?.games.forEach((game) => {
         queryClient.setQueryData(["game", `${game.game_id}`], game);
       });
