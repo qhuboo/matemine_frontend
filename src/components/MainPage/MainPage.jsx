@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { QUERIES } from "../../constants";
+import { Link } from "react-router-dom";
 import {
   nintendoFavorites,
   segaFavorites,
@@ -25,7 +26,9 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{he.decode(game?.title)}</GameTitle>
+                  <GameTitle to={`/product/${game.game_id}`}>
+                    {he.decode(game?.title)}
+                  </GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -43,7 +46,9 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{he.decode(game?.title)}</GameTitle>
+                  <GameTitle to={`/product/${game.game_id}`}>
+                    {he.decode(game?.title)}
+                  </GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -61,7 +66,9 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{he.decode(game?.title)}</GameTitle>
+                  <GameTitle to={`/product/${game.game_id}`}>
+                    {he.decode(game?.title)}
+                  </GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -79,7 +86,9 @@ export default function MainPage() {
                   <img src={game.sample_cover.thumbnail_image} alt="" />
                 </Image>
                 <GameInfo>
-                  <GameTitle>{he.decode(game?.title)}</GameTitle>
+                  <GameTitle to={`/product/${game.game_id}`}>
+                    {he.decode(game?.title)}
+                  </GameTitle>
                   <GamePrice>${game.price}</GamePrice>
                 </GameInfo>
               </GameCard>
@@ -183,7 +192,9 @@ const GameInfo = styled.article`
   overflow: hidden;
 `;
 
-const GameTitle = styled.p`
+const GameTitle = styled(Link)`
+  color: black;
+  text-decoration: none;
   font-size: 2rem;
   font-weight: 600;
   white-space: normal;
@@ -193,4 +204,5 @@ const GameTitle = styled.p`
     font-size: 1.5rem;
   }
 `;
+
 const GamePrice = styled.h3``;
