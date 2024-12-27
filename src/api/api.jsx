@@ -105,7 +105,10 @@ const api = {
             throw error;
           }
           console.log("************* POST *************");
-          return { data: retryData, accessToken: refreshData.accessToken };
+          return {
+            data: retryData,
+            accessToken: refreshData.accessToken,
+          };
         }
       } else {
         // If the error returned from the initial response is not an access token expiration throw the error
@@ -115,7 +118,10 @@ const api = {
       }
     }
     console.log("************* POST *************");
-    return { data: initialData, accessToken: payload.accessToken };
+    return {
+      data: initialData,
+      accessToken: payload.accessToken,
+    };
   },
   protectedGet: (url, payload) => async () => {
     console.log("************* GET *************");
@@ -185,7 +191,10 @@ const api = {
           }
 
           console.log("************* GET *************");
-          return { data: retryData, accessToken: refreshData.accessToken };
+          return {
+            data: retryData,
+            accessToken: refreshData.accessToken,
+          };
         }
       } else {
         // If the error returned from the initial response is not an access token expiration throw the error
@@ -196,7 +205,10 @@ const api = {
     }
 
     console.log("************* GET *************");
-    return { data: initialData, accessToken: payload.accessToken };
+    return {
+      data: initialData,
+      accessToken: payload.accessToken,
+    };
   },
 };
 

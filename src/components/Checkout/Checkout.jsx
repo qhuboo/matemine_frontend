@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import useGetCart from "../../api/apiHooks/useGetCart";
 
-function Checkout() {
+export default function Checkout() {
   const cartItems = useGetCart();
 
   return (
@@ -108,5 +108,3 @@ const GameInfo = styled.div`
 const GameTitle = styled.p``;
 
 const GamePrice = styled.p``;
-
-export default Checkout;

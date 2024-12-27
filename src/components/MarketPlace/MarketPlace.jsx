@@ -12,7 +12,7 @@ import useToggle from "../../hooks/useToggle";
 import useGetMarketPlaceGames from "../../api/apiHooks/useGetMarketPlaceGames";
 import { validPerPageOptions, validSortOptions } from "../../constants";
 
-function MarketPlace() {
+export default function MarketPlace() {
   // Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -268,5 +268,3 @@ const PaginationWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-
-export default MarketPlace;

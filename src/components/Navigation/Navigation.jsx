@@ -11,7 +11,7 @@ import SubMenus from "./SubMenus";
 import useAuth from "../Auth/hooks/useAuth";
 import usePrefetchMarketPlaceGames from "../../api/apiHooks/usePrefetchMarketPlaceGames";
 
-function Navigation({
+export default function Navigation({
   isMobileMenuOpen,
   handleOpenMobileMenu,
   handleCloseMobileMenu,
@@ -330,5 +330,3 @@ const LogoutButton = styled.button`
   font-weight: 600;
   font-size: 1.25rem;
 `;
-
-export default Navigation;

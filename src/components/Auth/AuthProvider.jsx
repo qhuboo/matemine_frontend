@@ -1,9 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
+import SessionExpiredDialog from "../SessionExpiredDialog/SessionExpiredDialog";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const [authState, setAuthState] = useState(() => {
     try {
       const user = localStorage.getItem("user");
@@ -24,6 +27,9 @@ export default function AuthProvider({ children }) {
       };
     }
   });
+
+  const [isSessionExpiredDialogOpen, setIsSessionExpiredDialogOpen] =
+    useState(false);
 
   // Update local storage when auth state changess
   useEffect(() => {
@@ -81,16 +87,43 @@ export default function AuthProvider({ children }) {
       accessToken: null,
     });
     await queryClient.removeQueries({ queryKey: ["cart"] });
+    navigate("/");
+  }
+
+  async function sessionExpiredLogout() {
+    setAuthState({
+      user: null,
+      isAuthenticated: false,
+      accessToken: null,
+    });
+    await queryClient.removeQueries({ queryKey: ["cart"] });
+    navigate("/login");
   }
 
   function updateAccessToken(accessToken) {
     setAuthState((prevAuthState) => ({ ...prevAuthState, accessToken }));
   }
 
+  function sessionExpired() {
+    setIsSessionExpiredDialogOpen(true);
+  }
+
   return (
     <AuthContext.Provider
-      value={{ ...authState, login, logout, updateAccessToken }}
+      value={{
+        ...authState,
+        login,
+        logout,
+        updateAccessToken,
+        sessionExpired,
+        sessionExpiredLogout,
+      }}
     >
+      <SessionExpiredDialog
+        isSessionExpiredDialogOpen={isSessionExpiredDialogOpen}
+        setIsSessionExpiredDialogOpen={setIsSessionExpiredDialogOpen}
+        sessionExpiredLogout={sessionExpiredLogout}
+      />
       {children}
     </AuthContext.Provider>
   );

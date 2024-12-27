@@ -79,6 +79,14 @@ export default function useAddGameToCart() {
         console.log("The cart does not exist, no optimistic mutation");
       }
     },
+    retry: (failureCount, error) => {
+      console.log("On retry");
+
+      if (error.message === "Refresh token is expired") {
+        return false;
+      }
+      return true;
+    },
     onSuccess: (data) => {
       console.log("On success");
 
@@ -86,20 +94,20 @@ export default function useAddGameToCart() {
       // auth state accessToken
       if (data?.accessToken) {
         console.log("There was a token refresh");
-        user.updateAccessToken(data.accessToken);
+        user?.updateAccessToken(data.accessToken);
       }
+
+      // Refetch the cart after a succesful cart mutation
+      queryClient.refetchQueries({ queryKey: ["cart"] });
+
       navigate("/cart");
     },
     onError: (error, variables, rollback) => {
       console.log("On error");
-      console.log(error);
-      // If there is an error execute the rollback function returned by onMutate
       rollback?.();
-    },
-    onSettled: () => {
-      console.log("On settled");
-      // Refetch the cart after a succesful cart mutation
-      queryClient.refetchQueries({ queryKey: ["cart"] });
+      if (error.message === "Refresh token is expired") {
+        user?.sessionExpired();
+      }
     },
   });
 }

@@ -8,7 +8,7 @@ import useGetGameScreenshots from "../../api/apiHooks/useGetGameScreenshots";
 import useAddGameToCart from "../../api/apiHooks/useAddGameToCart";
 import useGetGame from "../../api/apiHooks/useGetGame";
 
-function Product() {
+export default function Product() {
   const user = useAuth();
   const { gameId } = useParams();
   const screenshots = useGetGameScreenshots(gameId);
@@ -263,5 +263,3 @@ const QuantityWrapper = styled.div`
   // border: 3px solid red;
   font-size: 1.25rem;
 `;
-
-export default Product;

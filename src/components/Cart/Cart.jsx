@@ -7,7 +7,7 @@ import { Trash2 } from "react-feather";
 import useRemoveFromCart from "../../api/apiHooks/useRemoveFromCart";
 import { QUERIES } from "../../constants";
 
-function Cart() {
+export default function Cart() {
   const user = useAuth();
   const cartItems = useGetCart();
   const changeCartQuantity = useChangeCartQuantity();
@@ -251,5 +251,3 @@ const CheckoutButton = styled(Link)`
 const TrashIcon = styled(Trash2)`
   color: black;
 `;
-
-export default Cart;

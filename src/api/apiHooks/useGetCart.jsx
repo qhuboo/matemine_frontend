@@ -14,6 +14,13 @@ export default function useGetCart() {
       email: user?.user?.email,
     }),
     enabled: user?.isAuthenticated,
+    retry: (failureCount, error) => {
+      console.log(error.message);
+      if (error.message === "Refresh token is expired") {
+        return false;
+      }
+      return true;
+    },
   });
 
   useEffect(() => {
@@ -21,8 +28,12 @@ export default function useGetCart() {
       if (user?.accessToken !== cart?.data?.accessToken) {
         user?.updateAccessToken(cart?.data?.accessToken);
       }
+    } else if (cart?.isError) {
+      if (cart?.error?.message === "Refresh token is expired") {
+        user?.sessionExpired();
+      }
     }
-  }, [cart?.status, cart?.data, user]);
+  }, [cart, user]);
 
   useEffect(() => {
     if (cart?.data?.data) {

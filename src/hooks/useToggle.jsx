@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-function useToggle(initialValue = false) {
+export default function useToggle(initialValue = false) {
   if (typeof initialValue !== "boolean") {
     console.warn("Invalid type of useToggle");
   }
@@ -13,5 +13,3 @@ function useToggle(initialValue = false) {
 
   return [value, toggleValue];
 }
-
-export default useToggle;

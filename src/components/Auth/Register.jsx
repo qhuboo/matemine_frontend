@@ -12,7 +12,6 @@ export default function Register() {
 
   useEffect(() => {
     if (user?.isAuthenticated) {
-      console.log("in heo");
       navigate("/account");
     }
   }, [user, navigate]);

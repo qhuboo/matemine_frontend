@@ -51,6 +51,12 @@ export default function useChangeCartQuantity() {
         return;
       }
     },
+    retry: (failureCount, error) => {
+      if (error.message === "Refresh token is expired") {
+        return false;
+      }
+      return true;
+    },
     onSuccess: (data) => {
       console.log("On success");
 
@@ -60,19 +66,19 @@ export default function useChangeCartQuantity() {
         console.log("There was a token refresh");
         user.updateAccessToken(data.accessToken);
       }
-    },
-    onError: (error, variables, rollback) => {
-      console.log("On error");
-      console.log(error);
-      rollback?.();
-    },
-    onSettled: () => {
-      console.log("On settled");
+
       // Invalidate the cart after a succesful cart mutation
       queryClient.invalidateQueries({
         queryKey: ["cart"],
         refetchType: "active",
       });
+    },
+    onError: (error, variables, rollback) => {
+      console.log("On error");
+      rollback?.();
+      if (error.message === "Refresh token is expired") {
+        user?.sessionExpired();
+      }
     },
   });
 }

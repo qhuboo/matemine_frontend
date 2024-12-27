@@ -57,6 +57,14 @@ export default function useRemoveFromCart() {
         return;
       }
     },
+    retry: (failureCount, error) => {
+      console.log("On retry");
+
+      if (error.message === "Refresh token is expired") {
+        return false;
+      }
+      return true;
+    },
     onSuccess: (data) => {
       console.log("On success");
 
@@ -66,16 +74,16 @@ export default function useRemoveFromCart() {
         console.log("There was a token refresh");
         user.updateAccessToken(data.accessToken);
       }
+
+      // Refetch the cart after a succesful cart mutation
+      queryClient.refetchQueries({ queryKey: ["cart"] });
     },
     onError: (error, variables, rollback) => {
       console.log("On error");
-      console.log(error);
       rollback?.();
-    },
-    onSettled: () => {
-      console.log("On settled");
-      // Refetch the cart after a succesful cart mutation
-      queryClient.refetchQueries({ queryKey: ["cart"] });
+      if (error.message === "Refresh token is expired") {
+        user?.sessionExpired();
+      }
     },
   });
 }

@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { QUERIES } from "../../constants";
 import { createPortal } from "react-dom";
 
-function Drawer({ children, handleDismiss }) {
+export default function Drawer({ children, handleDismiss }) {
   return createPortal(
     <Wrapper>
       <Backdrop onClick={handleDismiss} />
@@ -60,5 +60,3 @@ const Menu = styled.div`
     width: 100%;
   }
 `;
-
-export default Drawer;

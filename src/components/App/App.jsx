@@ -28,13 +28,12 @@ const queryClient = new QueryClient({
   },
 });
 
-function App() {
+export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollPositionClose, setScrollPositionClose] = useState(0);
-
   const wrapperRef = useRef();
   const contentWrapperRef = useRef();
   const { lockScroll, unlockScroll } = useScrollLock(
@@ -301,5 +300,3 @@ const Backdrop = styled.div`
     display: none;
   }
 `;
-
-export default App;
