@@ -91,7 +91,9 @@ export default function Product() {
           <GameInfo>
             <GameTitle>{he.decode(game.data?.title)}</GameTitle>
             Details
-            <GameDescription>{game.data?.description}</GameDescription>
+            <GameDescription>
+              {he.decode(game.data?.description)}
+            </GameDescription>
           </GameInfo>
 
           <AddToCart>
