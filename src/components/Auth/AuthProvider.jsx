@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
-import SessionExpiredDialog from "../SessionExpiredDialog/SessionExpiredDialog";
+import SessionExpiredDialog from "./SessionExpiredDialog";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
