@@ -116,11 +116,12 @@ export default function Cart() {
             cartItems?.data?.data?.length > 0 &&
             parseFloat(
               cartItems.data.data
-                .reduce(
-                  (accumulatedPrice, currentGame) =>
-                    accumulatedPrice + parseFloat(currentGame.price),
-                  0
-                )
+                .reduce((accumulatedPrice, currentGame) => {
+                  return (
+                    accumulatedPrice +
+                    Number(currentGame.quantity) * parseFloat(currentGame.price)
+                  );
+                }, 0)
                 .toFixed(2)
             )}
         </p>

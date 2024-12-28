@@ -21,7 +21,9 @@ export default function Checkout() {
                   <Cover src={game.sample_cover_image} alt="" />
                   <GameInfo>
                     <GameTitle>{he.decode(game?.title)}</GameTitle>
-                    <GamePrice>${game.price}</GamePrice>
+                    <GamePrice>
+                      ${game.quantity} x ${game.price}
+                    </GamePrice>
                   </GameInfo>
                 </CartItem>
               );

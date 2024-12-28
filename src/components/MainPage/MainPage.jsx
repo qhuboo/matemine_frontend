@@ -22,9 +22,11 @@ export default function MainPage() {
           {nintendoFavorites.map((game) => {
             return (
               <GameCard key={game.game_id}>
-                <Image>
-                  <img src={game.sample_cover.thumbnail_image} alt="" />
-                </Image>
+                <Link to={`/product/${game.game_id}`}>
+                  <Image>
+                    <img src={game.sample_cover.thumbnail_image} alt="" />
+                  </Image>
+                </Link>
                 <GameInfo>
                   <GameTitle to={`/product/${game.game_id}`}>
                     {he.decode(game?.title)}
@@ -42,9 +44,11 @@ export default function MainPage() {
           {segaFavorites.map((game) => {
             return (
               <GameCard key={game.game_id}>
-                <Image>
-                  <img src={game.sample_cover.thumbnail_image} alt="" />
-                </Image>
+                <Link to={`/product/${game.game_id}`}>
+                  <Image>
+                    <img src={game.sample_cover.thumbnail_image} alt="" />
+                  </Image>
+                </Link>
                 <GameInfo>
                   <GameTitle to={`/product/${game.game_id}`}>
                     {he.decode(game?.title)}
@@ -62,9 +66,11 @@ export default function MainPage() {
           {playstationFavorites.map((game) => {
             return (
               <GameCard key={game.game_id}>
-                <Image>
-                  <img src={game.sample_cover.thumbnail_image} alt="" />
-                </Image>
+                <Link to={`/product/${game.game_id}`}>
+                  <Image>
+                    <img src={game.sample_cover.thumbnail_image} alt="" />
+                  </Image>
+                </Link>
                 <GameInfo>
                   <GameTitle to={`/product/${game.game_id}`}>
                     {he.decode(game?.title)}
@@ -82,9 +88,11 @@ export default function MainPage() {
           {xboxFavorites.map((game) => {
             return (
               <GameCard key={game.game_id}>
-                <Image>
-                  <img src={game.sample_cover.thumbnail_image} alt="" />
-                </Image>
+                <Link to={`/product/${game.game_id}`}>
+                  <Image>
+                    <img src={game.sample_cover.thumbnail_image} alt="" />
+                  </Image>
+                </Link>
                 <GameInfo>
                   <GameTitle to={`/product/${game.game_id}`}>
                     {he.decode(game?.title)}
