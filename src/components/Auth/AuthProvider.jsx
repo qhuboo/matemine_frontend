@@ -87,6 +87,7 @@ export default function AuthProvider({ children }) {
       accessToken: null,
     });
     await queryClient.removeQueries({ queryKey: ["cart"] });
+    await queryClient.removeQueries({ queryKey: ["paymentIntent"] });
     navigate("/");
   }
 
