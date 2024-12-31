@@ -19,6 +19,7 @@ import Login from "../Auth/Login";
 import Register from "../Auth/Register";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PaymentRoutes from "../Stripe/PaymentRoutes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -108,14 +109,11 @@ export default function App() {
                   }
                 />
                 <Route element={<ProtectedRoutes />}>
-                  <Route
-                    path="/account"
-                    element={
-                      <div>
-                        <Account />
-                      </div>
-                    }
-                  />
+                  <Route element={<PaymentRoutes />}>
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                  </Route>
+                  <Route path="/account" element={<Account />} />
                 </Route>
                 <Route
                   path="/marketplace"
@@ -125,46 +123,9 @@ export default function App() {
                     </div>
                   }
                 />
-                <Route
-                  path="/login"
-                  element={
-                    <div>
-                      <Login />
-                    </div>
-                  }
-                />
-                <Route
-                  path="/register"
-                  element={
-                    <div>
-                      <Register />
-                    </div>
-                  }
-                />
-                <Route
-                  path="/cart"
-                  element={
-                    <div>
-                      <Cart />
-                    </div>
-                  }
-                />
-                <Route
-                  path="/checkout"
-                  element={
-                    <div>
-                      <Checkout />
-                    </div>
-                  }
-                />
-                <Route
-                  path="/product/:gameId"
-                  element={
-                    <div>
-                      <Product />
-                    </div>
-                  }
-                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/product/:gameId" element={<Product />} />
               </Routes>
             </ContentWrapper>
           </Main>
