@@ -1,58 +1,29 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import he from "he";
 import useGetCart from "../../api/apiHooks/useGetCart";
 
-import {
-  PaymentElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
+import useGetPaymentIntent from "../../api/apiHooks/useGetPaymentIntent";
 
 export default function Checkout() {
   const cartItems = useGetCart();
-  const stripe = useStripe();
-  const elements = useElements();
+  const paymentIntent = useGetPaymentIntent();
 
-  const [message, setMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // Need to check if data is loading first
+  if (cartItems.isPending || paymentIntent.isPending) {
+    return <div>Loading...</div>;
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
-
-    setIsLoading(true);
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "https://localhost:5173/",
-      },
-    });
-
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
-    }
-
-    setIsLoading(false);
-  };
-
-  const paymentElementOptions = {
-    layout: "accordion",
-  };
+  // No items in cart
+  if (cartItems.data?.data?.length === 0) {
+    return (
+      <div>
+        <h2>Your cart is empty</h2>
+        <Link to="/marketplace">Browse Games</Link>
+      </div>
+    );
+  }
 
   return (
     <Wrapper>
@@ -62,35 +33,29 @@ export default function Checkout() {
           Check your items. And Select a suitable shipping method.
         </p>
         <CartItems>
-          {!cartItems.isPending &&
-            cartItems.data.data.length > 0 &&
-            cartItems.data.data.map((game) => {
-              return (
-                <CartItem key={game.game_id}>
-                  <Cover src={game.sample_cover_image} alt="" />
-                  <GameInfo>
-                    <GameTitle>{he.decode(game?.title)}</GameTitle>
-                    <GamePrice>
-                      ${game.quantity} x ${game.price}
-                    </GamePrice>
-                  </GameInfo>
-                </CartItem>
-              );
-            })}
+          {cartItems.data.data.map((game) => (
+            <CartItem key={game.game_id}>
+              <Cover src={game.sample_cover_image} alt="" />
+              <GameInfo>
+                <GameTitle>{he.decode(game?.title)}</GameTitle>
+                <GamePrice>
+                  ${game.quantity} x ${game.price}
+                </GamePrice>
+              </GameInfo>
+            </CartItem>
+          ))}
         </CartItems>
       </OrderSummary>
       <PaymentDetails>
-        <form onSubmit={handleSubmit}>
-          <PaymentElement
-            id="payment-element"
-            options={paymentElementOptions}
-          />
-          <button disabled={isLoading || !stripe || !elements} id="submit">
-            <span id="button-text">{isLoading ? <Spinner /> : "Pay now"}</span>
-          </button>
-          {/* Show any error or success messages */}
-          {message && <div id="payment-message">{message}</div>}
-        </form>
+        {paymentIntent?.data?.data?.clientSecret ? (
+          <CheckoutForm />
+        ) : (
+          <div>
+            <h2>Payment not initialized</h2>
+            <p>Please return to cart to initialize payment</p>
+            <Link to="/cart">Return to Cart</Link>
+          </div>
+        )}
       </PaymentDetails>
     </Wrapper>
   );
