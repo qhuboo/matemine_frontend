@@ -15,6 +15,7 @@ export default function useGetMarketPlaceGames(location) {
   });
 
   useEffect(() => {
+    // console.log("useEffect - useGetMarketPlaceGames");
     if (games.data) {
       games.data?.games.forEach((game) => {
         queryClient.setQueryData(["game", `${game.game_id}`], game);

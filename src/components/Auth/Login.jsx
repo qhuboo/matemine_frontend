@@ -12,6 +12,8 @@ export default function Login() {
   const destination = state?.path ? state.path : "/";
 
   useEffect(() => {
+    // console.log("useEffect - useLogin");
+
     if (user?.isAuthenticated) {
       navigate("/account");
     }

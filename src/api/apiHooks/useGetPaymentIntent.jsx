@@ -27,6 +27,8 @@ export default function useGetPaymentIntent() {
   });
 
   useEffect(() => {
+    // console.log("useEffect - useGetPaymentIntent");
+
     if (
       paymentIntent?.status === "success" &&
       paymentIntent?.data?.accessToken

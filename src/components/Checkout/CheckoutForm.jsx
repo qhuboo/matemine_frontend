@@ -5,6 +5,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import useGetPaymentIntent from "../../api/apiHooks/useGetPaymentIntent";
 import { ClipLoader } from "react-spinners";
 
 export default function CheckoutForm() {
@@ -12,9 +13,13 @@ export default function CheckoutForm() {
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const paymentIntent = useGetPaymentIntent();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const result = await paymentIntent.refetch();
+    console.log(result);
 
     if (!stripe || !elements) {
       return;
@@ -25,7 +30,7 @@ export default function CheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://localhost:5173/",
+        return_url: `${import.meta.env.VITE_STRIPE_REDIRECT_URL}`,
       },
     });
 
@@ -36,7 +41,7 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(false);
-  };
+  }
 
   const paymentElementOptions = {
     layout: "accordion",
@@ -55,11 +60,11 @@ export default function CheckoutForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <PaymentElement options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">{isLoading ? <ClipLoader /> : "Pay now"}</span>
+        <span>{isLoading ? <ClipLoader /> : "Pay now"}</span>
       </button>
-      {message && <div id="payment-message">{message}</div>}
+      {message && <div>{message}</div>}
     </form>
   );
 }

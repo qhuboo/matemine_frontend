@@ -11,6 +11,7 @@ export default function Register() {
   const destination = state?.destination ? state.destination : "/";
 
   useEffect(() => {
+    // console.log("useEffect - Register");
     if (user?.isAuthenticated) {
       navigate("/account");
     }

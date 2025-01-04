@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import SessionExpiredDialog from "./SessionExpiredDialog";
 import { useNavigate } from "react-router-dom";
 
@@ -31,8 +31,11 @@ export default function AuthProvider({ children }) {
   const [isSessionExpiredDialogOpen, setIsSessionExpiredDialogOpen] =
     useState(false);
 
+  const lastTokenUpdateRef = useRef(Date.now());
+
   // Update local storage when auth state changess
   useEffect(() => {
+    // console.log("useEffect - AuthProvider");
     if (authState.isAuthenticated) {
       localStorage.setItem("user", JSON.stringify(authState));
     } else {
@@ -102,7 +105,22 @@ export default function AuthProvider({ children }) {
   }
 
   function updateAccessToken(accessToken) {
-    setAuthState((prevAuthState) => ({ ...prevAuthState, accessToken }));
+    console.log("We ran");
+    const currentTime = Date.now();
+
+    const timeSinceLastUpdate = currentTime - lastTokenUpdateRef.current;
+    if (timeSinceLastUpdate < 5000) {
+      console.log("skipping token update");
+      return;
+    }
+
+    if (accessToken !== authState.accessToken) {
+      console.log("updating access token");
+      lastTokenUpdateRef.current = currentTime;
+
+      setAuthState((prevAuthState) => ({ ...prevAuthState, accessToken }));
+    }
+    return;
   }
 
   function sessionExpired() {

@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Account from "../Account/Account";
 import Login from "../Auth/Login";
 import Register from "../Auth/Register";
+import Complete from "../Checkout/Complete";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PaymentRoutes from "../Stripe/PaymentRoutes";
@@ -57,6 +58,8 @@ export default function App() {
 
   // Register the scroll event listener
   useEffect(() => {
+    // console.log("useEffect - Register scroll event listeners");
+
     function handleScroll() {
       setScrollPosition(document.documentElement.scrollTop);
     }
@@ -69,6 +72,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // console.log("useEffect - isMobileMenuOpen scroll thing");
+
     if (!isMobileMenuOpen) {
       document.documentElement.scrollTo({ top: scrollPositionClose });
     }
@@ -110,9 +115,10 @@ export default function App() {
                 />
                 <Route element={<ProtectedRoutes />}>
                   <Route element={<PaymentRoutes />}>
-                    <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout" element={<Checkout />} />
                   </Route>
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/complete" element={<Complete />} />
                   <Route path="/account" element={<Account />} />
                 </Route>
                 <Route

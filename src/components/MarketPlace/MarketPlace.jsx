@@ -17,6 +17,8 @@ export default function MarketPlace() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    // console.log("useEffect - setting search queries, MarketPlace");
+
     const newParams = {};
     searchParams.forEach((value, key) => {
       newParams[key] = value;
@@ -51,6 +53,8 @@ export default function MarketPlace() {
 
   // Scroll to the top of the page when switching the page
   useEffect(() => {
+    // console.log("useEffect - scrolling to the top, MarketPlace");
+
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [searchParams.get("page")]);
 

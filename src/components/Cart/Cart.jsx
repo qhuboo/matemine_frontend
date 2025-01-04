@@ -7,12 +7,14 @@ import { Trash2 } from "react-feather";
 import useRemoveFromCart from "../../api/apiHooks/useRemoveFromCart";
 import { QUERIES } from "../../constants";
 import he from "he";
+import useGetPaymentIntent from "../../api/apiHooks/useGetPaymentIntent";
 
 export default function Cart() {
   const user = useAuth();
   const cartItems = useGetCart();
   const changeCartQuantity = useChangeCartQuantity();
   const removeFromCart = useRemoveFromCart();
+  const paymentIntent = useGetPaymentIntent();
 
   function handleQuantityChange(event) {
     event.preventDefault();
@@ -126,7 +128,18 @@ export default function Cart() {
             )}
         </p>
       </Subtotal>
-      <CheckoutButton to={"/checkout"}>Checkout</CheckoutButton>
+      <CheckoutButton
+        onClick={() => {
+          async function refetchPaymentIntent() {
+            const result = await paymentIntent.refetch();
+            console.log(result);
+          }
+          refetchPaymentIntent();
+        }}
+        to={"/checkout"}
+      >
+        Checkout
+      </CheckoutButton>
       <div style={{ color: "rgb(107, 114, 128)", fontSize: "1rem" }}>
         or{" "}
         <Link

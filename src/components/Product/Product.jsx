@@ -18,6 +18,8 @@ export default function Product() {
   const addToCart = useAddGameToCart();
 
   useEffect(() => {
+    // console.log("useEffect - setting");
+
     if (
       !searchParams.get("quantity") ||
       !/^[0-9]+$/.test(searchParams.get("quantity"))

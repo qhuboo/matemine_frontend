@@ -15,16 +15,6 @@ export default function Checkout() {
     return <div>Loading...</div>;
   }
 
-  // No items in cart
-  if (cartItems.data?.data?.length === 0) {
-    return (
-      <div>
-        <h2>Your cart is empty</h2>
-        <Link to="/marketplace">Browse Games</Link>
-      </div>
-    );
-  }
-
   return (
     <Wrapper>
       <OrderSummary>
@@ -130,17 +120,3 @@ const GameInfo = styled.div`
 const GameTitle = styled.p``;
 
 const GamePrice = styled.p``;
-
-const Spinner = styled.div`
-  color: #ffffff;
-  font-size: 22px;
-  text-indent: -99999px;
-  margin: 0px auto;
-  position: relative;
-  width: 20px;
-  height: 20px;
-  box-shadow: inset 0 0 0 2px;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-`;

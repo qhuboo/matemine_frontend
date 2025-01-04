@@ -24,6 +24,7 @@ export default function useGetCart() {
   });
 
   useEffect(() => {
+    // console.log("useEffect - useGetCart");
     if (cart?.status === "success" && cart?.data?.accessToken) {
       if (user?.accessToken !== cart?.data?.accessToken) {
         user?.updateAccessToken(cart?.data?.accessToken);
