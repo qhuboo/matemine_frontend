@@ -112,8 +112,8 @@ const api = {
         }
       } else {
         // If the error returned from the initial response is not an access token expiration throw the error
-        const error = new Error(initialResponse.message);
-        error.message = initialResponse.message;
+        const error = new Error(initialData.message);
+        error.message = initialData.message;
         throw error;
       }
     }
@@ -198,8 +198,8 @@ const api = {
         }
       } else {
         // If the error returned from the initial response is not an access token expiration throw the error
-        const error = new Error(initialResponse.message);
-        error.message = initialResponse.message;
+        const error = new Error(initialData.message);
+        error.message = initialData.message;
         throw error;
       }
     }
