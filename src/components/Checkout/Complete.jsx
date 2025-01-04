@@ -150,7 +150,7 @@ export default function Complete() {
 }
 
 const Wrapper = styled.div`
-  border: 2px solid red;
+  // border: 2px solid red;
   display: flex;
   justify-content: center;
   align-items: center;

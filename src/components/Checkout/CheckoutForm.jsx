@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {
   PaymentElement,
@@ -7,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import useGetPaymentIntent from "../../api/apiHooks/useGetPaymentIntent";
 import { ClipLoader } from "react-spinners";
+import { QUERIES } from "../../constants";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -44,7 +46,7 @@ export default function CheckoutForm() {
   }
 
   const paymentElementOptions = {
-    layout: "accordion",
+    layout: "tabs",
   };
 
   // No stripe context
@@ -59,12 +61,58 @@ export default function CheckoutForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <PaymentElement options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span>{isLoading ? <ClipLoader /> : "Pay now"}</span>
-      </button>
-      {message && <div>{message}</div>}
-    </form>
+      <PayButtonWrapper>
+        <PayButton disabled={isLoading || !stripe || !elements} id="submit">
+          <span>{isLoading ? <ClipLoader /> : "Pay now"}</span>
+        </PayButton>
+      </PayButtonWrapper>
+      <ErrorMessage>{message && <div>{message}</div>}</ErrorMessage>
+    </Form>
   );
 }
+
+const Form = styled.form`
+  // border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  font-family: "Rajdhani";
+  font-weight: 600;
+`;
+
+const PayButtonWrapper = styled.div`
+  // border: 2px solid green;
+  display: flex;
+  justify-content: center;
+`;
+
+const PayButton = styled.button`
+  // border: 2px solid blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    width: 100%;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  // border: 2px solid springgreen;
+  color: red;
+  font-family: "Rajdhani";
+  font-weight: 600;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    font-size: 1.2rem;
+  }
+`;
