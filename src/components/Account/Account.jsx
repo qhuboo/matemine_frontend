@@ -1,7 +1,19 @@
-import useAuth from "../Auth/hooks/useAuth";
+import useGetOrders from "../../api/apiHooks/useGetOrders";
 
 export default function Account() {
-  const { user } = useAuth();
+  const orders = useGetOrders();
+  console.log(orders?.data?.data);
 
-  return <div>{user.firstName}</div>;
+  return (
+    <div>
+      {orders?.data?.data &&
+        orders?.data?.data.map((order) => {
+          return (
+            <a key={order.order_id} href={`${order.receipt_url}`}>
+              Receipt
+            </a>
+          );
+        })}
+    </div>
+  );
 }
