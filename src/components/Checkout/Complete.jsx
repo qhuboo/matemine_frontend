@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import styled from "styled-components";
@@ -10,23 +10,9 @@ const stripePromise = loadStripe(
 );
 
 export default function Complete() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [status, setStatus] = useState("default");
-
-  useEffect(() => {
-    const redirectStart = sessionStorage.getItem("paymentRedirectStart");
-    console.log("[Redirect] Page loaded after payment:", {
-      timestamp: new Date().toISOString(),
-      redirectDuration: redirectStart
-        ? Date.now() - parseInt(redirectStart)
-        : null,
-      hasLocalStorage: !!localStorage.getItem("user"),
-      url: window.location.href,
-    });
-
-    // Clean up
-    sessionStorage.removeItem("paymentRedirectStart");
-  }, []);
 
   useEffect(() => {
     const clientSecret = searchParams.get("payment_intent_client_secret");
@@ -34,6 +20,7 @@ export default function Complete() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!clientSecret || !paymentIntentId || !user) {
+      navigate("/account");
       return;
     }
 
