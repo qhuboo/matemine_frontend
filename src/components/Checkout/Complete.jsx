@@ -4,17 +4,29 @@ import { loadStripe } from "@stripe/stripe-js";
 import styled from "styled-components";
 import { QUERIES } from "../../constants";
 import { Link } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 
 const stripePromise = loadStripe(
   `${import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}`
 );
 
 export default function Complete() {
-  const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const [status, setStatus] = useState("default");
-  const [intentId, setIntentId] = useState(null);
+
+  useEffect(() => {
+    const redirectStart = sessionStorage.getItem("paymentRedirectStart");
+    console.log("[Redirect] Page loaded after payment:", {
+      timestamp: new Date().toISOString(),
+      redirectDuration: redirectStart
+        ? Date.now() - parseInt(redirectStart)
+        : null,
+      hasLocalStorage: !!localStorage.getItem("user"),
+      url: window.location.href,
+    });
+
+    // Clean up
+    sessionStorage.removeItem("paymentRedirectStart");
+  }, []);
 
   useEffect(() => {
     const clientSecret = searchParams.get("payment_intent_client_secret");
@@ -36,7 +48,6 @@ export default function Complete() {
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
           console.log(paymentIntent);
           setStatus(paymentIntent.status);
-          setIntentId(paymentIntent.id);
         });
       })
       .catch((error) => {

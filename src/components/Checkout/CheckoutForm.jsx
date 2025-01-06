@@ -20,6 +20,27 @@ export default function CheckoutForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    console.log("[Payment] Starting payment confirmation", {
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+      hasLocalStorage: !!localStorage.getItem("user"),
+    });
+
+    // Before redirect
+    try {
+      const currentAuthState = localStorage.getItem("user");
+      console.log("[Payment] Pre-redirect state:", {
+        timestamp: new Date().toISOString(),
+        hasAuthState: !!currentAuthState,
+        authState: currentAuthState ? JSON.parse(currentAuthState) : null,
+      });
+
+      // Store a timestamp in sessionStorage to track the redirect
+      sessionStorage.setItem("paymentRedirectStart", Date.now().toString());
+    } catch (error) {
+      console.error("[Payment] Pre-redirect error:", error);
+    }
+
     const result = await paymentIntent.refetch();
     console.log(result);
 

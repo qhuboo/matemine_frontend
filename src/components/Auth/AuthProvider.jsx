@@ -8,24 +8,34 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
   const navigate = useNavigate();
   const [authState, setAuthState] = useState(() => {
+    console.log("[Auth Init] Starting auth state initialization", {
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+    });
     try {
       const user = localStorage.getItem("user");
-      return user
-        ? JSON.parse(user)
-        : {
-            user: null,
-            isAuthenticated: false,
-            accessToken: null,
-          };
+      console.log("[Auth Init] LocalStorage state:", {
+        hasUser: !!user,
+        rawValue: user,
+      });
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        console.log("[Auth Init] Parsed user state:", {
+          isAuthenticated: parsedUser.isAuthenticated,
+          hasAccessToken: !!parsedUser.accessToken,
+        });
+        return parsedUser;
+      }
     } catch (error) {
-      console.log("Failed to parse auth state from local storage");
-      console.log(error);
-      return {
-        user: null,
-        isAuthenticated: false,
-        accessToken: null,
-      };
+      console.error("[Auth Init] Parse error:", error);
     }
+
+    console.log("[Auth Init] Returning default state");
+    return {
+      user: null,
+      isAuthenticated: false,
+      accessToken: null,
+    };
   });
 
   const [isSessionExpiredDialogOpen, setIsSessionExpiredDialogOpen] =
@@ -35,14 +45,65 @@ export default function AuthProvider({ children }) {
 
   // Update local storage when auth state changess
   useEffect(() => {
-    console.log("useEffect - AuthProvider");
-    console.log(authState);
+    console.log("[Auth Effect] Auth state changed:", {
+      timestamp: new Date().toISOString(),
+      isAuthenticated: authState.isAuthenticated,
+      hasAccessToken: !!authState.accessToken,
+      url: window.location.href,
+    });
+
     if (authState.isAuthenticated) {
-      localStorage.setItem("user", JSON.stringify(authState));
+      try {
+        localStorage.setItem("user", JSON.stringify(authState));
+        console.log("[Auth Effect] Successfully wrote to localStorage");
+      } catch (error) {
+        console.error("[Auth Effect] Failed to write to localStorage:", error);
+      }
     } else {
-      localStorage.removeItem("user");
+      try {
+        localStorage.removeItem("user");
+        console.log("[Auth Effect] Successfully removed from localStorage");
+      } catch (error) {
+        console.error(
+          "[Auth Effect] Failed to remove from localStorage:",
+          error
+        );
+      }
     }
   }, [authState]);
+
+  // Add a visibility change listener to detect page focus/blur
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      console.log("[Visibility] Document visibility changed:", {
+        state: document.visibilityState,
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        hasLocalStorage: !!localStorage.getItem("user"),
+      });
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  // Add storage event listener to detect changes from other tabs/windows
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "user") {
+        console.log("[Storage] Storage event:", {
+          timestamp: new Date().toISOString(),
+          oldValue: e.oldValue,
+          newValue: e.newValue,
+          url: window.location.href,
+        });
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   // Sync local storage accross tabs but I still don't know how this works
   // useEffect(() => {
