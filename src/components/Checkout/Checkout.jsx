@@ -5,6 +5,7 @@ import useGetCart from "../../api/apiHooks/useGetCart";
 
 import CheckoutForm from "./CheckoutForm";
 import useGetPaymentIntent from "../../api/apiHooks/useGetPaymentIntent";
+import { QUERIES } from "../../constants";
 
 export default function Checkout() {
   const cartItems = useGetCart();
@@ -86,6 +87,10 @@ const PaymentDetails = styled.div`
 
   @media (max-width: 1100px) {
     width: 100%;
+  }
+
+  @media (${QUERIES.mobileAndSmaller}) {
+    margin-bottom: 20px;
   }
 `;
 
