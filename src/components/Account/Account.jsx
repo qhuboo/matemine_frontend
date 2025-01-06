@@ -9,7 +9,7 @@ import { QUERIES } from "../../constants";
 export default function Account() {
   const user = useAuth();
   const orders = useGetOrders();
-  console.log(orders?.data?.data);
+  console.log(orders?.data);
 
   return (
     <Wrapper>

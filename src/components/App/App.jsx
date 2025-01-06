@@ -44,11 +44,6 @@ export default function App() {
     scrollPosition
   );
 
-  const location = useLocation();
-  useEffect(() => {
-    console.log("Navigated to: ", location.pathname);
-  }, [location]);
-
   // Open and close event handler function
   function handleOpenMobileMenu() {
     setScrollPositionClose(scrollPosition);

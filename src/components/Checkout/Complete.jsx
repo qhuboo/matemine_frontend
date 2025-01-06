@@ -4,12 +4,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import styled from "styled-components";
 import { QUERIES } from "../../constants";
 import { Link } from "react-router-dom";
+import useAuth from "../Auth/hooks/useAuth";
 
 const stripePromise = loadStripe(
   `${import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}`
 );
 
 export default function Complete() {
+  const user = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [status, setStatus] = useState("default");
@@ -17,6 +19,17 @@ export default function Complete() {
   useEffect(() => {
     const clientSecret = searchParams.get("payment_intent_client_secret");
     const paymentIntentId = searchParams.get("payment_intent");
+    const localStorageUser = localStorage.getItem("user");
+
+    if (user) {
+      const parsedUser = JSON.parse(localStorageUser);
+      const flattenedUser = {
+        ...parsedUser.user,
+        isAuthenticated: true,
+        accessToken: parsedUser.accessToken,
+      };
+      user.login(flattenedUser);
+    }
 
     if (!clientSecret || !paymentIntentId) {
       navigate("/");
@@ -32,7 +45,6 @@ export default function Complete() {
 
         // Use the Stripe instance
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-          console.log(paymentIntent);
           setStatus(paymentIntent.status);
         });
       })
