@@ -20,8 +20,11 @@ export default function Complete() {
     const clientSecret = searchParams.get("payment_intent_client_secret");
     const paymentIntentId = searchParams.get("payment_intent");
     const localStorageUser = localStorage.getItem("user");
+    console.log("This is the local storage user");
+    console.log(localStorageUser);
+    console.log("This is the local storage user");
 
-    if (user) {
+    if (localStorageUser) {
       const parsedUser = JSON.parse(localStorageUser);
       const flattenedUser = {
         ...parsedUser.user,
@@ -29,6 +32,8 @@ export default function Complete() {
         accessToken: parsedUser.accessToken,
       };
       user.login(flattenedUser);
+    } else {
+      console.log("local storage user not working");
     }
 
     if (!clientSecret || !paymentIntentId) {
