@@ -43,6 +43,7 @@ export default function App() {
     contentWrapperRef,
     scrollPosition
   );
+
   const location = useLocation();
   useEffect(() => {
     console.log("Navigated to: ", location.pathname);

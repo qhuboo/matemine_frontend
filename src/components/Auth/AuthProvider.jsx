@@ -95,6 +95,7 @@ export default function AuthProvider({ children }) {
   }
 
   async function sessionExpiredLogout() {
+    console.log("session expired");
     setAuthState({
       user: null,
       isAuthenticated: false,
