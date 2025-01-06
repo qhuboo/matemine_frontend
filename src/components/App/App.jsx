@@ -123,9 +123,9 @@ export default function App() {
                     <Route path="/checkout" element={<Checkout />} />
                   </Route>
                   <Route path="/cart" element={<Cart />} />
-                  <Route path="/complete" element={<Complete />} />
                   <Route path="/account" element={<Account />} />
                 </Route>
+                <Route path="/complete" element={<Complete />} />
                 <Route
                   path="/marketplace"
                   element={
