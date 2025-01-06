@@ -32,6 +32,9 @@ export default function CheckoutForm() {
     console.log("Prepayment local storage user");
     const localStorageUser = localStorage.getItem("user");
     console.log(localStorageUser);
+    if (localStorageUser) {
+      sessionStorage.setItem("stripe_redirect_user", localStorageUser);
+    }
     console.log("Prepayment local storage user");
 
     const { error } = await stripe.confirmPayment({
