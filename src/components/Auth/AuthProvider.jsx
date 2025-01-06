@@ -35,7 +35,8 @@ export default function AuthProvider({ children }) {
 
   // Update local storage when auth state changess
   useEffect(() => {
-    // console.log("useEffect - AuthProvider");
+    console.log("useEffect - AuthProvider");
+    console.log(authState);
     if (authState.isAuthenticated) {
       localStorage.setItem("user", JSON.stringify(authState));
     } else {
