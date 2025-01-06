@@ -17,9 +17,8 @@ export default function Complete() {
   useEffect(() => {
     const clientSecret = searchParams.get("payment_intent_client_secret");
     const paymentIntentId = searchParams.get("payment_intent");
-    const user = JSON.parse(localStorage.getItem("user"));
 
-    if (!clientSecret || !paymentIntentId || !user) {
+    if (!clientSecret || !paymentIntentId) {
       navigate("/");
       return;
     }
