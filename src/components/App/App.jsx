@@ -125,7 +125,6 @@ export default function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/account" element={<Account />} />
                 </Route>
-                <Route path="/complete" element={<Complete />} />
                 <Route
                   path="/marketplace"
                   element={
@@ -134,6 +133,7 @@ export default function App() {
                     </div>
                   }
                 />
+                <Route path="/complete" element={<Complete />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/product/:gameId" element={<Product />} />

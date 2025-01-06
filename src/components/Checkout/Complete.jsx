@@ -20,7 +20,7 @@ export default function Complete() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!clientSecret || !paymentIntentId || !user) {
-      navigate("/account");
+      navigate("/");
       return;
     }
 
