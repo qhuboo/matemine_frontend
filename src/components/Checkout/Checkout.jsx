@@ -90,7 +90,7 @@ const PaymentDetails = styled.div`
   }
 
   @media (${QUERIES.mobileAndSmaller}) {
-    margin-bottom: 20px;
+    margin-bottom: 75px;
   }
 `;
 
