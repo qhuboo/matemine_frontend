@@ -25,9 +25,9 @@ export default function Complete() {
     console.log("This is the local storage user");
 
     const sessionStorageUser = sessionStorage.getItem("stripe_redirect_user");
-    console.log("This is the local storage user");
+    console.log("This is the sessiont storage user");
     console.log(sessionStorageUser);
-    console.log("This is the local storage user");
+    console.log("This is the session storage user");
 
     if (localStorageUser) {
       const parsedUser = JSON.parse(localStorageUser);

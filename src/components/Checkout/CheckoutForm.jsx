@@ -9,8 +9,10 @@ import {
 import useGetPaymentIntent from "../../api/apiHooks/useGetPaymentIntent";
 import { ClipLoader } from "react-spinners";
 import { QUERIES } from "../../constants";
+import useAuth from "../Auth/hooks/useAuth";
 
 export default function CheckoutForm() {
+  const user = useAuth();
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -31,9 +33,14 @@ export default function CheckoutForm() {
 
     console.log("Prepayment local storage user");
     const localStorageUser = localStorage.getItem("user");
+    console.log("Prepayment local storage user");
     console.log(localStorageUser);
     if (localStorageUser) {
-      sessionStorage.setItem("stripe_redirect_user", localStorageUser);
+      console.log("in heo");
+      const parsedUser = JSON.parse(localStorageUser);
+      console.log(parsedUser);
+      const toput = JSON.stringify(parsedUser);
+      sessionStorage.setItem("stripe_redirect_user", toput);
     }
     console.log("Prepayment local storage user");
 
