@@ -54,6 +54,7 @@ export default function Account() {
                       <OrderDate> {orderDate}</OrderDate>
                       <OrderPrice>{formatedTotalPrice}</OrderPrice>
                       <OrderStatus>{order.order_status}</OrderStatus>
+                      <a href={order.receipt_url}>Receipt</a>
                     </OrderInfo>
                     <StyledChevronDownIcon />
                   </Trigger>
@@ -62,7 +63,7 @@ export default function Account() {
                   {order.items.map((game) => {
                     return (
                       <CartItem key={`${order.order_date}-${game.game_id}`}>
-                        <GameCover src={game.sample_cover_thumbnail} />
+                        s <GameCover src={game.sample_cover_thumbnail} />
                         <GameTitle>{game.title}</GameTitle>
                         <GamePrice>
                           {game.quantity}
