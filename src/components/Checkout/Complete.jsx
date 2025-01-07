@@ -20,14 +20,6 @@ export default function Complete() {
     const clientSecret = searchParams.get("payment_intent_client_secret");
     const paymentIntentId = searchParams.get("payment_intent");
     const localStorageUser = localStorage.getItem("user");
-    console.log("This is the local storage user");
-    console.log(localStorageUser);
-    console.log("This is the local storage user");
-
-    const sessionStorageUser = sessionStorage.getItem("stripe_redirect_user");
-    console.log("This is the sessiont storage user");
-    console.log(sessionStorageUser);
-    console.log("This is the session storage user");
 
     if (localStorageUser) {
       const parsedUser = JSON.parse(localStorageUser);
