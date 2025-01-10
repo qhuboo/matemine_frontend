@@ -15,17 +15,14 @@ export default function PaymentRoutes() {
   };
   const loader = "auto";
 
-  // Still fetching
   if (paymentIntent.isLoading) {
     return;
   }
 
-  // No payment intent yet or error
   if (!paymentIntent?.data?.data?.clientSecret) {
     return <Outlet />;
   }
 
-  // Have payment intent, show Elements
   return (
     <Elements
       options={{

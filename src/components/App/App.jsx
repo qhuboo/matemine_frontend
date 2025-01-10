@@ -4,7 +4,7 @@ import MarketPlace from "../MarketPlace";
 import Cart from "../Cart";
 import Checkout from "../Checkout";
 import Product from "../Product/Product";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { QUERIES } from "../../constants";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
@@ -120,14 +120,7 @@ export default function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/account" element={<Account />} />
                 </Route>
-                <Route
-                  path="/marketplace"
-                  element={
-                    <div>
-                      <MarketPlace />
-                    </div>
-                  }
-                />
+                <Route path="/marketplace" element={<MarketPlace />} />
                 <Route path="/complete" element={<Complete />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
