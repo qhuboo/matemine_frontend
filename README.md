@@ -1,11 +1,14 @@
 # Matemine Video Game Marketplace
 
-A brief description of your project.
-
 ## Live Demo
 
 *   **Frontend:** [matemine.shop](https://matemine.shop)
 *   **Backend API:** [api.matemine.shop](https://api.matemine.shop)
+
+## GitHub Repositories
+
+*   **Frontend Repository:** [https://github.com/qhuboo/matemine_frontend](https://github.com/qhuboo/matemine_frontend)
+*   **Backend Repository:** [https://github.com/qhuboo/matemine_backend](https://github.com/qhuboo/matemine_backend)
 
 ## Getting Started
 
