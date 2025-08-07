@@ -1,5 +1,9 @@
 # Matemine Video Game Marketplace
 
+Demo credentials:
+Username: demouser@example.com
+Password: Password123!
+
 ## Live Demo
 
 *   **Frontend:** [matemine.shop](https://matemine.shop)
